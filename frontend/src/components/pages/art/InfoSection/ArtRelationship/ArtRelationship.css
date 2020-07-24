@@ -1,0 +1,20 @@
+.ArtRelationship {
+    font-size: 1rem;
+}
+
+.ArtRelationship .itemName:hover {
+    background-color: #e6e6e6;
+}
+
+.ArtRelationship .relationName {
+    display: inline-block;
+    text-align: left;
+    width: 150px;
+}
+
+.ArtRelationship .itemName {
+    display: inline-block;
+    margin-left: 5px;
+    cursor: pointer;
+    padding: 5px;
+}

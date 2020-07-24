@@ -1,0 +1,11 @@
+.CreatePage {
+    text-align: center;
+}
+
+.CreatePage .category {
+    margin: 0;
+    font-family: 'Raleway', sans-serif;
+    font-size: 1.1rem;
+    font-weight: bold;
+    padding-top: 15px;
+}

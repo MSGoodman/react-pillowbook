@@ -1,0 +1,31 @@
+.SchedulePeriod {
+    padding: 12px 0 12px 20px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 1.2rem;
+    border-bottom: 1px dashed rgb(194, 194, 194);
+}
+
+.SchedulePeriod:hover {
+    padding: 12px 0 12px 20px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 1.2rem;
+    border-bottom: 1px dashed rgb(194, 194, 194);
+    background-color: #e6e6e6;
+}
+
+.SchedulePeriod .iconSection {
+    display: inline-block;
+    width: 30px;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.75);
+}
+
+.SchedulePeriod .timeSection {
+    display: inline-block;
+    font-weight: bold;
+    width: 12%;
+}
+
+.SchedulePeriod .nameSection {
+    display: inline-block;
+}

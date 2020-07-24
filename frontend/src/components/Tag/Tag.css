@@ -1,0 +1,11 @@
+.Tag {
+    background-color: #8BACBD;
+    display: inline-block;
+    font-size: 0.8rem;
+    padding: 2px 5px;
+    margin: 2px;
+}
+
+.Tag:hover {
+    background-color: rgb(105, 130, 143);
+}

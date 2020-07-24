@@ -1,0 +1,16 @@
+.SubsectionNewButton {
+    padding: 6px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 1rem;
+    background-color: #8BACBD;
+    min-width: 25%;
+    max-width: 480px;
+    margin: 15px auto;
+    text-align: center;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.SubsectionNewButton:hover {    
+    background-color: rgb(105, 130, 143);
+}

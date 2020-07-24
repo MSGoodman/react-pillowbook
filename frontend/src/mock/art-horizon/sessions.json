@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "rating": 5,
+        "date": "02/10/19",
+        "startTime": "10:00am",
+        "endTime": "1:30pm",
+        "comments": "Tethered a giant robot dinosaur to the ground with a cool sci-fi harpoon launcher, show a giant machine gun off of its head with a bow and arrow, and then used its own head-machine-gun to blow it up. 10/10."
+    },
+    {
+        "id": 1,
+        "rating": 3,
+        "date": "02/15/19",
+        "startTime": "6:00pm",
+        "endTime": "7:30pm",
+        "comments": "Snuck around in some grass and shot evil people in the head."
+    },
+    {
+        "id": 1,
+        "rating": 1,
+        "date": "02/20/19",
+        "startTime": "3:00pm",
+        "endTime": "3:30pm",
+        "comments": "Had to walk through a half-hour long dungeon listening to plot exposition via overlong audio logs instead of actually playing the game."
+    }
+]

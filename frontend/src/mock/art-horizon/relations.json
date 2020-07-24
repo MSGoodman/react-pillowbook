@@ -1,0 +1,122 @@
+[
+    {
+        "id": 1,
+        "itemName": "February 28, 2017",
+        "itemType": "Date",
+        "relationName": "Released",
+        "relationType": "Detail",
+        "icon": "far fa-calendar-alt"
+    },
+    {
+        "id": 2,
+        "itemName": "Playstation 4",
+        "itemType": "Datum",
+        "relationName": "Console",
+        "relationType": "Detail",
+        "icon": "fab fa-playstation"
+    },
+    {
+        "id": 3,
+        "itemName": "Mathijs de Jonge",
+        "itemType": "Person",
+        "relationName": "Director",
+        "relationType": "Contributor",
+        "icon": "fas fa-user"
+    },
+    {
+        "id": 4,
+        "itemName": "Lambert Wolterbeek Muller",
+        "itemType": "Person",
+        "relationName": "Producer",
+        "relationType": "Contributor",
+        "icon": "fas fa-user"
+    },
+    {
+        "id": 5,
+        "itemName": "Michiel van der Leeuw",
+        "itemType": "Person",
+        "relationName": "Programmer",
+        "relationType": "Contributor",
+        "icon": "fas fa-user"
+    },
+    {
+        "id": 6,
+        "itemName": "Jan-Bart van Beek",
+        "itemType": "Person",
+        "relationName": "Artist",
+        "relationType": "Contributor",
+        "icon": "fas fa-user"
+    },
+    {
+        "id": 7,
+        "itemName": "John Gonzalez",
+        "itemType": "Person",
+        "relationName": "Writer",
+        "relationType": "Contributor",
+        "icon": "fas fa-user"
+    },
+    {
+        "id": 8,
+        "itemName": "Ben McCaw",
+        "itemType": "Person",
+        "relationName": "Wrter",
+        "relationType": "Contributor",
+        "icon": "fas fa-user"
+    },
+    {
+        "id": 9,
+        "itemName": "Joris de Man",
+        "itemType": "Person",
+        "relationName": "Composer",
+        "relationType": "Contributor",
+        "icon": "fas fa-user"
+    },
+    {
+        "id": 10,
+        "itemName": "The Flight",
+        "itemType": "Band",
+        "relationName": "Composer",
+        "relationType": "Contributor",
+        "icon": "fas fa-user"
+    },
+    {
+        "id": 11,
+        "itemName": "post-post-apocalypse",
+        "itemType": "Datum",
+        "relationName": "Tag",
+        "relationType": "Tag",
+        "icon": "fas fa-tag"
+    },
+    {
+        "id": 12,
+        "itemName": "bow and arrow",
+        "itemType": "Datum",
+        "relationName": "Tag",
+        "relationType": "Tag",
+        "icon": "fas fa-tag"
+    },
+    {
+        "id": 13,
+        "itemName": "third person",
+        "itemType": "Datum",
+        "relationName": "Tag",
+        "relationType": "Tag",
+        "icon": "fas fa-tag"
+    },
+    {
+        "id": 14,
+        "itemName": "action adventure",
+        "itemType": "Datum",
+        "relationName": "Tag",
+        "relationType": "Tag",
+        "icon": "fas fa-tag"
+    },
+    {
+        "id": 15,
+        "itemName": "female protagonist",
+        "itemType": "Datum",
+        "relationName": "Tag",
+        "relationType": "Tag",
+        "icon": "fas fa-tag"
+    }
+]

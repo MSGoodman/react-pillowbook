@@ -1,0 +1,16 @@
+.Header {
+    text-align: center;
+    font-family: 'Kaushan Script', sans-serif;
+}
+
+.Header img {
+    display: inline-block;
+    height: 80px; 
+    margin-right: 10px;   
+    vertical-align: middle;
+}
+
+.Header h1 {
+    display: inline-block;    
+    vertical-align: middle;
+}
