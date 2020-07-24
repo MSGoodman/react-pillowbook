@@ -5,9 +5,9 @@ import './DateSelector.css'
 function DateSelector(props) {
     return (
         <div className="DateSelector">
-            <i class="fas fa-arrow-circle-left"></i>
+            <i className="fas fa-arrow-circle-left"></i>
             <span className="date">{props.date}</span>
-            <i class="fas fa-arrow-circle-right"></i>
+            <i className="fas fa-arrow-circle-right"></i>
         </div>
     );
 }

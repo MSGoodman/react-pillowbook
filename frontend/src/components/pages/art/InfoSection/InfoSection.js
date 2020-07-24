@@ -3,13 +3,15 @@ import './InfoSection.scss';
 import ArtRelationship from './ArtRelationship/ArtRelationship';
 
 function InfoSection(props) {
-    const details = props.details.map(r =>
-        <ArtRelationship relationName={r.relationName}
+    const details = props.details.map((r, i) =>
+        <ArtRelationship key={"detail" + i}
+            relationName={r.relationName}
             itemName={r.itemName}
             icon={r.icon}></ArtRelationship>);
 
-    const contributors = props.contributors.map(r =>
-        <ArtRelationship relationName={r.relationName}
+    const contributors = props.contributors.map((r, i) =>
+        <ArtRelationship key={"contrib" + i}
+            relationName={r.relationName}
             itemName={r.itemName}
             icon={r.icon}></ArtRelationship>);
     return (

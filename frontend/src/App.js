@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import './tabs.css';
 import './App.css';
@@ -22,10 +22,18 @@ import synecdocheItemMock from './mock/art-synecdoche/main.json';
 import FoodPage from './components/pages/food/FoodPage/FoodPage';
 
 function App() {
+  const [status, setStatus] = useState('test');
+
+  useEffect(() => {
+    fetch("http://localhost:9000/status")
+      .then(res => res.text())
+      .then(text => setStatus(text))
+  }, []);
+
   return (
     <div className="App">
+      {status}
       <Header></Header>
-
       <Tabs>
         <TabList>
           <Tab>Create</Tab>

@@ -4,7 +4,7 @@ import './SubsectionNewButton.css'
 function SubsectionNewButton(props) {
     return (
         <div className="SubsectionNewButton">
-            <i class="fas fa-plus"></i> Add New
+            <i className="fas fa-plus"></i> Add New
         </div>
     );
 }

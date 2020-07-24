@@ -4,7 +4,7 @@ import Session from './Session/Session';
 import SubsectionNewButton from '../../../SubsectionNewButton/SubsectionNewButton';
 
 function SessionSection(props) {
-    const sessions = props.sessions.map((r) => <Session date={r.date} startTime={r.startTime}
+    const sessions = props.sessions.map((r, i) => <Session key={"session" + i} date={r.date} startTime={r.startTime}
         endTime={r.endTime} rating={r.rating} comments={r.comments}></Session>);
 
     return (

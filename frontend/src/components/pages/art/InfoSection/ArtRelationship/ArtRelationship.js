@@ -2,7 +2,7 @@ import React from 'react';
 import './ArtRelationship.css';
 
 function ArtRelationship(props) {
-    const icon = props.icon ? <i class={props.icon}></i> : null;
+    const icon = props.icon ? <i className={props.icon}></i> : null;
 
     return (
         <div className="ArtRelationship">

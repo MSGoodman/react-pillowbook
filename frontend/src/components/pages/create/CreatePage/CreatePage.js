@@ -13,10 +13,10 @@ function CreatePage() {
                 const elems = [];
                 if (button.category !== prevCategory) {
                     prevCategory = button.category;
-                    elems.push(<p className="category">{button.category}</p>)
+                    elems.push(<p key={"category" + index} className="category">{button.category}</p>)
                 }
 
-                elems.push(<NewNodeButton name={button.name} icon={button.icon} tooltip={button.tooltip}></NewNodeButton>);
+                elems.push(<NewNodeButton key={"createButton" + index} name={button.name} icon={button.icon} tooltip={button.tooltip}></NewNodeButton>);
                 return elems;
             })}
         </div>

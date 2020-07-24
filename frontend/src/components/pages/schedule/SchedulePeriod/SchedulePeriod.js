@@ -8,7 +8,7 @@ function SchedulePeriod(props) {
                 {props.startTime} - {props.endTime}
             </div>
             <div className="iconSection">
-                <i class={props.icon}></i>
+                <i className={props.icon}></i>
             </div>
             <div className="nameSection">{props.name}</div>
         </div>
