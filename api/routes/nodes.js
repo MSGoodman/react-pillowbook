@@ -3,7 +3,7 @@ var router = express.Router();
 var db = require("../db/database");
 
 function childNodeQuery() {
-  return `SELECT c.name AS tag_name, c.type AS tag_type 
+  return `SELECT c.name AS name, c.type AS type , r.name AS relation
   FROM relation r
   LEFT JOIN node p ON p.node_id = r.parent
   LEFT JOIN node c ON c.node_id = r.child
@@ -32,7 +32,7 @@ router.get('/:node/tags', function (req, res, next) {
 
   db.all(sql, params, (err, rows) => {
     if (err) { res.status(400).json({ "error": err.message }); return; }
-    res.json({ "message": "success", "data": rows })
+    res.json(rows)
   });
 });
 
@@ -43,7 +43,7 @@ router.get('/:node/details', function (req, res, next) {
 
   db.all(sql, params, (err, rows) => {
     if (err) { res.status(400).json({ "error": err.message }); return; }
-    res.json({ "message": "success", "data": rows })
+    res.json(rows)
   });
 });
 
@@ -54,7 +54,7 @@ router.get('/:node/contributors', function (req, res, next) {
 
   db.all(sql, params, (err, rows) => {
     if (err) { res.status(400).json({ "error": err.message }); return; }
-    res.json({ "message": "success", "data": rows })
+    res.json(rows)
   });
 });
 

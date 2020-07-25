@@ -5,14 +5,14 @@ import ArtRelationship from './ArtRelationship/ArtRelationship';
 function InfoSection(props) {
     const details = props.details.map((r, i) =>
         <ArtRelationship key={"detail" + i}
-            relationName={r.relationName}
-            itemName={r.itemName}
+            relationName={r.relation}
+            itemName={r.name}
             icon={r.icon}></ArtRelationship>);
 
     const contributors = props.contributors.map((r, i) =>
         <ArtRelationship key={"contrib" + i}
-            relationName={r.relationName}
-            itemName={r.itemName}
+            relationName={r.relation}
+            itemName={r.name}
             icon={r.icon}></ArtRelationship>);
     return (
         <div className="InfoSection">
