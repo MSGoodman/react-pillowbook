@@ -9,6 +9,7 @@ const createNodeTypeTable =
 
 const createNodeTable = `CREATE TABLE node (
     node_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    unique_id TEXT DEFAULT (lower(hex(randomblob(16)))),
     name TEXT, 
     type TEXT NOT NULL REFERENCES node_type(type)
 );`;
@@ -21,6 +22,7 @@ const createRelationTypeTable =
 const createRelationTable = `CREATE TABLE relation (
     parent INTEGER NOT NULL REFERENCES node(parent),
     child INTEGER NOT NULL REFERENCES node(child),
+    unique_id TEXT DEFAULT (lower(hex(randomblob(16)))),
     name TEXT, 
     type TEXT NOT NULL REFERENCES relation_type(type)
 );`;
