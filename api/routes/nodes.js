@@ -1,27 +1,33 @@
 var express = require('express');
 var router = express.Router();
 var db = require("../db/database");
+const { query } = require('express');
 
-function childNodeQuery() {
-  return `SELECT c.name AS name, c.type AS type , r.name AS relation
+function childNodeQuery(all) {
+  const sql = `SELECT c.name AS name, c.type AS type , r.name AS relation, r.type AS relation_type
   FROM relation r
   LEFT JOIN node p ON p.node_id = r.parent
   LEFT JOIN node c ON c.node_id = r.child
-  WHERE p.unique_id = ?
-  AND r.type = ?`
+  WHERE p.unique_id = ?`;
+
+  if (!all) {
+    sql.concat(" AND r.type = ?");
+  }
+
+  return sql;
 }
 
 // Get node
 router.get('/:node', function (req, res, next) {
   var sql =
     `SELECT *
-    FROM node n
+     FROM node n
     WHERE unique_id = ?`
   var params = [req.params.node]
 
-  db.all(sql, params, (err, rows) => {
+  db.get(sql, params, (err, row) => {
     if (err) { res.status(400).json({ "error": err.message }); return; }
-    res.json({ "message": "success", "data": rows })
+    res.json(row)
   });
 });
 
@@ -51,6 +57,17 @@ router.get('/:node/details', function (req, res, next) {
 router.get('/:node/contributors', function (req, res, next) {
   var sql = childNodeQuery()
   var params = [req.params.node, 'CONTRIBUTOR']
+
+  db.all(sql, params, (err, rows) => {
+    if (err) { res.status(400).json({ "error": err.message }); return; }
+    res.json(rows)
+  });
+});
+
+// Get all children
+router.get('/:node/children', function (req, res, next) {
+  var sql = childNodeQuery(true)
+  var params = [req.params.node]
 
   db.all(sql, params, (err, rows) => {
     if (err) { res.status(400).json({ "error": err.message }); return; }

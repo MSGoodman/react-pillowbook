@@ -6,32 +6,27 @@ import ReviewSection from '../RatingSection/RatingSection';
 import SessionSection from '../SessionSection/SessionSection';
 
 function ArtPage(props) {
-    const [tags, setTags] = useState([]);
+    const [node, setNode] = useState({});
     useEffect(() => {
-        fetch("http://localhost:9000/nodes/HorizonZeroDawn/tags")
+        fetch("http://localhost:9000/nodes/HorizonZeroDawn")
             .then(res => res.json())
-            .then(data => setTags(data))
+            .then(data => setNode(data))
     }, []);
 
-    const [details, setDetails] = useState([]);
+    const [children, setChildren] = useState([]);
     useEffect(() => {
-        fetch("http://localhost:9000/nodes/HorizonZeroDawn/details")
+        fetch("http://localhost:9000/nodes/HorizonZeroDawn/children")
             .then(res => res.json())
-            .then(data => setDetails(data))
+            .then(data => setChildren(data))
     }, []);
 
-    const [contributors, setContributors] = useState([]);
-    useEffect(() => {
-        fetch("http://localhost:9000/nodes/HorizonZeroDawn/contributors")
-            .then(res => res.json())
-            .then(data => setContributors(data))
-    }, []);
 
     return (
         <div className="ArtPage">
-            <TagSection tags={tags}></TagSection>
-            <InfoSection name={props.item.name} imagefilename={props.item.imagefilename}
-                details={details} contributors={contributors}></InfoSection>
+            <TagSection tags={children.filter(child => child.relation_type === 'TAG')}></TagSection>
+            <InfoSection name={node.name} imagefilename={props.item.imagefilename}
+                details={children.filter(child => child.relation_type === 'DETAIL')}
+                contributors={children.filter(child => child.relation_type === 'CONTRIBUTOR')}></InfoSection>
             <ReviewSection reviews={props.reviews}></ReviewSection>
             <SessionSection sessions={props.sessions}></SessionSection>
         </div>
