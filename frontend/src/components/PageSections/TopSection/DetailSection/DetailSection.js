@@ -3,10 +3,11 @@ import './DetailSection.css';
 import Detail from './Detail/Detail';
 
 function DetailSection(props) {
-    const details = props.details.map((c, i) => <Detail key={"contrib" + i}
+    const details = props.details.map((c, i) => <Detail key={c.node_uuid}
         relation={c.relation}
         name={c.name}
-        icon={c.icon}></Detail>)
+        icon={c.icon}
+        node_uuid={c.node_uuid}></Detail>)
 
     return (
         <div className="DetailSection">

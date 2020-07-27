@@ -11,11 +11,13 @@ const createNodeTypeTable =
 
 const createNodeTable = `CREATE TABLE node (
     node_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    node_uuid TEXT DEFAULT (lower(hex(randomblob(16)))),
+    node_uuid TEXT DEFAULT (lower(hex(randomblob(16)))) UNIQUE,
     name TEXT, 
     type TEXT NOT NULL REFERENCES node_type(type),
     markdown_content TEXT,
-    created_at INTEGER DEFAULT (strftime('%s','now'))
+    created_at INTEGER DEFAULT (strftime('%s','now')),
+    horizontal_image_node INTEGER REFERENCES node(horizontal_image_node),
+    vertical_image_node INTEGER REFERENCES node(vertical_image_node)
 );`;
 
 const createRelationTypeTable =
@@ -27,7 +29,7 @@ const createRelationTypeTable =
 
 const createRelationTable = `CREATE TABLE relation (
     relation_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    relation_uuid TEXT DEFAULT (lower(hex(randomblob(16)))),
+    relation_uuid TEXT DEFAULT (lower(hex(randomblob(16)))) UNIQUE,
     parent INTEGER NOT NULL REFERENCES node(parent),
     child INTEGER NOT NULL REFERENCES node(child),
     name TEXT, 

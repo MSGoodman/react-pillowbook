@@ -1,5 +1,6 @@
 .Contributor {
     font-size: 1rem;
+    display: block;
 }
 
 .Contributor .itemName:hover {

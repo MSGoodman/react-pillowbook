@@ -41,14 +41,4 @@ const buttons = [
     new Button('Tag', 'Misc', 'fas fa-tags', 'Tags to be used on other items'),
 ]
 
-function tryRequire(path) {
-    console.log(path)
-    try {
-        return require(`${path}`);
-    } catch (err) {
-        console.log(err)
-        return null;
-    }
-}
-
-export { buttons, tryRequire }
+export { buttons }

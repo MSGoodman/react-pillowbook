@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { Route, Switch, BrowserRouter } from "react-router-dom";
+import { NavTab } from "react-router-tabs";
 import './tabs.css';
 import './App.css';
 import CreatePage from './components/pages/create/CreatePage/CreatePage';
@@ -22,26 +23,28 @@ function App() {
 
   return (
     <div className="App">
-      {status}
       <Header></Header>
-      <Tabs>
-        <TabList>
-          <Tab>Create</Tab>
-          <Tab>Schedule</Tab>
-          <Tab>Tasks</Tab>
-          <Tab>Review</Tab>
-          <Tab>Generic: Lover</Tab>
-          <Tab>Generic: Horizon</Tab>
-        </TabList>
+      <BrowserRouter>
 
-        <TabPanel> <CreatePage></CreatePage> </TabPanel>
-        <TabPanel> <SchedulePage></SchedulePage> </TabPanel>
-        <TabPanel> <TaskPage></TaskPage> </TabPanel>
-        <TabPanel> <ReviewPage></ReviewPage> </TabPanel>
-        <TabPanel> <GenericPage node_uuid='Lover'></GenericPage></TabPanel>
-        <TabPanel> <GenericPage node_uuid='HorizonZeroDawn'></GenericPage></TabPanel>
+        <div className="appBody">
+          <NavTab to="/create">Create</NavTab>
+          <NavTab to="/schedule">Schedule</NavTab>
+          <NavTab to="/tasks">Tasks</NavTab>
+          <NavTab to="/review">Review</NavTab>
+          <NavTab to="/nodes/HorizonZeroDawn">HorizonZeroDawn</NavTab>
 
-      </Tabs>
+          <div className="page">
+
+            <Switch>
+              <Route path="/create" component={CreatePage} />
+              <Route path="/schedule" component={SchedulePage} />
+              <Route path="/tasks" component={TaskPage} />
+              <Route path="/review" component={ReviewPage} />
+              <Route path="/nodes/:uuid" component={GenericPage} />
+            </Switch>
+          </div>
+        </div>
+      </BrowserRouter>
     </div>
   );
 }

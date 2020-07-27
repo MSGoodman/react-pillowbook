@@ -1,5 +1,6 @@
 .Session {
-    margin: 15px;
+    margin: 15px 0;
+    display: flex;
 }
 
 .Session .Stars {
@@ -25,9 +26,15 @@
 .Session .comments {
     font-size: 0.9rem;
     margin-top: 15px;
+    margin-left: 10px;
 }
 
 .Session:not(:first-of-type) {
     padding-top: 20px;
     border-top: 1px dashed rgb(194, 194, 194);
+}
+
+.sessionHeader {
+    padding: 10px;
+    flex-shrink: 0;
 }

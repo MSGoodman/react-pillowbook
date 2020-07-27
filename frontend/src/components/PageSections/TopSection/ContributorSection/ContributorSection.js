@@ -6,7 +6,8 @@ function ContributorSection(props) {
     const contributors = props.contributors.map((c, i) => <Contributor key={"contrib" + i}
         relation={c.relation}
         name={c.name}
-        icon={c.icon}></Contributor>)
+        icon={c.icon}
+        node_uuid={c.node_uuid}></Contributor>)
 
     return (
         <div className="ContributorSection">

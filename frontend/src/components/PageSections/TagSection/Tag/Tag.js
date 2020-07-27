@@ -1,11 +1,12 @@
 import React from 'react';
 import './Tag.css';
+import { Link } from 'react-router-dom';
 
 function Tag(props) {
     return (
-        <div className="Tag">
+        <Link to={`/nodes/${props.node_uuid}`} className="Tag">
             {props.name}
-        </div>
+        </Link>
     );
 }
 

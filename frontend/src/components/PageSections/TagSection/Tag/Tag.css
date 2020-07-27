@@ -1,9 +1,14 @@
+@import '../../../../assets/colors.css';
+
 .Tag {
     background-color: #8BACBD;
     display: inline-block;
+    text-decoration: none;
+    color: var(--black85);
     font-size: 0.8rem;
     padding: 2px 5px;
     margin: 2px;
+    cursor: pointer;
 }
 
 .Tag:hover {

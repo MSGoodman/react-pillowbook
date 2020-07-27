@@ -4,7 +4,7 @@ var db = require("../db/database");
 const { query } = require('express');
 
 function childNodeQuery(all) {
-  const sql = `SELECT c.name AS name, c.type AS type , r.name AS relation, r.type AS relation_type, t.icon, c.markdown_content
+  const sql = `SELECT c.name AS name, c.type AS type , r.name AS relation, r.type AS relation_type, t.icon, c.markdown_content, c.node_uuid
   FROM relation r
   LEFT JOIN node p ON p.node_id = r.parent
   LEFT JOIN node c ON c.node_id = r.child
@@ -21,10 +21,12 @@ function childNodeQuery(all) {
 // Get node
 router.get('/:node', function (req, res, next) {
   var sql =
-    `SELECT n.*, t.icon
-     FROM node n
-     LEFT JOIN node_type t ON n.type = t.name
-    WHERE node_uuid = ?`
+    `SELECT n.*, t.icon, h.node_uuid AS horizontal_image, v.node_uuid AS vertical_image
+    FROM node n
+    LEFT JOIN node_type t ON n.type = t.name
+    LEFT JOIN node h ON h.node_id = n.horizontal_image_node
+    LEFT JOIN node v ON v.node_id = n.vertical_image_node
+   WHERE n.node_uuid = ?`
   var params = [req.params.node]
 
   db.get(sql, params, (err, row) => {
@@ -79,7 +81,7 @@ router.get('/:node/contributors', function (req, res, next) {
 
 // Get reviews
 router.get('/:node/reviews', function (req, res, next) {
-  const sql = `SELECT c.name AS review_name, rv.rating, c.markdown_content, c.created_at
+  const sql = `SELECT c.name AS review_name, rv.rating, c.markdown_content, c.created_at, c.node_uuid
   FROM node n
   LEFT JOIN relation r ON r.parent = n.node_id
   LEFT JOIN node c ON c.node_id = r.child
@@ -97,7 +99,7 @@ router.get('/:node/reviews', function (req, res, next) {
 
 // Get sessions
 router.get('/:node/sessions', function (req, res, next) {
-  const sql = `SELECT c.name AS session_name, s.rating, c.markdown_content, s.start_time, s.end_time, c.created_at
+  const sql = `SELECT c.name AS session_name, s.rating, c.markdown_content, s.start_time, s.end_time, c.created_at, c.node_uuid
   FROM node n
   LEFT JOIN relation r ON r.parent = n.node_id
   LEFT JOIN node c ON c.node_id = r.child

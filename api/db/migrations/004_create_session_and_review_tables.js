@@ -4,7 +4,7 @@ const util = require('../utils/migration_utils');
 const createReviewTable =
     `CREATE TABLE review (
     review_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    review_uuid TEXT DEFAULT (lower(hex(randomblob(16)))),
+    review_uuid TEXT DEFAULT (lower(hex(randomblob(16)))) UNIQUE,
     review_node INTEGER NOT NULL REFERENCES node(review_node),
     rating INTEGER NOT NULL,
     created_at INTEGER DEFAULT (strftime('%s','now')),
@@ -14,7 +14,7 @@ const createReviewTable =
 const createSessionTable =
     `CREATE TABLE session (
 session_id INTEGER PRIMARY KEY AUTOINCREMENT,
-session_uuid TEXT DEFAULT (lower(hex(randomblob(16)))),
+session_uuid TEXT DEFAULT (lower(hex(randomblob(16)))) UNIQUE,
 session_node INTEGER NOT NULL REFERENCES node(session_node),
 rating INTEGER,
 start_time INTEGER NOT NULL,

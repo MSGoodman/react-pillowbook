@@ -6,6 +6,8 @@ import ReviewSection from '../PageSections/ReviewSection/ReviewSection';
 import SessionSection from '../PageSections/SessionSection/SessionSection';
 
 function GenericPage(props) {
+    const uuid = props.match.params.uuid;
+    // Expects only one prop, node_uuid, and will make the necessary api calls from here
     const [node, setNode] = useState({});
     const [tags, setTags] = useState([]);
     const [details, setDetails] = useState([]);
@@ -18,13 +20,13 @@ function GenericPage(props) {
     const [notes, setNotes] = useState([]);
 
     useEffect(() => {
-        fetch(`http://localhost:9000/nodes/${props.node_uuid}`)
+        fetch(`http://localhost:9000/nodes/${uuid}`)
             .then(res => res.json())
             .then(data => setNode(data))
-    }, []);
+    }, [uuid]);
 
     useEffect(() => {
-        fetch(`http://localhost:9000/nodes/${props.node_uuid}/children`)
+        fetch(`http://localhost:9000/nodes/${uuid}/children`)
             .then(res => res.json())
             .then(data => {
                 setTags(data.filter(child => child.relation_type === 'TAG'));
@@ -35,24 +37,24 @@ function GenericPage(props) {
                 setInstances(data.filter(child => child.relation_type === 'INSTANCE'));
                 setNotes(data.filter(child => child.relation_type === 'NOTE'));
             })
-    }, []);
+    }, [uuid]);
 
     useEffect(() => {
-        fetch(`http://localhost:9000/nodes/${props.node_uuid}/reviews`)
+        fetch(`http://localhost:9000/nodes/${uuid}/reviews`)
             .then(res => res.json())
             .then(data => setReviews(data))
-    }, []);
+    }, [uuid]);
 
     useEffect(() => {
-        fetch(`http://localhost:9000/nodes/${props.node_uuid}/sessions`)
+        fetch(`http://localhost:9000/nodes/${uuid}/sessions`)
             .then(res => res.json())
             .then(data => setSessions(data))
-    }, []);
+    }, [uuid]);
 
     return (
         <div className="GenericPage">
             <TagSection tags={tags}></TagSection>
-            <TopSection icon={node.icon} details={details} contributors={contributors} name={node.name} imagefilename='horizonzerodawn.jpg'></TopSection>
+            <TopSection details={details} contributors={contributors} node={node}></TopSection>
             <ReviewSection reviews={reviews}></ReviewSection>
             <SessionSection sessions={sessions}></SessionSection>
         </div>
