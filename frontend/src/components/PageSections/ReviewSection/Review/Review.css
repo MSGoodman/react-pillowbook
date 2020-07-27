@@ -1,31 +1,37 @@
-.Rating {
+.Review {
     margin: 15px;
 }
 
-.Rating h1 {
+.Review h1 {
     margin: 0;
     font-size: 1.8rem;
     text-align: center;
 }
 
-.Rating .Stars {
+.Review .Stars {
     font-size: 1.5rem;
     font-weight: bold;
     margin-left: 10px;
     vertical-align: middle;
 }
 
-.Rating .date {
+.Review .date {
     font-size: 0.9rem;
     font-weight: bold;
     margin-left: 10px;
 }
 
-.Rating .reviewText {
-    font-size: 0.9rem;
+.Review .title {
+    font-weight: bold;
+    margin-left: 20px;
 }
 
-.Rating:not(:first-of-type) {
+.Review .reviewText {
+    font-size: 0.9rem;
+    padding: 10px;
+}
+
+.Review:not(:first-of-type) {
     padding-top: 20px;
     border-top: 1px dashed rgb(194, 194, 194);
 }

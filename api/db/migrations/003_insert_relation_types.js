@@ -13,7 +13,8 @@ VALUES
 ('INSTANCE'),
 ('SOURCE'),
 ('ATTACHMENT'),
-('ADAPTATION')`;
+('ADAPTATION'),
+('TASK')`;
 
 const migrations = [insertRelationTypes];
 util.migrate(migrations, migrationPath);

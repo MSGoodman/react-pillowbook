@@ -1,0 +1,22 @@
+.Detail {
+    font-size: 0.75rem;
+}
+
+.Detail:not(:first-of-type) {
+    margin-left: 15px;
+}
+
+.Detail .itemName:hover {
+    background-color: #e6e6e6;
+}
+
+.Detail .relationName {
+    display: inline-block;
+    text-align: left;
+}
+
+.Detail .itemName {
+    display: inline-block;
+    cursor: pointer;
+    padding: 3px;
+}

@@ -1,11 +1,11 @@
 import React from 'react';
 import './SessionSection.css';
 import Session from './Session/Session';
-import SubsectionNewButton from '../../../SubsectionNewButton/SubsectionNewButton';
+import SubsectionNewButton from '../../SubsectionNewButton/SubsectionNewButton';
 
 function SessionSection(props) {
-    const sessions = props.sessions.map((r, i) => <Session key={"session" + i} date={r.date} startTime={r.startTime}
-        endTime={r.endTime} rating={r.rating} comments={r.comments}></Session>);
+    const sessions = props.sessions.map((s, i) => <Session key={"session" + i} date={s.start_time} start_time={s.start_time}
+        end_time={s.end_time} rating={s.rating} markdown_content={s.markdown_content}></Session>);
 
     return (
         <div className="SessionSection">

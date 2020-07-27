@@ -5,7 +5,8 @@ const util = require('../utils/migration_utils');
 
 const createMigrations =
     `CREATE TABLE migrations (
-    name TEXT PRIMARY KEY NOT NULL
+    name TEXT PRIMARY KEY NOT NULL,
+    created_at INTEGER DEFAULT (strftime('%s','now')) 
 );`;
 
 function checkIfFirstMigrationHasRun() {

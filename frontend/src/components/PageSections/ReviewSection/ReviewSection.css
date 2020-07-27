@@ -1,9 +1,9 @@
-.RatingSection {
+.ReviewSection {
     padding: 15px;
     border-bottom: 2px solid rgb(165, 165, 165);
 }
 
-.RatingSection h1 {
+.ReviewSection h1 {
     margin: 0;
     font-size: 1.8rem;
     text-align: center;

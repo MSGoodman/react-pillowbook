@@ -1,18 +1,21 @@
-.ArtRelationship {
+.Contributor {
     font-size: 1rem;
 }
 
-.ArtRelationship .itemName:hover {
+.Contributor .itemName:hover {
     background-color: #e6e6e6;
 }
 
-.ArtRelationship .relationName {
+.Contributor .relationName {
     display: inline-block;
     text-align: left;
     width: 150px;
 }
 
-.ArtRelationship .itemName {
+.Contributor i {
+}
+
+.Contributor .itemName {
     display: inline-block;
     margin-left: 5px;
     cursor: pointer;

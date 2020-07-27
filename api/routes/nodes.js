@@ -4,11 +4,12 @@ var db = require("../db/database");
 const { query } = require('express');
 
 function childNodeQuery(all) {
-  const sql = `SELECT c.name AS name, c.type AS type , r.name AS relation, r.type AS relation_type
+  const sql = `SELECT c.name AS name, c.type AS type , r.name AS relation, r.type AS relation_type, t.icon, c.markdown_content
   FROM relation r
   LEFT JOIN node p ON p.node_id = r.parent
   LEFT JOIN node c ON c.node_id = r.child
-  WHERE p.unique_id = ?`;
+  LEFT JOIN node_type t ON c.type = t.name
+  WHERE p.node_uuid = ?`;
 
   if (!all) {
     sql.concat(" AND r.type = ?");
@@ -20,14 +21,26 @@ function childNodeQuery(all) {
 // Get node
 router.get('/:node', function (req, res, next) {
   var sql =
-    `SELECT *
+    `SELECT n.*, t.icon
      FROM node n
-    WHERE unique_id = ?`
+     LEFT JOIN node_type t ON n.type = t.name
+    WHERE node_uuid = ?`
   var params = [req.params.node]
 
   db.get(sql, params, (err, row) => {
     if (err) { res.status(400).json({ "error": err.message }); return; }
     res.json(row)
+  });
+});
+
+// Get all children
+router.get('/:node/children', function (req, res, next) {
+  var sql = childNodeQuery(true)
+  var params = [req.params.node]
+
+  db.all(sql, params, (err, rows) => {
+    if (err) { res.status(400).json({ "error": err.message }); return; }
+    res.json(rows)
   });
 });
 
@@ -64,9 +77,34 @@ router.get('/:node/contributors', function (req, res, next) {
   });
 });
 
-// Get all children
-router.get('/:node/children', function (req, res, next) {
-  var sql = childNodeQuery(true)
+// Get reviews
+router.get('/:node/reviews', function (req, res, next) {
+  const sql = `SELECT c.name AS review_name, rv.rating, c.markdown_content, c.created_at
+  FROM node n
+  LEFT JOIN relation r ON r.parent = n.node_id
+  LEFT JOIN node c ON c.node_id = r.child
+  LEFT JOIN review rv ON rv.review_node = r.child
+  WHERE r.type = 'REVIEW'
+  AND n.node_uuid = ?;`;
+
+  var params = [req.params.node]
+
+  db.all(sql, params, (err, rows) => {
+    if (err) { res.status(400).json({ "error": err.message }); return; }
+    res.json(rows)
+  });
+});
+
+// Get sessions
+router.get('/:node/sessions', function (req, res, next) {
+  const sql = `SELECT c.name AS session_name, s.rating, c.markdown_content, s.start_time, s.end_time, c.created_at
+  FROM node n
+  LEFT JOIN relation r ON r.parent = n.node_id
+  LEFT JOIN node c ON c.node_id = r.child
+  LEFT JOIN session s ON s.session_node = r.child
+  WHERE r.type = 'SESSION'
+  AND n.node_uuid = ?;`;
+
   var params = [req.params.node]
 
   db.all(sql, params, (err, rows) => {
