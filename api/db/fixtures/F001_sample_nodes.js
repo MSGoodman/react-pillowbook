@@ -4,7 +4,7 @@ const util = require('../utils/migration_utils');
 const nodeFixtures =
     `INSERT INTO node(node_uuid,name,type,markdown_content) 
 VALUES 
-    ('HorizonZeroDawn', 'Horizon: Zero Dawn', 'VIDEO_GAME',null),
+    ('HorizonZeroDawn', 'Horizon: Zero Dawn', 'VIDEO_GAME','Horizon Zero Dawn is an action role-playing game developed by Guerrilla Games and published by Sony Interactive Entertainment. The plot follows Aloy, a hunter in a world overrun by machines, who sets out to uncover her past. The player uses ranged weapons, a spear, and stealth to combat mechanical creatures and other enemy forces. A skill tree provides the player with new abilities and bonuses. The player can explore the open world to discover locations and take on side quests. It was released for the PlayStation 4 in 2017, and will be released for Microsoft Windows in 2020.'),
     ('February282017', 'February 28, 2017', 'DATE',null),
     ('Playstation4', 'Playstation 4', 'DATUM',null),
     ('MathijsdeJonge', 'Mathijs de Jonge', 'PERSON',null),

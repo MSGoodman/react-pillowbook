@@ -12,7 +12,7 @@ const createNodeTypeTable =
 const createNodeTable = `CREATE TABLE node (
     node_id INTEGER PRIMARY KEY AUTOINCREMENT,
     node_uuid TEXT DEFAULT (lower(hex(randomblob(16)))) UNIQUE,
-    name TEXT, 
+    name TEXT NOT NULL UNIQUE, 
     type TEXT NOT NULL REFERENCES node_type(type),
     markdown_content TEXT,
     created_at INTEGER DEFAULT (strftime('%s','now')),

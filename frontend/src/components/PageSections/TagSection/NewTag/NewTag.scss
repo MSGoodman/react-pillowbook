@@ -1,0 +1,52 @@
+@import '../../../../assets/colors.css';
+
+.NewTag {
+    margin: 0 8px;
+}
+
+.newTagButton {
+    i {
+        margin: 0;
+    }    
+    border: none;
+    background-color: var(--new-green);
+    display: inline-block;
+    text-decoration: none;
+    color: var(--black85);
+    vertical-align: middle;
+    font-size: 0.8rem;
+    padding: 4px 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.newTagButton:hover {
+    background-color: var(--new-green-hover);
+}
+
+.sideButton {
+    i { margin: 0; }    
+    border: none;
+    display: inline-block;
+    text-decoration: none;
+    color: var(--black85);
+    vertical-align: middle;
+    font-size: 0.8rem;
+    padding: 4px 4px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.cancelNewTagButton { background-color: var(--delete-red); }
+.cancelNewTagButton:hover { background-color: var(--delete-red-hover);}
+
+.confirmNewTagButton { background-color: var(--new-green); }
+.confirmNewTagButton:hover { background-color: var(--new-green-hover);}
+
+.newTagInput {
+    border-radius: 3px;
+    border: 1px solid grey;
+    color: var(--black85);
+}

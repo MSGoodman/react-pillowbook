@@ -1,3 +1,8 @@
 :root {
-    --black75: rgba(0, 0, 0, 0.75)
+    --black75: rgba(0, 0, 0, 0.75);
+    --light-blue: #8BACBD;
+    --new-green: #7fc16c;
+    --new-green-hover: #579646;
+    --delete-red: #af3636;
+    --delete-red-hover: #842929;
 }

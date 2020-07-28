@@ -1,5 +1,5 @@
 import React from 'react';
-import './SubsectionNewButton.css'
+import './SubsectionNewButton.scss'
 
 function SubsectionNewButton(props) {
     return (

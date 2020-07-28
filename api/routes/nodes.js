@@ -4,7 +4,7 @@ var db = require("../db/database");
 const { query } = require('express');
 
 function childNodeQuery(all) {
-  const sql = `SELECT c.name AS name, c.type AS type , r.name AS relation, r.type AS relation_type, t.icon, c.markdown_content, c.node_uuid
+  const sql = `SELECT p.node_uuid AS parent_node_uuid, c.name AS name, c.type AS type , r.name AS relation, r.type AS relation_type, t.icon, c.markdown_content, c.node_uuid
   FROM relation r
   LEFT JOIN node p ON p.node_id = r.parent
   LEFT JOIN node c ON c.node_id = r.child
@@ -17,6 +17,19 @@ function childNodeQuery(all) {
 
   return sql;
 }
+
+// New node
+router.post('/', function (req, res, next) {
+  console.log(req.body);
+  var sql =
+    `INSERT OR IGNORE INTO node(name,type,markdown_content) 
+  VALUES (?,?,?)`;
+  var params = [req.body.name, req.body.type, req.body.markdown_content];
+  db.run(sql, params, (err, row) => {
+    if (err) { res.status(400).json({ "error": err.message }); return; }
+    res.json(row)
+  });
+});
 
 // Get node
 router.get('/:node', function (req, res, next) {

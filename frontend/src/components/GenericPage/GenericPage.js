@@ -51,14 +51,19 @@ function GenericPage(props) {
             .then(data => setSessions(data))
     }, [uuid]);
 
-    return (
-        <div className="GenericPage">
-            <TagSection tags={tags}></TagSection>
-            <TopSection details={details} contributors={contributors} node={node}></TopSection>
-            <ReviewSection reviews={reviews}></ReviewSection>
-            <SessionSection sessions={sessions}></SessionSection>
-        </div>
-    );
+    if (node.node_uuid) {
+        return (
+            <div className="GenericPage">
+                <TagSection tags={tags} parent_node_name={node.name}></TagSection>
+                <TopSection details={details} contributors={contributors} node={node}></TopSection>
+                <ReviewSection reviews={reviews}></ReviewSection>
+                <SessionSection sessions={sessions}></SessionSection>
+            </div>
+        );
+    }
+    else {
+        return <div>No node found, the API may not be running.</div>
+    }
 }
 
 export default GenericPage;
