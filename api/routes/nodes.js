@@ -2,44 +2,33 @@ var express = require('express');
 var router = express.Router();
 var db = require("../db/database");
 const { query } = require('express');
+nodeQueries = require("../db/queries/nodes");
 
 function childNodeQuery(all) {
-  const sql = `SELECT p.node_uuid AS parent_node_uuid, c.name AS name, c.type AS type , r.name AS relation, r.type AS relation_type, t.icon, c.markdown_content, c.node_uuid
-  FROM relation r
-  LEFT JOIN node p ON p.node_id = r.parent
-  LEFT JOIN node c ON c.node_id = r.child
-  LEFT JOIN node_type t ON c.type = t.name
-  WHERE p.node_uuid = ?`;
-
-  if (!all) {
-    sql.concat(" AND r.type = ?");
-  }
+  const sql = nodeQueries.getNodeChildrenByParentUUID;
+  if (!all) { sql.concat(" AND r.type = ?"); }
 
   return sql;
 }
 
 // New node
 router.post('/', function (req, res, next) {
-  console.log(req.body);
-  var sql =
-    `INSERT OR IGNORE INTO node(name,type,markdown_content) 
-  VALUES (?,?,?)`;
   var params = [req.body.name, req.body.type, req.body.markdown_content];
-  db.run(sql, params, (err, row) => {
-    if (err) { res.status(400).json({ "error": err.message }); return; }
-    res.json(row)
+
+  db.serialize(() => {
+    db.run(nodeQueries.insertNodeOrIgnore, params, (err, row) => {
+      if (err) { res.status(400).json({ "error": err.message }); return; }
+    });
+    db.get(nodeQueries.getNodeByName, [req.body.name], (err, row) => {
+      if (err) { res.status(400).json({ "error": err.message }); return; }
+      res.json(row)
+    });
   });
 });
 
 // Get node
 router.get('/:node', function (req, res, next) {
-  var sql =
-    `SELECT n.*, t.icon, h.node_uuid AS horizontal_image, v.node_uuid AS vertical_image
-    FROM node n
-    LEFT JOIN node_type t ON n.type = t.name
-    LEFT JOIN node h ON h.node_id = n.horizontal_image_node
-    LEFT JOIN node v ON v.node_id = n.vertical_image_node
-   WHERE n.node_uuid = ?`
+  var sql = nodeQueries.getNodeByUUID;
   var params = [req.params.node]
 
   db.get(sql, params, (err, row) => {
@@ -50,8 +39,20 @@ router.get('/:node', function (req, res, next) {
 
 // Get all children
 router.get('/:node/children', function (req, res, next) {
-  var sql = childNodeQuery(true)
+  var sql = nodeQueries.getNodeChildrenByParentUUID;
   var params = [req.params.node]
+
+  db.all(sql, params, (err, rows) => {
+    if (err) { res.status(400).json({ "error": err.message }); return; }
+    res.json(rows)
+  });
+});
+
+// Get all parents
+router.get('/:node/tagParents', function (req, res, next) {
+  var sql = nodeQueries.getNodeParentsByChildUUIDAndRelationType;
+  var params = [req.params.node, 'TAG']
+  console.log(sql)
 
   db.all(sql, params, (err, rows) => {
     if (err) { res.status(400).json({ "error": err.message }); return; }
@@ -61,7 +62,7 @@ router.get('/:node/children', function (req, res, next) {
 
 // Get tags
 router.get('/:node/tags', function (req, res, next) {
-  var sql = childNodeQuery();
+  var sql = nodeQueries.getNodeChildrenByParentUUIDAndRelationType;
   var params = [req.params.node, 'TAG']
 
   db.all(sql, params, (err, rows) => {
@@ -83,7 +84,7 @@ router.get('/:node/details', function (req, res, next) {
 
 // Get contributors
 router.get('/:node/contributors', function (req, res, next) {
-  var sql = childNodeQuery()
+  var sql = nodeQueries.getNodeChildrenByParentUUIDAndRelationType;
   var params = [req.params.node, 'CONTRIBUTOR']
 
   db.all(sql, params, (err, rows) => {

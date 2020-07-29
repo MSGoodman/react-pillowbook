@@ -36,16 +36,16 @@ VALUES
     ((SELECT node_id FROM node WHERE node_uuid='PerfectPolentaRecipe'),              (SELECT node_id FROM node WHERE node_uuid='ChefJohnsPolenta'), 'Result', 'INSTANCE'),
     ((SELECT node_id FROM node WHERE node_uuid='7222020Dinner'),                     (SELECT node_id FROM node WHERE node_uuid='ChefJohnsPolenta'), 'Component', 'COMPONENT'),
     ((SELECT node_id FROM node WHERE node_uuid='7222020Dinner'),                     (SELECT node_id FROM node WHERE node_uuid='Spaghetti'), 'Component', 'COMPONENT'),
-    ((SELECT node_id FROM node WHERE node_uuid='Lover'),                             (SELECT node_id FROM node WHERE node_uuid='TaylorSwift'), 'Artist', 'CONTRIBUTOR'),
-    ((SELECT node_id FROM node WHERE node_uuid='Lover'),                             (SELECT node_id FROM node WHERE node_uuid='IForgotThatYouExisted'), 'Track', 'COMPONENT'),
-    ((SELECT node_id FROM node WHERE node_uuid='Lover'),                             (SELECT node_id FROM node WHERE node_uuid='CruelSummer'), 'Track', 'COMPONENT'),
-    ((SELECT node_id FROM node WHERE node_uuid='Lover'),                             (SELECT node_id FROM node WHERE node_uuid='Lover'), 'Track', 'COMPONENT'),
-    ((SELECT node_id FROM node WHERE node_uuid='Lover'),                             (SELECT node_id FROM node WHERE node_uuid='TheMan'), 'Track', 'COMPONENT'),
+    ((SELECT node_id FROM node WHERE node_uuid='LoverAlbum'),                        (SELECT node_id FROM node WHERE node_uuid='TaylorSwift'), 'Artist', 'CONTRIBUTOR'),
+    ((SELECT node_id FROM node WHERE node_uuid='LoverAlbum'),                        (SELECT node_id FROM node WHERE node_uuid='IForgotThatYouExisted'), 'Track', 'COMPONENT'),
+    ((SELECT node_id FROM node WHERE node_uuid='LoverAlbum'),                        (SELECT node_id FROM node WHERE node_uuid='CruelSummer'), 'Track', 'COMPONENT'),
+    ((SELECT node_id FROM node WHERE node_uuid='LoverAlbum'),                        (SELECT node_id FROM node WHERE node_uuid='Lover'), 'Track', 'COMPONENT'),
+    ((SELECT node_id FROM node WHERE node_uuid='LoverAlbum'),                        (SELECT node_id FROM node WHERE node_uuid='TheMan'), 'Track', 'COMPONENT'),
     ((SELECT node_id FROM node WHERE node_uuid='IForgotThatYouExisted'),             (SELECT node_id FROM node WHERE node_uuid='IForgotThatYouExisted1stReview'), 'Review', 'REVIEW'),
     ((SELECT node_id FROM node WHERE node_uuid='CruelSummer'),                       (SELECT node_id FROM node WHERE node_uuid='CruelSummer1stReview'), 'Review', 'REVIEW'),
     ((SELECT node_id FROM node WHERE node_uuid='Lover'),                             (SELECT node_id FROM node WHERE node_uuid='Lover1stReview'), 'Review', 'REVIEW'),
     ((SELECT node_id FROM node WHERE node_uuid='TheMan'),                            (SELECT node_id FROM node WHERE node_uuid='TheMan1stReview'), 'Review', 'REVIEW'),
-    ((SELECT node_id FROM node WHERE node_uuid='LoverAlbum'),                             (SELECT node_id FROM node WHERE node_uuid='LoverAlbumReview'), 'Review', 'REVIEW'),
+    ((SELECT node_id FROM node WHERE node_uuid='LoverAlbum'),                        (SELECT node_id FROM node WHERE node_uuid='LoverAlbumReview'), 'Review', 'REVIEW'),
     ((SELECT node_id FROM node WHERE node_uuid='TheHungerGames'),                    (SELECT node_id FROM node WHERE node_uuid='SuzanneCollins'), 'Author', 'CONTRIBUTOR'),
     ((SELECT node_id FROM node WHERE node_uuid='TheHungerGames'),                    (SELECT node_id FROM node WHERE node_uuid='femaleprotagonist'), 'Tag', 'TAG'),
     ((SELECT node_id FROM node WHERE node_uuid='TheHungerGames'),                    (SELECT node_id FROM node WHERE node_uuid='archery'), 'Tag', 'TAG'),
@@ -53,7 +53,7 @@ VALUES
     ((SELECT node_id FROM node WHERE node_uuid='TheHungerGamesMovie'),               (SELECT node_id FROM node WHERE node_uuid='JenniferLawrence'), 'Actor', 'CONTRIBUTOR'),
     ((SELECT node_id FROM node WHERE node_uuid='TheHungerGamesMovie'),               (SELECT node_id FROM node WHERE node_uuid='femaleprotagonist'), 'Tag', 'TAG'),
     ((SELECT node_id FROM node WHERE node_uuid='TheHungerGamesMovie'),               (SELECT node_id FROM node WHERE node_uuid='archery'), 'Tag', 'TAG'),
-    ((SELECT node_id FROM node WHERE node_uuid='TheHungerGamesMovie'),               (SELECT node_id FROM node WHERE node_uuid='TheHungerGamesMovie'), 'Adaptation', 'ADAPTATION');`;
+    ((SELECT node_id FROM node WHERE node_uuid='TheHungerGamesMovie'),               (SELECT node_id FROM node WHERE node_uuid='TheHungerGames'), 'Adaptation', 'ADAPTATION');`;
 
 const migrations = [relationFixtures];
 util.migrate(migrations, migrationPath);

@@ -1,4 +1,7 @@
+@import './assets/fonts.css';
+
 .App {
+  font-family: 'Raleway';
 }
 
 .App-logo {

@@ -10,6 +10,9 @@
     cursor: pointer;
 }
 
+@import '../../../../assets/fonts.css';
+
+
 .NewNodeButton:hover {
     background-color: rgb(105, 130, 143);
 }

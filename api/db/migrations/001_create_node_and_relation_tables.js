@@ -34,7 +34,9 @@ const createRelationTable = `CREATE TABLE relation (
     child INTEGER NOT NULL REFERENCES node(child),
     name TEXT, 
     type TEXT NOT NULL REFERENCES relation_type(type),
-    created_at INTEGER DEFAULT (strftime('%s','now'))
+    created_at INTEGER DEFAULT (strftime('%s','now')),
+    CONSTRAINT UC_ParentChildName UNIQUE (parent, child, name),
+    CONSTRAINT CHK_NoSelf CHECK (parent <> child)
 );`;
 
 const migrations = [createNodeTypeTable, createNodeTable, createRelationTypeTable, createRelationTable];

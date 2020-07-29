@@ -4,13 +4,10 @@ import ContributorSection from './ContributorSection/ContributorSection';
 import DetailSection from './DetailSection/DetailSection';
 
 function TopSection(props) {
-    console.log(JSON.stringify(props.node))
     const icon = props.node.icon ? <i className={props.node.icon}></i> : null;
     const verticalImage = props.node.vertical_image ?
         <div className="image"> <img src={`${process.env.PUBLIC_URL}/uploads/${props.node.vertical_image}.jpg`} alt={props.node.vertical_image + " image"} /> </div> :
         null;
-
-    console.log(verticalImage)
 
     return (
         <div className="TopSection">

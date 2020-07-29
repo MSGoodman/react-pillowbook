@@ -5,22 +5,25 @@ import { createNodeOrIgnore, createRelation } from '../../../../utils/api'
 
 function NewTag(props) {
 
-    function confirmTag(newTag) {
-        const requestBody = { name: newTag, type: 'TAG', markdown_content: '' };
-        console.log(JSON.stringify(requestBody));
-        console.log(props)
+    function confirmTag(newTagName) {
+        const requestBody = { name: newTagName, type: 'TAG', markdown_content: '' };
         // Make the new node if it doesn't exist
         createNodeOrIgnore(requestBody)
-            .then(ignore => createRelation(props.parent_node_name, newTag, 'Tag', 'TAG'))
-            .then(data => {
-                console.log(data);
-                setNewTag("");
-                setTextboxVisible(false);
-            })
+            .then(newNodeJson => {
+                // Make the relation
+                createRelation(props.parent_node_name, newNodeJson.name, 'Tag', 'TAG')
+                    .then(newRelationRes => {
+                        // Display the new tag
+                        props.addTag(newNodeJson);
+                        setNewTagName("");
+                        setTextboxVisible(false);
+                    })
+            });
     }
 
     const [textboxVisible, setTextboxVisible] = useState(false);
-    const [newTag, setNewTag] = useState("");
+    const [newTagName, setNewTagName] = useState("");
+    const [newTag, setNewTag] = useState({});
 
     const addButton = !textboxVisible ?
         <button onClick={() => setTextboxVisible(true)} className="newTagButton">
@@ -32,12 +35,12 @@ function NewTag(props) {
             <i className="fas fa-ban"></i>
         </button> : null;
 
-    const confirmButton = textboxVisible && newTag != "" ?
-        <button onClick={() => confirmTag(newTag)} className="confirmNewTagButton sideButton">
+    const confirmButton = textboxVisible && newTagName != "" ?
+        <button onClick={() => confirmTag(newTagName)} className="confirmNewTagButton sideButton">
             <i className="fas fa-check"></i>
         </button> : null;
 
-    const newInput = textboxVisible ? <input className="newTagInput" onChange={e => setNewTag(e.target.value)}></input> : null;
+    const newInput = textboxVisible ? <input className="newTagInput" onChange={e => setNewTagName(e.target.value)}></input> : null;
 
     return (
         <span className="NewTag">

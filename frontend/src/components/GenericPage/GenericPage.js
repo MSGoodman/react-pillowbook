@@ -4,6 +4,7 @@ import TagSection from '../PageSections/TagSection/TagSection';
 import TopSection from '../PageSections/TopSection/TopSection';
 import ReviewSection from '../PageSections/ReviewSection/ReviewSection';
 import SessionSection from '../PageSections/SessionSection/SessionSection';
+import TagOfSection from '../PageSections/TagOfSection/TagOfSection';
 
 function GenericPage(props) {
     const uuid = props.match.params.uuid;
@@ -15,6 +16,7 @@ function GenericPage(props) {
     const [components, setComponents] = useState([]);
     const [reviews, setReviews] = useState([]);
     const [sessions, setSessions] = useState([]);
+    const [tagOf, setTagOf] = useState([]);
     const [attachments, setAttachments] = useState([]);
     const [instances, setInstances] = useState([]);
     const [notes, setNotes] = useState([]);
@@ -51,13 +53,20 @@ function GenericPage(props) {
             .then(data => setSessions(data))
     }, [uuid]);
 
+    useEffect(() => {
+        fetch(`http://localhost:9000/nodes/${uuid}/tagParents`)
+            .then(res => res.json())
+            .then(data => setTagOf(data))
+    }, [uuid]);
+
     if (node.node_uuid) {
         return (
             <div className="GenericPage">
-                <TagSection tags={tags} parent_node_name={node.name}></TagSection>
+                <TagSection tags={tags} updateTags={setTags} parent_node_name={node.name}></TagSection>
                 <TopSection details={details} contributors={contributors} node={node}></TopSection>
                 <ReviewSection reviews={reviews}></ReviewSection>
                 <SessionSection sessions={sessions}></SessionSection>
+                <TagOfSection tagOf={tagOf}></TagOfSection>
             </div>
         );
     }

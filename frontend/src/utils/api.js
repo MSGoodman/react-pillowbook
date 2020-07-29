@@ -3,7 +3,7 @@ function createNodeOrIgnore(body) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
-    });
+    }).then(res => res.json());
 }
 
 function createRelation(parent_name, child_name, relation_name, relation_type) {

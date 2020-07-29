@@ -1,13 +1,11 @@
 .SchedulePeriod {
     padding: 12px 0 12px 20px;
-    font-family: 'Raleway', sans-serif;
     font-size: 1.2rem;
     border-bottom: 1px dashed rgb(194, 194, 194);
 }
 
 .SchedulePeriod:hover {
     padding: 12px 0 12px 20px;
-    font-family: 'Raleway', sans-serif;
     font-size: 1.2rem;
     border-bottom: 1px dashed rgb(194, 194, 194);
     background-color: #e6e6e6;
