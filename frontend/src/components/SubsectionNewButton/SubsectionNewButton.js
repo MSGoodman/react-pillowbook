@@ -3,9 +3,9 @@ import './SubsectionNewButton.scss'
 
 function SubsectionNewButton(props) {
     return (
-        <div className="SubsectionNewButton">
+        <button className="SubsectionNewButton" onClick={props.clickFunction}>
             <i className="fas fa-plus"></i> Add New
-        </div>
+        </button>
     );
 }
 

@@ -36,4 +36,6 @@ LEFT JOIN node c ON c.node_id = r.child
 LEFT JOIN node_type t ON c.type = t.name
 WHERE c.node_uuid = ? AND r.type = ?`;
 
-module.exports = { getNodeByName, getNodeByUUID, insertNodeOrIgnore, getNodeChildrenByParentUUID, getNodeChildrenByParentUUIDAndRelationType, getNodeParentsByChildUUIDAndRelationType }
+const getAllNodeNamesAndUUIDs = `SELECT node_uuid, name FROM node`;
+
+module.exports = { getNodeByName, getNodeByUUID, insertNodeOrIgnore, getNodeChildrenByParentUUID, getNodeChildrenByParentUUIDAndRelationType, getNodeParentsByChildUUIDAndRelationType, getAllNodeNamesAndUUIDs }

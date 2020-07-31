@@ -11,7 +11,7 @@ function childNodeQuery(all) {
   return sql;
 }
 
-// New node
+// Add node
 router.post('/', function (req, res, next) {
   var params = [req.body.name, req.body.type, req.body.markdown_content];
 
@@ -23,6 +23,17 @@ router.post('/', function (req, res, next) {
       if (err) { res.status(400).json({ "error": err.message }); return; }
       res.json(row)
     });
+  });
+});
+
+// Get all node names and uuids
+router.get('/', function (req, res, next) {
+  var sql = nodeQueries.getAllNodeNamesAndUUIDs;
+  var params = []
+
+  db.all(sql, params, (err, rows) => {
+    if (err) { res.status(400).json({ "error": err.message }); return; }
+    res.json(rows)
   });
 });
 

@@ -8,6 +8,7 @@
     margin: 5px;
     border-radius: 10px;
     cursor: pointer;
+    border: none;
 }
 
 @import '../../../../assets/fonts.css';

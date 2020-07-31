@@ -11,7 +11,9 @@ function SessionSection(props) {
         <div className="SessionSection">
             <h1>Sessions</h1>
             {sessions}
-            <SubsectionNewButton></SubsectionNewButton>
+            <div className="buttonSection">
+                <SubsectionNewButton clickFunction={props.clickFunction}></SubsectionNewButton>
+            </div>
         </div>
     );
 }

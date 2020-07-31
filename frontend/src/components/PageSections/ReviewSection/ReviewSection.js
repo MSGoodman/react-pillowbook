@@ -11,7 +11,9 @@ function ReviewSection(props) {
         <div className="ReviewSection">
             <h1>Reviews</h1>
             {reviews}
-            <SubsectionNewButton></SubsectionNewButton>
+            <div className="buttonSection">
+                <SubsectionNewButton clickFunction={props.clickFunction}></SubsectionNewButton>
+            </div>
         </div>
     );
 }

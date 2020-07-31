@@ -23,6 +23,7 @@ VALUES
     ('DATUM', 'fas fa-tag'),
     ('BEER', 'fas fa-beer'),
     ('WINE', 'fas fa-wine-glass-alt'),
+    ('COCKTAIL', 'fas fa-glass-whiskey'),
     ('TASK', 'fas fa-check-square'),
     ('MEETING', 'fas fa-people-arrows'),
     ('REVIEW', 'fas fa-star-half-alt'),

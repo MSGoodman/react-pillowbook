@@ -4,11 +4,11 @@ import Tooltip from '../Tooltip/Tooltip';
 
 function NewNodeButton(props) {
     return (
-        <div className="NewNodeButton">
+        <button className="NewNodeButton" onClick={props.clickFunction}>
             {props.tooltip ? <Tooltip text={props.tooltip}></Tooltip> : null}
             <i className={props.icon}></i>
             <p>{props.name}</p>
-        </div>
+        </button>
     );
 }
 

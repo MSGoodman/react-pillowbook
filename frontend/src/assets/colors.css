@@ -1,8 +1,12 @@
 :root {
-    --black75: rgba(0, 0, 0, 0.75);
+    --black75: #000000bf;
+    --light-blue-hover: rgb(105, 130, 143);
     --light-blue: #8BACBD;
     --new-green: #7fc16c;
     --new-green-hover: #579646;
     --delete-red: #af3636;
     --delete-red-hover: #842929;
+    --off-white: #f7f7f7;
+    --off-white-darker: #e8e8e8;
+    --off-white-darker-still: #d9d9d9;
 }

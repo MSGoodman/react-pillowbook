@@ -2,7 +2,7 @@
 @import './assets/fonts.css';
 
 
-.nav-tab, .nav-tab:visited { 
+.nav-tab, .nav-tab:visited, .closeableTab { 
   display: inline-block;
   background-color: #E1E1E1;
   color: var(--black75);   
@@ -23,7 +23,7 @@
   margin-left: 0;
 }
 
-.nav-tab.active {
+.nav-tab.active, .closeableTab.active {
   background-color: #f7f7f7;
   color: black;
   border-radius: 15px 15px 0 0;
@@ -37,3 +37,20 @@
     background-color: #f7f7f7;
     min-height: 800px;
   }
+
+.closeableTab {
+  .closeButton {
+    background-color: var(--off-white-darker);
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    vertical-align: middle;
+  }
+
+  .closeButton:hover {
+    background-color: var(--off-white-darker-still);
+  }
+}
+
+
+  .closeableTab:first-of-type { margin-left: 15px; }

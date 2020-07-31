@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import NewNodeButton from '../NewNodeButton/NewNodeButton';
-import { buttons } from '../../../../utils/utils';
+import { buttons, nodeTypes } from '../../../../utils/utils';
 import './CreatePage.css'
-
+import NewNodeModal from '../../../NewNodeModal/NewNodeModal';
 
 function CreatePage() {
     let prevCategory = null;
+    const [newNodeType, setNewNodeType] = useState('');
+    const [isNewNodeModalOpen, setIsNewNodeModalOpen] = useState(false);
 
     return (
-        <div className="CreatePage">
+        <div className="CreatePage" id="CreatePage">
             {buttons.map((button, index) => {
                 const elems = [];
                 if (button.category !== prevCategory) {
@@ -16,9 +18,16 @@ function CreatePage() {
                     elems.push(<p key={"category" + index} className="category">{button.category}</p>)
                 }
 
-                elems.push(<NewNodeButton key={"createButton" + index} name={button.name} icon={button.icon} tooltip={button.tooltip}></NewNodeButton>);
+                elems.push(<NewNodeButton clickFunction={
+                    () => {
+                        setNewNodeType(button.type);
+                        setIsNewNodeModalOpen(true);
+                    }} key={"createButton" + index} type={button.type} name={button.name} icon={button.icon} tooltip={button.tooltip}></NewNodeButton>);
                 return elems;
             })}
+            <NewNodeModal parentID="CreatePage" nodeTypes={nodeTypes} isOpen={isNewNodeModalOpen} close={() => setIsNewNodeModalOpen(false)}
+                type={newNodeType}></NewNodeModal>
+
         </div>
     );
 }

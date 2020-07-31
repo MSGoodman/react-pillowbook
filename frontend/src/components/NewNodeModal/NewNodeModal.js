@@ -1,73 +1,110 @@
 import React, { useState, useEffect } from 'react';
-import './NewNodeModal.css';
+import './NewNodeModal.scss';
+import Modal from "react-modal";
+import { createNodeOrIgnore, createRelation } from '../../utils/api';
+import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
+
+const customStyles = {
+    overlay: {
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.75)'
+    },
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        padding: '10px',
+        width: '75%'
+    }
+};
+
 
 function NewNodeModal(props) {
-    const uuid = props.match.params.uuid;
-    // Expects only one prop, node_uuid, and will make the necessary api calls from here
-    const [node, setNode] = useState({});
-    const [tags, setTags] = useState([]);
-    const [details, setDetails] = useState([]);
-    const [contributors, setContributors] = useState([]);
-    const [components, setComponents] = useState([]);
-    const [reviews, setReviews] = useState([]);
-    const [sessions, setSessions] = useState([]);
-    const [tagOf, setTagOf] = useState([]);
-    const [attachments, setAttachments] = useState([]);
-    const [instances, setInstances] = useState([]);
-    const [notes, setNotes] = useState([]);
+    const notify = () => toast("Wow so easy !");
 
-    useEffect(() => {
-        fetch(`http://localhost:9000/nodes/${uuid}`)
-            .then(res => res.json())
-            .then(data => setNode(data))
-    }, [uuid]);
+    function createNewNode(newNodeName, newNodeType, newNodeText, parentName, relationName, relationType) {
+        console.log(newNodeName, newNodeType, newNodeText, parentName, relationName, relationType)
+        const requestBody = { name: newNodeName, type: newNodeType, markdown_content: newNodeText };
+        // Make the new node if it doesn't exist
+        createNodeOrIgnore(requestBody)
+            .then(newNodeJson => {
+                if (!parentName) {
+                    props.close();
+                    toast(<Link to={`/nodes/${newNodeJson.node_uuid}`} className="toastLink"> Created <b>{newNodeJson.name}</b> </Link>)
+                }
+                else {
 
-    useEffect(() => {
-        fetch(`http://localhost:9000/nodes/${uuid}/children`)
-            .then(res => res.json())
-            .then(data => {
-                setTags(data.filter(child => child.relation_type === 'TAG'));
-                setDetails(data.filter(child => child.relation_type === 'DETAIL'));
-                setContributors(data.filter(child => child.relation_type === 'CONTRIBUTOR'));
-                setComponents(data.filter(child => child.relation_type === 'COMPONENT'));
-                setAttachments(data.filter(child => child.relation_type === 'ATTACHMENT'));
-                setInstances(data.filter(child => child.relation_type === 'INSTANCE'));
-                setNotes(data.filter(child => child.relation_type === 'NOTE'));
-            })
-    }, [uuid]);
+                    // Make the relation
+                    createRelation(parentName, newNodeName, relationName, relationType)
+                        .then(newRelationRes => {
+                            // Display the new tag
+                            props.close();
+                            toast(<Link to={`/nodes/${newNodeJson.node_uuid}`} className="toastLink"> Created <b>{newNodeJson.name}</b> </Link>)
+                        })
+                }
+            });
+    }
 
-    useEffect(() => {
-        fetch(`http://localhost:9000/nodes/${uuid}/reviews`)
-            .then(res => res.json())
-            .then(data => setReviews(data))
-    }, [uuid]);
 
-    useEffect(() => {
-        fetch(`http://localhost:9000/nodes/${uuid}/sessions`)
-            .then(res => res.json())
-            .then(data => setSessions(data))
-    }, [uuid]);
+    useEffect(() => { setNewNodeType(props.type); }, [props.type]);
+    useEffect(() => { setNewNodeName(props.name); }, [props.name]);
+    useEffect(() => { setNewNodeText(props.text); }, [props.text]);
+    useEffect(() => { setNewNodeParentName(props.parentName); }, [props.parentName]);
+    useEffect(() => { setNewRelationType(props.relationType); }, [props.relationType]);
+    useEffect(() => { setNewRelationName(props.relationName); }, [props.relationName]);
 
-    useEffect(() => {
-        fetch(`http://localhost:9000/nodes/${uuid}/tagParents`)
-            .then(res => res.json())
-            .then(data => setTagOf(data))
-    }, [uuid]);
+    // Modal.setAppElement('#App')
+    const [newNodeName, setNewNodeName] = useState('');
+    const [newNodeType, setNewNodeType] = useState('');
+    const [newNodeText, setNewNodeText] = useState();
+    const [newNodeParentName, setNewNodeParentName] = useState('');
+    const [newNodeRelationType, setNewRelationType] = useState('');
+    const [newNodeRelationName, setNewRelationName] = useState('');
 
-    if (node.node_uuid) {
-        return (
+    const relationDisplay = newNodeRelationName && newNodeParentName ?
+        <div className="relationDisplay">
+            Creating as <span>{newNodeRelationName}</span> of <span>{newNodeParentName}</span>
+        </div> : null;
+
+    const options = props.nodeTypes.map((t, i) =>
+        <option key={t.name} value={t.name}>
+            {t.name}
+        </option>)
+
+    return (
+        <Modal isOpen={props.isOpen} style={customStyles} overlayClassName="Overlay"
+            contentLabel="Example Modal">
             <div className="NewNodeModal">
-                <TagSection tags={tags} updateTags={setTags} parent_node_name={node.name}></TagSection>
-                <TopSection details={details} contributors={contributors} node={node}></TopSection>
-                <ReviewSection reviews={reviews}></ReviewSection>
-                <SessionSection sessions={sessions}></SessionSection>
-                <TagOfSection tagOf={tagOf}></TagOfSection>
+                <button className="closeModal" onClick={props.close}><i className="fas fa-times"></i></button>
+                <h1>Creating Item</h1>
+                {relationDisplay}
+
+                <label htmlFor="newNodeName">
+                    <input type="text" className="newNodeName" name="name" value={newNodeName} placeholder="Enter Name" onChange={e => setNewNodeName(e.target.value)}></input>
+                </label>
+
+                <label htmlFor="newNodeType">Type</label>
+                <select name="newNodeType" value={newNodeType} onChange={e => setNewNodeType(e.target.value)}>
+                    {options}
+                </select>
+
+                <label htmlFor="newNodeText">Text</label>
+                <textarea name="newNodeText" value={newNodeText} onChange={e => setNewNodeText(e.target.value)}></textarea>
+
+
+                <button className="createButton" onClick={() => createNewNode(newNodeName, newNodeType, newNodeText,
+                    newNodeParentName, newNodeRelationName, newNodeRelationType)}> <i className="far fa-save"></i> Create</button>
             </div>
-        );
-    }
-    else {
-        return <div>No node found, the API may not be running.</div>
-    }
+        </Modal>
+    );
 }
 
 export default NewNodeModal;
