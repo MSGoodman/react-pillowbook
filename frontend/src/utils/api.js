@@ -19,4 +19,15 @@ function createRelation(parent_name, child_name, relation_name, relation_type) {
     });
 }
 
-module.exports = { createNodeOrIgnore, createRelation }
+function createReview(node_id, rating) {
+    return fetch(`http://localhost:9000/reviews/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            node_id: node_id,
+            rating: rating
+        })
+    });
+}
+
+module.exports = { createNodeOrIgnore, createRelation, createReview }

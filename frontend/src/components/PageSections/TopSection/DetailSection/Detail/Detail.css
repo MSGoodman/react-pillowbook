@@ -1,5 +1,7 @@
 .Detail {
     font-size: 0.75rem;
+    cursor: pointer;
+    padding: 3px;
 }
 
 .Detail:not(:first-of-type) {
@@ -17,6 +19,4 @@
 
 .Detail .itemName {
     display: inline-block;
-    cursor: pointer;
-    padding: 3px;
 }

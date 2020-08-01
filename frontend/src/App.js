@@ -19,6 +19,9 @@ function App() {
 
   const [activeNode, setActiveNode] = useState({});
 
+  const dataTab = activeNode.node_uuid ?
+    <NavTab to={`/nodes/${activeNode.node_uuid}`}> {activeNode.name}</NavTab> : null;
+
   // useEffect(() => {
   //   fetch("http://localhost:9000/status")
   //     .then(res => res.text())
@@ -35,7 +38,7 @@ function App() {
           <NavTab to="/schedule">Schedule</NavTab>
           <NavTab to="/tasks">Tasks</NavTab>
           <NavTab to="/review">Review</NavTab>
-          <NavTab to={`/nodes/${activeNode.node_uuid}`}> {activeNode.name || "Data"}</NavTab>
+          {dataTab}
 
           <div className="page">
 

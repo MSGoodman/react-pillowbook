@@ -15,7 +15,7 @@ function ReviewSection(props) {
             <h1>Reviews</h1>
             {reviews}
             <div className="buttonSection">
-                <SubsectionNewButton clickFunction={() => setIsNewNodeModalOpen(true)}></SubsectionNewButton>
+                <SubsectionNewButton clickFunction={() => setIsNewNodeModalOpen(true)} relationName="Review"></SubsectionNewButton>
             </div>
 
             <NewNodeModal isOpen={isNewNodeModalOpen} close={() => setIsNewNodeModalOpen(false)}

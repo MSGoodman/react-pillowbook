@@ -25,7 +25,7 @@ function CreatePage() {
                     }} key={"createButton" + index} type={button.type} name={button.name} icon={button.icon} tooltip={button.tooltip}></NewNodeButton>);
                 return elems;
             })}
-            <NewNodeModal parentID="CreatePage" nodeTypes={nodeTypes} isOpen={isNewNodeModalOpen} close={() => setIsNewNodeModalOpen(false)}
+            <NewNodeModal hideCreatingAs={true} parentID="CreatePage" nodeTypes={nodeTypes} isOpen={isNewNodeModalOpen} close={() => setIsNewNodeModalOpen(false)}
                 type={newNodeType}></NewNodeModal>
 
         </div>

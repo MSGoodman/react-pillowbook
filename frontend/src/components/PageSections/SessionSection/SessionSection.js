@@ -12,7 +12,7 @@ function SessionSection(props) {
             <h1>Sessions</h1>
             {sessions}
             <div className="buttonSection">
-                <SubsectionNewButton clickFunction={props.clickFunction}></SubsectionNewButton>
+                <SubsectionNewButton clickFunction={props.clickFunction} relationName={"Session"}></SubsectionNewButton>
             </div>
         </div>
     );

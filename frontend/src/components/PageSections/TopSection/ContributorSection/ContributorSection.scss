@@ -1,0 +1,22 @@
+.ContributorSection {
+    button {
+        margin: 8px;
+    }
+    
+    button {
+        i {
+            margin: 0;
+        }    
+        border: none;
+        background-color: var(--new-green);
+        display: inline-block;
+        text-decoration: none;
+        color: var(--black85);
+        vertical-align: middle;
+        font-size: 0.8rem;
+        padding: 4px 8px;
+        border-radius: 5px;
+        cursor: pointer;
+        text-align: center;
+    }
+}

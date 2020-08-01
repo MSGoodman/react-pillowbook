@@ -10,6 +10,7 @@ var statusRouter = require('./routes/status');
 var nodesRouter = require('./routes/nodes');
 var nodeTypesRouter = require('./routes/node_types');
 var relationsRouter = require('./routes/relations');
+var reviewsRouter = require('./routes/reviews');
 
 var app = express();
 
@@ -30,6 +31,7 @@ app.use('/status', statusRouter);
 app.use('/nodes', nodesRouter);
 app.use('/nodeTypes', nodeTypesRouter);
 app.use('/relations', relationsRouter);
+app.use('/reviews', reviewsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -50,12 +50,23 @@
     }
     .newNodeName {
         font-size: 1.3rem;
+        min-width: 425px;
     }
 
     textarea {
         width: 75%;
         height: 100px;
         margin-bottom: 20px;
+    }
+
+    .relationNameSection {
+        margin-top: 8px;
+        min-width: 400px;
+
+        input {
+        font-size: 1.1rem;
+        width: 100%;
+        }
     }
 }
 

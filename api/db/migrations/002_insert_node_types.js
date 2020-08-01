@@ -10,7 +10,7 @@ VALUES
     ('MOVIE', 'fas fa-film'),
     ('BOOK', 'fas fa-book'),
     ('CHAPTER', 'fas fa-bookmark'),
-    ('GROUP', 'fas fa-user'),
+    ('GROUP', 'fas fa-users'),
     ('ALBUM', 'fas fa-record-vinyl'),
     ('SONG', 'fas fa-file-audio'),
     ('TV_SERIES', 'fas fa-tv'),
