@@ -39,7 +39,7 @@ function GenericPage(props) {
     useEffect(() => {
         fetch(`http://localhost:9000/nodes/${uuid}`)
             .then(res => res.json())
-            .then(data => { setNode(data); props.addTab(data) })
+            .then(data => { setNode(data); props.setTab(data) })
     }, [uuid]);
 
     useEffect(() => {

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './NewNodeModal.scss';
 import Modal from "react-modal";
 import { createNodeOrIgnore, createRelation } from '../../utils/api';
+import { stringToTitleCase } from '../../utils/utils'
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 
@@ -71,8 +72,13 @@ function NewNodeModal(props) {
 
     const relationDisplay = newNodeRelationName && newNodeParentName ?
         <div className="relationDisplay">
-            Creating as <span>{newNodeRelationName}</span> of <span>{newNodeParentName}</span>
+            Creating as <span>{stringToTitleCase(newNodeRelationType)}</span> of <span>{newNodeParentName}</span>
         </div> : null;
+
+    const relationNameInput = props.showRelationNameInput ?
+        <label htmlFor="newRelationName">
+            <input type="text" className="newRelationName" name="relationName" value={newNodeRelationName} placeholder="Enter Contributor Role" onChange={e => setNewRelationName(e.target.value)}></input>
+        </label> : null;
 
     const options = props.nodeTypes.map((t, i) =>
         <option key={t.name} value={t.name}>
@@ -90,6 +96,8 @@ function NewNodeModal(props) {
                 <label htmlFor="newNodeName">
                     <input type="text" className="newNodeName" name="name" value={newNodeName} placeholder="Enter Name" onChange={e => setNewNodeName(e.target.value)}></input>
                 </label>
+
+                {relationNameInput}
 
                 <label htmlFor="newNodeType">Type</label>
                 <select name="newNodeType" value={newNodeType} onChange={e => setNewNodeType(e.target.value)}>
