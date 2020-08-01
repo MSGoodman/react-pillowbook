@@ -5,6 +5,7 @@ import { createNodeOrIgnore, createRelation } from '../../utils/api';
 import { stringToTitleCase } from '../../utils/utils'
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
+import { nodeTypes } from '../../utils/utils';
 
 const customStyles = {
     overlay: {
@@ -75,15 +76,24 @@ function NewNodeModal(props) {
             Creating as <span>{stringToTitleCase(newNodeRelationType)}</span> of <span>{newNodeParentName}</span>
         </div> : null;
 
-    const relationNameInput = props.showRelationNameInput ?
-        <label htmlFor="newRelationName">
-            <input type="text" className="newRelationName" name="relationName" value={newNodeRelationName} placeholder="Enter Contributor Role" onChange={e => setNewRelationName(e.target.value)}></input>
-        </label> : null;
-
-    const options = props.nodeTypes.map((t, i) =>
+    const options = nodeTypes.map((t, i) =>
         <option key={t.name} value={t.name}>
             {t.name}
         </option>)
+
+    const nodeTypeInput = !props.hideNodeType ?
+        <div className="nodeTypeSection">
+            <label htmlFor="newNodeType">Type</label>
+            <select name="newNodeType" value={newNodeType} onChange={e => setNewNodeType(e.target.value)}>
+                {options}
+            </select>
+        </div> : null;
+
+    const relationNameInput = props.relationNameInputPlaceholder ?
+        <label htmlFor="newRelationName">
+            <input type="text" className="newRelationName" name="relationName" value={newNodeRelationName} placeholder={props.relationNameInputPlaceholder} onChange={e => setNewRelationName(e.target.value)}></input>
+        </label> : null;
+
 
     return (
         <Modal isOpen={props.isOpen} style={customStyles} overlayClassName="Overlay"
@@ -99,10 +109,7 @@ function NewNodeModal(props) {
 
                 {relationNameInput}
 
-                <label htmlFor="newNodeType">Type</label>
-                <select name="newNodeType" value={newNodeType} onChange={e => setNewNodeType(e.target.value)}>
-                    {options}
-                </select>
+                {nodeTypeInput}
 
                 <label htmlFor="newNodeText">Text</label>
                 <textarea name="newNodeText" value={newNodeText} onChange={e => setNewNodeText(e.target.value)}></textarea>

@@ -13,7 +13,6 @@ function GenericPage(props) {
     // Expects only one prop, node_uuid, and will make the necessary api calls from here
     const [node, setNode] = useState({});
     const [tags, setTags] = useState([]);
-    const [nodeTypes, setNodeTypes] = useState([]);
     const [details, setDetails] = useState([]);
     const [contributors, setContributors] = useState([]);
     const [components, setComponents] = useState([]);
@@ -29,12 +28,6 @@ function GenericPage(props) {
     const [newNodeRelationName, setNewNodeRelationName] = useState('Z');
 
     const [isNewNodeModalOpen, setIsNewNodeModalOpen] = useState(false);
-
-    useEffect(() => {
-        fetch(`http://localhost:9000/nodeTypes/`)
-            .then(res => res.json())
-            .then(data => setNodeTypes(data))
-    }, [uuid]);
 
     useEffect(() => {
         fetch(`http://localhost:9000/nodes/${uuid}`)
@@ -79,15 +72,13 @@ function GenericPage(props) {
             <div className="GenericPage">
                 <TagSection tags={tags} updateTags={setTags} parent_node_name={node.name}></TagSection>
                 <TopSection details={details} contributors={contributors} node={node}></TopSection>
-                <ReviewSection clickFunction={() => {
-                    setNewNodeType('REVIEW'); setNewNodeRelationName('Review'); setNewNodeRelationType('REVIEW'); setIsNewNodeModalOpen(true);
-                }} reviews={reviews}></ReviewSection>
+                <ReviewSection parentNode={node} reviews={reviews}></ReviewSection>
                 <SessionSection clickFunction={() => {
                     setNewNodeType('SESSION'); setNewNodeRelationName('Session'); setNewNodeRelationType('SESSION'); setIsNewNodeModalOpen(true);
                 }} sessions={sessions}></SessionSection>
                 <TagOfSection tagOf={tagOf}></TagOfSection>
 
-                <NewNodeModal nodeTypes={nodeTypes} isOpen={isNewNodeModalOpen} close={() => setIsNewNodeModalOpen(false)}
+                <NewNodeModal isOpen={isNewNodeModalOpen} close={() => setIsNewNodeModalOpen(false)}
                     name="" type={newNodeType} parentNodeUUID={uuid} parentName={node.name} relationName={newNodeRelationName} relationType={newNodeRelationType}></NewNodeModal>
             </div>
         );
