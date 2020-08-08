@@ -31,8 +31,6 @@ const customStyles = {
 
 
 function NewNodeModal(props) {
-    const notify = () => toast("Wow so easy !");
-
     function createNewNode(newNodeName, newNodeType, newNodeText, parentName, relationName, relationType) {
         console.log(newNodeName, newNodeType, newNodeText, parentName, relationName, relationType)
         const requestBody = { name: newNodeName, type: newNodeType, markdown_content: newNodeText };

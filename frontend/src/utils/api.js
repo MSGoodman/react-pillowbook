@@ -30,4 +30,15 @@ function createReview(node_id, rating) {
     });
 }
 
-module.exports = { createNodeOrIgnore, createRelation, createReview }
+function createFile(node_id, file_extension) {
+    return fetch(`http://localhost:9000/files/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            node_id: node_id,
+            file_extension: file_extension
+        })
+    });
+}
+
+module.exports = { createNodeOrIgnore, createRelation, createReview, createFile }

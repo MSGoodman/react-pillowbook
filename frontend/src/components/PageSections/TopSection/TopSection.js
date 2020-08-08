@@ -2,16 +2,14 @@ import React from 'react';
 import './TopSection.scss';
 import ContributorSection from './ContributorSection/ContributorSection';
 import DetailSection from './DetailSection/DetailSection';
+import VerticalImageSection from './VerticalImageSection/VerticalImageSection';
 
 function TopSection(props) {
     const icon = props.node.icon ? <i className={props.node.icon}></i> : null;
-    const verticalImage = props.node.vertical_image ?
-        <div className="image"> <img src={`${process.env.PUBLIC_URL}/uploads/${props.node.vertical_image}.jpg`} alt={props.node.vertical_image + " image"} /> </div> :
-        null;
 
     return (
         <div className="TopSection">
-            {verticalImage}
+            <VerticalImageSection verticalImage={props.node.vertical_image} parentNode={props.node}></VerticalImageSection>
             <div className="text">
                 <h1 className="title">{icon} {props.node.name}</h1>
                 <DetailSection details={props.details} parentNode={props.node}></DetailSection>

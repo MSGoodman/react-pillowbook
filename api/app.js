@@ -11,6 +11,8 @@ var nodesRouter = require('./routes/nodes');
 var nodeTypesRouter = require('./routes/node_types');
 var relationsRouter = require('./routes/relations');
 var reviewsRouter = require('./routes/reviews');
+var uploadsRouter = require('./routes/uploads');
+var filesRouter = require('./routes/files');
 
 var app = express();
 
@@ -32,6 +34,8 @@ app.use('/nodes', nodesRouter);
 app.use('/nodeTypes', nodeTypesRouter);
 app.use('/relations', relationsRouter);
 app.use('/reviews', reviewsRouter);
+app.use('/upload', uploadsRouter);
+app.use('/files', filesRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

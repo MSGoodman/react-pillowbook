@@ -1,0 +1,40 @@
+.Session {
+    margin: 15px 0;
+    display: flex;
+}
+
+.Session .Stars {
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+.Session .date {
+    font-size: 1.3rem;
+    font-weight: 800;
+    display: inline-block;
+}
+
+.Session .time {
+    font-size: 1.25rem;    
+    font-weight: 500;
+    margin-left: 20px;    
+    display: inline-block;
+}
+
+.Session .comments {
+    font-size: 0.9rem;
+    margin-top: 15px;
+    margin-left: 10px;
+}
+
+.Session:not(:first-of-type) {
+    padding-top: 20px;
+    border-top: 1px dashed rgb(194, 194, 194);
+}
+
+.sessionHeader {
+    padding: 10px;
+    flex-shrink: 0;
+}

@@ -1,0 +1,10 @@
+.ChildrenSection {
+    padding: 15px;
+    border-bottom: 2px solid rgb(165, 165, 165);
+}
+
+.ChildrenSection h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    text-align: center;
+}

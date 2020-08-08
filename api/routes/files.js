@@ -1,14 +1,14 @@
 var express = require('express');
 var router = express.Router();
 var db = require("../db/database");
-var knex = require('../db/knex');
-reviewQueries = require("../db/queries/reviews");
+fileQueries = require("../db/queries/files");
 
 
 // New relation
 router.post('/', function (req, res, next) {
-  var params = [req.body.node_id, req.body.rating]
-  db.run(reviewQueries.insertReview, params, (err, row) => {
+  var params = [req.body.node_id, req.body.file_extension]
+  console.log(params)
+  db.run(fileQueries.insertFile, params, (err, row) => {
     if (err) { res.status(400).json({ "error": err.message }); return; }
     res.json(row)
   });

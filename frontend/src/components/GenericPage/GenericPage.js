@@ -6,12 +6,13 @@ import ReviewSection from '../PageSections/ReviewSection/ReviewSection';
 import SessionSection from '../PageSections/SessionSection/SessionSection';
 import TagOfSection from '../PageSections/TagOfSection/TagOfSection';
 import NewNodeModal from '../NewNodeModal/NewNodeModal';
+import ChildrenSection from '../ChildrenSection/ChildrenSection';
 
 function GenericPage(props) {
-    console.log(props)
     const uuid = props.match.params.uuid;
     // Expects only one prop, node_uuid, and will make the necessary api calls from here
     const [node, setNode] = useState({});
+    const [children, setChildren] = useState([]);
     const [tags, setTags] = useState([]);
     const [details, setDetails] = useState([]);
     const [contributors, setContributors] = useState([]);
@@ -39,6 +40,7 @@ function GenericPage(props) {
         fetch(`http://localhost:9000/nodes/${uuid}/children`)
             .then(res => res.json())
             .then(data => {
+                setChildren(data);
                 setTags(data.filter(child => child.relation_type === 'TAG'));
                 setDetails(data.filter(child => child.relation_type === 'DETAIL'));
                 setContributors(data.filter(child => child.relation_type === 'CONTRIBUTOR'));
@@ -72,10 +74,8 @@ function GenericPage(props) {
             <div className="GenericPage">
                 <TagSection tags={tags} updateTags={setTags} parent_node_name={node.name}></TagSection>
                 <TopSection details={details} contributors={contributors} node={node}></TopSection>
-                <ReviewSection parentNode={node} reviews={reviews}></ReviewSection>
-                <SessionSection clickFunction={() => {
-                    setNewNodeType('SESSION'); setNewNodeRelationName('Session'); setNewNodeRelationType('SESSION'); setIsNewNodeModalOpen(true);
-                }} sessions={sessions}></SessionSection>
+                <ChildrenSection children={children} sectionType={'REVIEW'} parentNode={node}></ChildrenSection>
+                <ChildrenSection children={children} sectionType={'SESSION'} parentNode={node}></ChildrenSection>
                 <TagOfSection tagOf={tagOf}></TagOfSection>
 
                 <NewNodeModal isOpen={isNewNodeModalOpen} close={() => setIsNewNodeModalOpen(false)}

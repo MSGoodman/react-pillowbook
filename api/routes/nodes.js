@@ -63,7 +63,6 @@ router.get('/:node/children', function (req, res, next) {
 router.get('/:node/tagParents', function (req, res, next) {
   var sql = nodeQueries.getNodeParentsByChildUUIDAndRelationType;
   var params = [req.params.node, 'TAG']
-  console.log(sql)
 
   db.all(sql, params, (err, rows) => {
     if (err) { res.status(400).json({ "error": err.message }); return; }
