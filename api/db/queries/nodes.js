@@ -15,13 +15,14 @@ WHERE n.node_uuid = ?`;
 const insertNodeOrIgnore = `INSERT OR IGNORE INTO node(name,type,markdown_content) 
 VALUES (?,?,?)`;
 
-const getNodeChildrenByParentUUID = `SELECT p.node_uuid AS parent_node_uuid, c.name AS name, c.type, c.created_at, r.name AS relation, r.type AS relation_type, t.icon, c.markdown_content, c.node_uuid, rv.rating AS review_rating, s.rating AS session_rating, s.start_time AS session_start, s.end_time AS session_end
+const getNodeChildrenByParentUUID = `SELECT p.node_uuid AS parent_node_uuid, c.name AS name, c.type, c.created_at, r.name AS relation, r.type AS relation_type, t.icon, c.markdown_content, c.node_uuid, rv.rating AS review_rating, s.rating AS session_rating, s.start_time AS session_start, s.end_time AS session_end, f.file_extension
 FROM relation r
 LEFT JOIN node p ON p.node_id = r.parent
 LEFT JOIN node c ON c.node_id = r.child
 LEFT JOIN node_type t ON c.type = t.name
 LEFT JOIN review rv ON rv.review_node = c.node_id
 LEFT JOIN session s ON s.session_node = c.node_id
+LEFT JOIN file f ON f.file_node = c.node_id
 WHERE p.node_uuid = ?`;
 
 const getNodeChildrenByParentUUIDAndRelationType = `SELECT p.node_uuid AS parent_node_uuid, c.name AS name, c.type AS type , r.name AS relation, r.type AS relation_type, t.icon, c.markdown_content, c.node_uuid

@@ -76,6 +76,7 @@ function GenericPage(props) {
                 <TopSection details={details} contributors={contributors} node={node}></TopSection>
                 <ChildrenSection children={children} sectionType={'REVIEW'} parentNode={node}></ChildrenSection>
                 <ChildrenSection children={children} sectionType={'SESSION'} parentNode={node}></ChildrenSection>
+                <ChildrenSection children={children} sectionType={'ATTACHMENT'} parentNode={node}></ChildrenSection>
                 <TagOfSection tagOf={tagOf}></TagOfSection>
 
                 <NewNodeModal isOpen={isNewNodeModalOpen} close={() => setIsNewNodeModalOpen(false)}
