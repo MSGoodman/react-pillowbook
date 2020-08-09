@@ -30,7 +30,7 @@ function createReview(node_id, rating) {
     });
 }
 
-function createFile(node_id, file_extension) {
+function createFileRecord(node_id, file_extension) {
     return fetch(`http://localhost:9000/files/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -41,4 +41,14 @@ function createFile(node_id, file_extension) {
     });
 }
 
-module.exports = { createNodeOrIgnore, createRelation, createReview, createFile }
+function uploadFile(selectedFile, newFilename) {
+    const data = new FormData()
+    data.append('file', selectedFile, newFilename)
+    fetch("http://localhost:9000/upload",
+        {
+            body: data,
+            method: "POST"
+        });
+}
+
+module.exports = { createNodeOrIgnore, createRelation, createReview, createFileRecord, uploadFile }

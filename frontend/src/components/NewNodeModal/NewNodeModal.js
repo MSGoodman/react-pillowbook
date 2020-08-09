@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './NewNodeModal.scss';
 import Modal from "react-modal";
-import { createNodeOrIgnore, createRelation, createReview } from '../../utils/api';
+import { createNodeOrIgnore, createRelation, createReview, createFileRecord, uploadFile } from '../../utils/api';
 import { stringToTitleCase } from '../../utils/utils'
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
@@ -31,6 +31,8 @@ const customStyles = {
 
 
 function NewNodeModal(props) {
+    const fileSelect = event => { setSelectedFile(event.target.files[0]) }
+
     function createNewNode(newNodeName, newNodeType, newNodeText, parentName, relationName, relationType) {
         console.log(newNodeName, newNodeType, newNodeText, parentName, relationName, relationType)
         const requestBody = { name: newNodeName, type: newNodeType, markdown_content: newNodeText };
@@ -44,7 +46,13 @@ function NewNodeModal(props) {
                 else {
                     // Add any companion records (review, session, etc)
                     let companionRecordPromise = Promise.resolve();
-                    if (newNodeType == 'REVIEW') { console.log("CREATING REVIEW"); companionRecordPromise = createReview(newNodeJson.node_id, newNodeRating); }
+                    if (newNodeType == 'REVIEW') { companionRecordPromise = createReview(newNodeJson.node_id, newNodeRating); }
+                    if (newNodeType == 'FILE') {
+                        console.log(selectedFile);
+                        const extension = selectedFile.name.split('.')[selectedFile.name.split('.').length - 1];
+                        const newFilename = newNodeJson.node_uuid + '.' + extension;
+                        companionRecordPromise = createFileRecord(newNodeJson.node_id, extension).then(i => { uploadFile(selectedFile, newFilename); })
+                    }
 
                     // Make the relation
                     companionRecordPromise.then(newCompanionRes => {
@@ -75,6 +83,7 @@ function NewNodeModal(props) {
     const [newNodeRelationType, setNewRelationType] = useState('');
     const [newNodeRelationName, setNewRelationName] = useState('');
     const [newNodeRating, setnewNodeRating] = useState(3);
+    const [selectedFile, setSelectedFile] = useState({});
 
     const relationDisplay = !props.hideCreatingAs ?
         <div className="relationDisplay">
@@ -117,6 +126,10 @@ function NewNodeModal(props) {
             </label>
         </div> : null;
 
+    const uploadSection = newNodeType == 'FILE' ?
+        <div class="form-group files">
+            <input type="file" onChange={fileSelect} />
+        </div> : null;
 
     return (
         <Modal isOpen={props.isOpen} style={customStyles} overlayClassName="Overlay"
@@ -132,6 +145,7 @@ function NewNodeModal(props) {
                     <input type="text" className="newNodeName" name="name" value={newNodeName} placeholder="Enter Name" onChange={e => setNewNodeName(e.target.value)}></input>
                 </label>
 
+                {uploadSection}
 
                 {nodeTypeInput}
 

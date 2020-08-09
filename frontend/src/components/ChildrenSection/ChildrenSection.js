@@ -8,6 +8,7 @@ import NewNodeModal from '../NewNodeModal/NewNodeModal';
 import { stringToTitleCase } from '../../utils/utils';
 
 function ChildrenSection(props) {
+    const sectionTypeToNodeType = { 'REVIEW': 'REVIEW', 'SESSION': 'SESSION', 'ATTACHMENT': 'FILE' }
     const [isNewNodeModalOpen, setIsNewNodeModalOpen] = useState(false);
     const children = props.children.filter(child => child.relation_type === props.sectionType)
     const childrenElements = children.map((c) => {
@@ -29,7 +30,7 @@ function ChildrenSection(props) {
                 isOpen={isNewNodeModalOpen}
                 close={() => setIsNewNodeModalOpen(false)}
                 name=""
-                type={props.sectionType}
+                type={sectionTypeToNodeType[props.sectionType]}
                 parentNodeUUID={props.parentNode.node_uuid}
                 parentName={props.parentNode.name}
                 relationName={stringToTitleCase(props.sectionType)}
