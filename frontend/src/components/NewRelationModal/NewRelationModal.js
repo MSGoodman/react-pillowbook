@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import './NewNodeModal.scss';
+import './NewRelationModal.scss';
 import Modal from "react-modal";
-import { createNodeOrIgnore, createRelation, createReview, createFileRecord, uploadFile } from '../../utils/api';
+import { createNodeOrIgnore, createRelation, createReview } from '../../utils/api';
 import { stringToTitleCase } from '../../utils/utils'
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
@@ -30,9 +30,7 @@ const customStyles = {
 };
 
 
-function NewNodeModal(props) {
-    const fileSelect = event => { setSelectedFile(event.target.files[0]) }
-
+function NewRelationModal(props) {
     function resetModal() {
         setNewNodeName('');
         setNewNodeText('');
@@ -42,29 +40,30 @@ function NewNodeModal(props) {
     function createNewNode(newNodeName, newNodeType, newNodeText, parentName, relationName, relationType) {
         console.log(newNodeName, newNodeType, newNodeText, parentName, relationName, relationType)
         const requestBody = { name: newNodeName, type: newNodeType, markdown_content: newNodeText };
-        // Make the new node if it doesn't exist
+
+        // Make the new node if required and it doesn't exist
+        let nodeCreationPromise = Promise.resolve();
+        if (false) { nodeCreationPromise = createNodeOrIgnore(requestBody); }
         createNodeOrIgnore(requestBody)
             .then(newNodeJson => {
+
+                // If there is no parent node specified (so we don't need to make a relation) then just exit
                 if (!parentName) {
                     props.close();
                     toast(<Link to={`/nodes/${newNodeJson.node_uuid}`} className="toastLink"> Created <b>{newNodeJson.name}</b> </Link>)
                 }
+
+                // If there IS a parent node specified, make any companion records and then the relation
                 else {
+
                     // Add any companion records (review, session, etc)
                     let companionRecordPromise = Promise.resolve();
-                    if (newNodeType == 'REVIEW') { companionRecordPromise = createReview(newNodeJson.node_id, newNodeRating); }
-                    if (newNodeType == 'FILE') {
-                        console.log(selectedFile);
-                        const extension = selectedFile.name.split('.')[selectedFile.name.split('.').length - 1];
-                        const newFilename = newNodeJson.node_uuid + '.' + extension;
-                        companionRecordPromise = createFileRecord(newNodeJson.node_id, extension).then(i => { uploadFile(selectedFile, newFilename); })
-                    }
-
-                    // Make the relation
+                    if (newNodeType == 'REVIEW') { console.log("CREATING REVIEW"); companionRecordPromise = createReview(newNodeJson.node_id, newNodeRating); }
                     companionRecordPromise.then(newCompanionRes => {
+
+                        // Make the relation
                         createRelation(parentName, newNodeName, relationName, relationType)
                             .then(newRelationRes => {
-                                // Display the new tag
                                 props.setNewestAddedNode(newNodeJson.node_uuid);
                                 resetModal();
                                 props.close();
@@ -83,7 +82,6 @@ function NewNodeModal(props) {
     useEffect(() => { setNewRelationType(props.relationType); }, [props.relationType]);
     useEffect(() => { setNewRelationName(props.relationName); }, [props.relationName]);
 
-    // Modal.setAppElement('#App')
     const [newNodeName, setNewNodeName] = useState('');
     const [newNodeType, setNewNodeType] = useState('');
     const [newNodeText, setNewNodeText] = useState();
@@ -91,7 +89,6 @@ function NewNodeModal(props) {
     const [newNodeRelationType, setNewRelationType] = useState('');
     const [newNodeRelationName, setNewRelationName] = useState('');
     const [newNodeRating, setnewNodeRating] = useState(3);
-    const [selectedFile, setSelectedFile] = useState({});
 
     const relationDisplay = !props.hideCreatingAs ?
         <div className="relationDisplay">
@@ -134,17 +131,13 @@ function NewNodeModal(props) {
             </label>
         </div> : null;
 
-    const uploadSection = newNodeType == 'FILE' ?
-        <div class="form-group files">
-            <input type="file" onChange={fileSelect} />
-        </div> : null;
 
     return (
         <Modal isOpen={props.isOpen} style={customStyles} overlayClassName="Overlay"
             contentLabel="Example Modal">
-            <div className="NewNodeModal">
+            <div className="NewRelationModal">
                 <button className="closeModal" onClick={props.close}><i className="fas fa-times"></i></button>
-                <h1>Creating {stringToTitleCase(newNodeType)}</h1>
+                <h1>Creating {stringToTitleCase(newNodeRelationType)}</h1>
                 {relationDisplay}
 
                 {relationNameInput}
@@ -153,7 +146,6 @@ function NewNodeModal(props) {
                     <input type="text" className="newNodeName" name="name" value={newNodeName} placeholder="Enter Name" onChange={e => setNewNodeName(e.target.value)}></input>
                 </label>
 
-                {uploadSection}
 
                 {nodeTypeInput}
 
@@ -170,4 +162,4 @@ function NewNodeModal(props) {
     );
 }
 
-export default NewNodeModal;
+export default NewRelationModal;

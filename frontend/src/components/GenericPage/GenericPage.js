@@ -10,6 +10,7 @@ import ChildrenSection from '../ChildrenSection/ChildrenSection';
 
 function GenericPage(props) {
     const uuid = props.match.params.uuid;
+
     // Expects only one prop, node_uuid, and will make the necessary api calls from here
     const [node, setNode] = useState({});
     const [children, setChildren] = useState([]);
@@ -23,6 +24,8 @@ function GenericPage(props) {
     const [attachments, setAttachments] = useState([]);
     const [instances, setInstances] = useState([]);
     const [notes, setNotes] = useState([]);
+    const [newestAddedNode, setNewestAddedNode] = useState('');
+    const [newestNodeUpdate, setNewestNodeUpdate] = useState('');
 
     const [newNodeType, setNewNodeType] = useState('');
     const [newNodeRelationType, setNewNodeRelationType] = useState('');
@@ -34,7 +37,7 @@ function GenericPage(props) {
         fetch(`http://localhost:9000/nodes/${uuid}`)
             .then(res => res.json())
             .then(data => { setNode(data); props.setTab(data) })
-    }, [uuid]);
+    }, [uuid, newestNodeUpdate]);
 
     useEffect(() => {
         fetch(`http://localhost:9000/nodes/${uuid}/children`)
@@ -49,7 +52,7 @@ function GenericPage(props) {
                 setInstances(data.filter(child => child.relation_type === 'INSTANCE'));
                 setNotes(data.filter(child => child.relation_type === 'NOTE'));
             })
-    }, [uuid]);
+    }, [uuid, newestAddedNode]);
 
     useEffect(() => {
         fetch(`http://localhost:9000/nodes/${uuid}/reviews`)
@@ -73,10 +76,10 @@ function GenericPage(props) {
         return (
             <div className="GenericPage">
                 <TagSection tags={tags} updateTags={setTags} parent_node_name={node.name}></TagSection>
-                <TopSection details={details} contributors={contributors} node={node}></TopSection>
-                <ChildrenSection children={children} sectionType={'REVIEW'} parentNode={node}></ChildrenSection>
-                <ChildrenSection children={children} sectionType={'SESSION'} parentNode={node}></ChildrenSection>
-                <ChildrenSection children={children} sectionType={'ATTACHMENT'} parentNode={node}></ChildrenSection>
+                <TopSection setNewestAddedNode={setNewestAddedNode} details={details} contributors={contributors} node={node}></TopSection>
+                <ChildrenSection setNewestAddedNode={setNewestAddedNode} children={children} sectionType={'REVIEW'} parentNode={node}></ChildrenSection>
+                <ChildrenSection setNewestAddedNode={setNewestAddedNode} children={children} sectionType={'SESSION'} parentNode={node}></ChildrenSection>
+                <ChildrenSection setNewestNodeUpdate={setNewestNodeUpdate} setNewestAddedNode={setNewestAddedNode} children={children} sectionType={'ATTACHMENT'} parentNode={node}></ChildrenSection>
                 <TagOfSection tagOf={tagOf}></TagOfSection>
 
                 <NewNodeModal isOpen={isNewNodeModalOpen} close={() => setIsNewNodeModalOpen(false)}

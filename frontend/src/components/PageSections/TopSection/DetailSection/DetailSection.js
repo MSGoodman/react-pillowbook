@@ -16,7 +16,7 @@ function DetailSection(props) {
         <div className="DetailSection">
             {details}
             <SubsectionNewButton clickFunction={() => setIsNewNodeModalOpen(true)} relationName={"Detail"}></SubsectionNewButton>
-            <NewNodeModal isOpen={isNewNodeModalOpen} close={() => setIsNewNodeModalOpen(false)}
+            <NewNodeModal setNewestAddedNode={props.setNewestAddedNode} isOpen={isNewNodeModalOpen} close={() => setIsNewNodeModalOpen(false)}
                 name="" type='DATUM' parentNodeUUID={props.parentNode.node_uuid} parentName={props.parentNode.name}
                 relationName={''} relationType='DETAIL' hideNodeType={false} relationNameInputPlaceholder={"Enter Type of Detail (e.g. genre, release date)"}></NewNodeModal>
         </div>

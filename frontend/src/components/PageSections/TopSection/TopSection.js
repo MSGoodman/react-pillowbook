@@ -9,11 +9,11 @@ function TopSection(props) {
 
     return (
         <div className="TopSection">
-            <VerticalImageSection verticalImage={props.node.vertical_image} parentNode={props.node}></VerticalImageSection>
+            <VerticalImageSection parentNode={props.node}></VerticalImageSection>
             <div className="text">
                 <h1 className="title">{icon} {props.node.name}</h1>
-                <DetailSection details={props.details} parentNode={props.node}></DetailSection>
-                <ContributorSection contributors={props.contributors} parentNode={props.node}></ContributorSection>
+                <DetailSection setNewestAddedNode={props.setNewestAddedNode} details={props.details} parentNode={props.node}></DetailSection>
+                <ContributorSection setNewestAddedNode={props.setNewestAddedNode} contributors={props.contributors} parentNode={props.node}></ContributorSection>
                 <div className="nodeText">
                     {props.node.markdown_content}
                 </div>

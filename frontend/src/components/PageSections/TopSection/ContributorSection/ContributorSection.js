@@ -17,7 +17,7 @@ function ContributorSection(props) {
         <div className="ContributorSection">
             {contributors}
             <SubsectionNewButton clickFunction={() => setIsNewNodeModalOpen(true)} relationName="Contributor"></SubsectionNewButton>
-            <NewNodeModal isOpen={isNewNodeModalOpen} close={() => setIsNewNodeModalOpen(false)}
+            <NewNodeModal setNewestAddedNode={props.setNewestAddedNode} isOpen={isNewNodeModalOpen} close={() => setIsNewNodeModalOpen(false)}
                 name="" type='PERSON' parentNodeUUID={props.parentNode.node_uuid} parentName={props.parentNode.name}
                 relationName={''} relationType='CONTRIBUTOR' hideNodeType={false} relationNameInputPlaceholder={"Enter Role (e.g. Director)"}></NewNodeModal>
 

@@ -51,4 +51,14 @@ function uploadFile(selectedFile, newFilename) {
         });
 }
 
-module.exports = { createNodeOrIgnore, createRelation, createReview, createFileRecord, uploadFile }
+
+function updateNode(node, node_uuid, name, type, markdown_content, horizontal_image_node, vertical_image_node) {
+    console.log(node)
+    return fetch(`http://localhost:9000/nodes/${node.node_uuid}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(node)
+    });
+}
+
+module.exports = { createNodeOrIgnore, createRelation, createReview, createFileRecord, uploadFile, updateNode }

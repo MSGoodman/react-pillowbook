@@ -48,6 +48,21 @@ router.get('/:node', function (req, res, next) {
   });
 });
 
+// Update node
+router.post('/:node', function (req, res, next) {
+  var params = [req.body.name, req.body.type, req.body.markdown_content, req.body.horizontal_image_node, req.body.vertical_image_node, req.body.node_uuid];
+
+  db.serialize(() => {
+    db.run(nodeQueries.updateNode, params, (err, row) => {
+      if (err) { res.status(400).json({ "error": err.message }); return; }
+    });
+    db.get(nodeQueries.getNodeByName, [req.body.name], (err, row) => {
+      if (err) { res.status(400).json({ "error": err.message }); return; }
+      res.json(row)
+    });
+  });
+});
+
 // Get all children
 router.get('/:node/children', function (req, res, next) {
   var sql = nodeQueries.getNodeChildrenByParentUUID;

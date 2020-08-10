@@ -6,8 +6,8 @@ import { Link } from 'react-router-dom';
 
 
 function VerticalImageSection(props) {
-    const verticalImage = props.verticalImage ?
-        <div className="image"> <img src={`${process.env.PUBLIC_URL}/uploads/${props.verticalImage}.jpg`} alt={props.verticalImage + " image"} /> </div> :
+    const verticalImage = props.parentNode.vertical_image ?
+        <div className="image"> <img src={require(`../../../../assets/uploads/${props.parentNode.vertical_image}.${props.parentNode.vertical_extension}`)} alt={props.parentNode.name + " image"} /> </div> :
         null;
 
     return (

@@ -1,0 +1,75 @@
+@import '../../assets/colors.css';
+
+.NewRelationModal{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+
+    .closeModal {
+        display: block;
+        position: fixed;
+        top: 5px;
+        right: 5px;
+        padding: 8px;
+        border-radius: 5px;
+        border: none;
+        background-color: var(--light-blue);
+        cursor: pointer;
+    }
+
+    .closeModal:hover {
+        background-color: var(--light-blue-hover);
+    }
+
+    .createButton {
+        padding: 6px;
+        border-radius: 5px;
+        border: none;
+        background-color: var(--light-blue);
+        cursor: pointer;
+        font-size: 1.05rem;
+        font-family: 'Podkova';
+        font-size: 1.3rem;
+    }
+
+    .createButton:hover {
+        background-color: var(--light-blue-hover);
+    }
+
+    h1 {
+        margin: 0;
+    }
+
+    .relationDisplay {
+        font-size: 0.65rem;
+    }
+
+    label {
+        margin-top: 20px;
+    }
+    .newNodeName {
+        font-size: 1.3rem;
+        min-width: 425px;
+    }
+
+    textarea {
+        width: 75%;
+        height: 100px;
+        margin-bottom: 20px;
+    }
+
+    .relationNameSection {
+        margin-top: 8px;
+        min-width: 400px;
+
+        input {
+        font-size: 1.1rem;
+        width: 100%;
+        }
+    }
+}
+
+.Overlay {
+    background-color: rgba(0, 0, 0, 0.65);
+}

@@ -42,7 +42,8 @@ VALUES
     ('TOILET', 'fas fa-toilet'),
     ('PURCHASE', 'fas fa-cash-register'),
     ('PAYMENT', 'fas fa-hand-holding-usd'),
-    ('TRAVEL', 'fas fa-map-signs');`;
+    ('TRAVEL', 'fas fa-suitcase-rolling'),
+    ('LOCATION', 'fas map-marked-alt');`;
 
 const migrations = [insertNodeTypes];
 util.migrate(migrations, migrationPath);

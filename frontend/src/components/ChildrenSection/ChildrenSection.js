@@ -15,7 +15,7 @@ function ChildrenSection(props) {
         const key = props.sectionType + "_" + c.node_uuid;
         if (props.sectionType == 'REVIEW') return <Review key={key} node={c}></Review>
         if (props.sectionType == 'SESSION') return <Session key={key} node={c}></Session>
-        if (props.sectionType == 'ATTACHMENT') return <Attachment key={key} node={c}></Attachment>
+        if (props.sectionType == 'ATTACHMENT') return <Attachment key={key} node={c} parentNode={props.parentNode} setNewestNodeUpdate={props.setNewestNodeUpdate} ></Attachment>
     });
 
     return (
@@ -29,6 +29,7 @@ function ChildrenSection(props) {
             <NewNodeModal
                 isOpen={isNewNodeModalOpen}
                 close={() => setIsNewNodeModalOpen(false)}
+                setNewestAddedNode={props.setNewestAddedNode}
                 name=""
                 type={sectionTypeToNodeType[props.sectionType]}
                 parentNodeUUID={props.parentNode.node_uuid}
