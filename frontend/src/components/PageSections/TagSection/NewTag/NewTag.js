@@ -6,7 +6,7 @@ import { createNodeOrIgnore, createRelation } from '../../../../utils/api'
 function NewTag(props) {
 
     function confirmTag(newTagName) {
-        const requestBody = { name: newTagName, type: 'TAG', markdown_content: '' };
+        const requestBody = { name: newTagName, type: 'DATUM', markdown_content: '' };
         // Make the new node if it doesn't exist
         createNodeOrIgnore(requestBody)
             .then(newNodeJson => {

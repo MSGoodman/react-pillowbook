@@ -1,12 +1,32 @@
 .VerticalImageSection {
 
-    .image {
-        flex-basis: 300px;
+    .verticalImage {
         margin: 0 15px;
     }
     
-    .image img {
+    .verticalImage img {
         width: 275px;
     }
     
+    .horizontalImage {
+        margin: 0 auto;
+        display: none;
+    }
+    
+    .horizontalImage img {
+        max-height: 500px;
+        width: 100%;
+        box-shadow: 0 5px 5px 0px rgba(0,0,0,0.25), 0 -5px 5px 0px rgba(0,0,0,0.25);
+    }
 }
+
+@media screen and (max-width: 1079px) {
+    .verticalImage {
+        display: none;
+    }
+    
+    .horizontalImage {
+        display: block !important;
+        text-align: center;
+    }
+  }

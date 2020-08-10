@@ -26,3 +26,15 @@
     margin: 15px;
     font-size: 0.95rem;
 }
+
+@media screen and (max-width: 1079px) {
+    .TopSection {
+        flex-direction: column;
+    }
+
+    .text {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+  }
