@@ -18,7 +18,7 @@ function Attachment(props) {
         updateNode(updatedNode).then(updated => props.setNewestNodeUpdate('Set new vertical image: ' + props.node.name));
     }
 
-    const imageExtensions = ['jpg', 'png', 'svg', 'jpeg', 'gif'];
+    const imageExtensions = ['jpg', 'png', 'svg', 'jpeg', 'gif', 'jfif'];
     const src = require(`../../../assets/uploads/${props.node.node_uuid + '.' + props.node.file_extension}`);
     const image = imageExtensions.includes(props.node.file_extension.toLowerCase()) ?
         <img src={src} alt={props.node.name + " image"} />

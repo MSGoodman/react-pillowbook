@@ -10,6 +10,11 @@ body {
   overflow-y: scroll;
 }
 
+textarea {
+  font-family: 'Raleway', sans-serif;
+  resize: none;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

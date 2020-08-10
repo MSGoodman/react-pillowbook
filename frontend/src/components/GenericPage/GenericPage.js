@@ -76,7 +76,7 @@ function GenericPage(props) {
         return (
             <div className="GenericPage">
                 <TagSection tags={tags} updateTags={setTags} parent_node_name={node.name}></TagSection>
-                <TopSection setNewestAddedNode={setNewestAddedNode} details={details} contributors={contributors} node={node}></TopSection>
+                <TopSection setNewestNodeUpdate={setNewestNodeUpdate} setNewestAddedNode={setNewestAddedNode} details={details} contributors={contributors} node={node}></TopSection>
                 <ChildrenSection setNewestAddedNode={setNewestAddedNode} children={children} sectionType={'REVIEW'} parentNode={node}></ChildrenSection>
                 <ChildrenSection setNewestAddedNode={setNewestAddedNode} children={children} sectionType={'SESSION'} parentNode={node}></ChildrenSection>
                 <ChildrenSection setNewestNodeUpdate={setNewestNodeUpdate} setNewestAddedNode={setNewestAddedNode} children={children} sectionType={'ATTACHMENT'} parentNode={node}></ChildrenSection>
