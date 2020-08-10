@@ -26,9 +26,9 @@ router.post('/', function (req, res, next) {
   });
 });
 
-// Get all node names and uuids
+// Get all nodes
 router.get('/', function (req, res, next) {
-  var sql = nodeQueries.getAllNodeNamesAndUUIDs;
+  var sql = 'SELECT *, node_id AS id FROM node';
   var params = []
 
   db.all(sql, params, (err, rows) => {

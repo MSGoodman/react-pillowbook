@@ -10,6 +10,7 @@ import Header from './components/Header/Header';
 import SchedulePage from './components/pages/schedule/SchedulePage/SchedulePage';
 import TaskPage from './components/pages/tasks/TaskPage/TaskPage';
 import ReviewPage from './components/pages/review/ReviewPage/ReviewPage';
+import MindMapPage from './components/pages/mindmap/MindMapPage/MindMapPage'
 
 // Mock Data
 import GenericPage from './components/GenericPage/GenericPage';
@@ -37,6 +38,7 @@ function App() {
           <NavTab to="/create">Create</NavTab>
           <NavTab to="/schedule">Schedule</NavTab>
           <NavTab to="/tasks">Tasks</NavTab>
+          <NavTab to="/mindmap">Mind Map</NavTab>
           <NavTab to="/review">Review</NavTab>
           {dataTab}
 
@@ -46,6 +48,7 @@ function App() {
               <Route path="/create" component={CreatePage} />
               <Route path="/schedule" component={SchedulePage} />
               <Route path="/tasks" component={TaskPage} />
+              <Route path="/mindmap" component={MindMapPage} />
               <Route path="/review" component={ReviewPage} />
               <Route path="/nodes/:uuid" render={(routeProps) => <GenericPage setTab={setActiveNode} {...routeProps}></GenericPage>} />
             </Switch>

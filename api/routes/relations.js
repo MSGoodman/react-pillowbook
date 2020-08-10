@@ -14,5 +14,16 @@ router.post('/', function (req, res, next) {
   });
 });
 
+// Get all relations
+router.get('/', function (req, res, next) {
+  var sql = 'SELECT parent AS source, child AS target FROM relation';
+  var params = []
+
+  db.all(sql, params, (err, rows) => {
+    if (err) { res.status(400).json({ "error": err.message }); return; }
+    res.json(rows)
+  });
+});
+
 
 module.exports = router;
