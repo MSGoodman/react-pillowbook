@@ -16,7 +16,7 @@ router.post('/', function (req, res, next) {
 
 // Get all relations
 router.get('/', function (req, res, next) {
-  var sql = 'SELECT parent AS source, child AS target FROM relation';
+  var sql = 'SELECT parent AS source, child AS target, name FROM relation';
   var params = []
 
   db.all(sql, params, (err, rows) => {

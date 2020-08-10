@@ -13,11 +13,11 @@ function MindMapPage() {
             .then(res => res.json())
             .then(data => {
                 setPBNodes(data);
-                console.log(data);
                 // Then get relations
                 fetch(`http://localhost:9000/relations`)
                     .then(res => res.json())
                     .then(data => {
+                        console.log(data);
                         setPBLinks(data);
                         // Then set up the graph
                         setAllLoaded(true);
@@ -42,6 +42,8 @@ function MindMapPage() {
         },
         link: {
             highlightColor: "lightblue",
+            labelProperty: "name",
+            renderLabel: true
         },
     };
 
