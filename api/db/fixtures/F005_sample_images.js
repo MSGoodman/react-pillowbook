@@ -1,11 +1,17 @@
 const migrationPath = require('path').basename(__filename);
 const util = require('../utils/migration_utils');
 
-const insertImageFixtures =
+const insertImageNodeFixtures =
     `INSERT INTO node(node_uuid,name,type,markdown_content,horizontal_image_node,vertical_image_node) 
 VALUES 
-    ('HZDimageHori', 'HZDimageHori.jpg', 'IMAGE',null,null,null),
-    ('HZDimageVert', 'HZDimageVert.jpg', 'IMAGE',null,null,null);`;
+    ('HZDimageHori', 'HZDimageHori.jpg', 'FILE',null,null,null),
+    ('HZDimageVert', 'HZDimageVert.jpg', 'FILE',null,null,null);`;
+
+const insertImageFileFixtures =
+    `INSERT INTO file(file_node,file_extension) 
+VALUES 
+    ((SELECT node_id FROM node WHERE node_uuid='HZDimageHori'), 'png'),
+    ((SELECT node_id FROM node WHERE node_uuid='HZDimageVert'), 'jpg');`;
 
 const updateHorizonWithImages =
     `UPDATE node
@@ -13,5 +19,5 @@ SET horizontal_image_node = (SELECT node_id FROM node WHERE node_uuid='HZDimageH
 vertical_image_node = (SELECT node_id FROM node WHERE node_uuid='HZDimageVert')
 WHERE node_uuid='HorizonZeroDawn'`;
 
-const migrations = [insertImageFixtures, updateHorizonWithImages];
+const migrations = [insertImageNodeFixtures, insertImageFileFixtures, updateHorizonWithImages];
 util.migrate(migrations, migrationPath);
