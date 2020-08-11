@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import './NewNodeModal.scss';
 import Modal from "react-modal";
-import { createNodeOrIgnore, createRelation, createReview, createFileRecord, uploadFile } from '../../utils/api';
+import { createNodeOrIgnore, createRelation, createReview, createFileRecord, uploadFile, createSession } from '../../utils/api';
 import { stringToTitleCase } from '../../utils/utils'
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import { nodeTypes } from '../../utils/utils';
 import Ratings from 'react-ratings-declarative';
+import DateTimePicker from 'react-datetime-picker';
 
 const customStyles = {
     overlay: {
@@ -31,6 +32,12 @@ const customStyles = {
 
 
 function NewNodeModal(props) {
+    function submitEnabled() {
+        if (newNodeName == "") { return false }
+        if (newNodeRelationName == "") { return false }
+        return true;
+    }
+
     const fileSelect = event => { setSelectedFile(event.target.files[0]) }
 
     function resetModal() {
@@ -53,6 +60,10 @@ function NewNodeModal(props) {
                     // Add any companion records (review, session, etc)
                     let companionRecordPromise = Promise.resolve();
                     if (newNodeType == 'REVIEW') { companionRecordPromise = createReview(newNodeJson.node_id, newNodeRating); }
+                    if (newNodeType == 'SESSION') {
+                        companionRecordPromise = createSession(newNodeJson.node_id, newNodeRating,
+                            Math.floor(newNodeStartTime.getTime() / 1000), Math.floor(newNodeEndTime.getTime() / 1000));
+                    }
                     if (newNodeType == 'FILE') {
                         console.log(selectedFile);
                         const extension = selectedFile.name.split('.')[selectedFile.name.split('.').length - 1];
@@ -75,7 +86,6 @@ function NewNodeModal(props) {
             });
     }
 
-
     useEffect(() => { setNewNodeType(props.type); }, [props.type]);
     useEffect(() => { setNewNodeName(props.name); }, [props.name]);
     useEffect(() => { setNewNodeText(props.text); }, [props.text]);
@@ -84,21 +94,44 @@ function NewNodeModal(props) {
     useEffect(() => { setNewRelationName(props.relationName); }, [props.relationName]);
 
     // Modal.setAppElement('#App')
+    const [useExisting, setUseExisting] = useState(props.useExisting);
     const [newNodeName, setNewNodeName] = useState('');
-    const [newNodeType, setNewNodeType] = useState('');
+    const [newNodeType, setNewNodeType] = useState(props.type);
     const [newNodeText, setNewNodeText] = useState();
     const [newNodeParentName, setNewNodeParentName] = useState('');
     const [newNodeRelationType, setNewRelationType] = useState('');
     const [newNodeRelationName, setNewRelationName] = useState('');
     const [newNodeRating, setnewNodeRating] = useState(3);
+    const [newNodeStartTime, setNewNodeStartTime] = useState(new Date());
+    const [newNodeEndTime, setNewNodeEndTime] = useState(new Date());
     const [selectedFile, setSelectedFile] = useState({});
+    const [nodesOfSelectedType, setNodesOfSelectedType] = useState([]);
+    const [disallowExisting, setDisallowExisting] = useState(false);
+    const [allNodes, setAllNodes] = useState([]);
+
+    useEffect(() => {
+        if (['REVIEW', 'SESSION'].includes(newNodeType)) setDisallowExisting(true)
+        else setDisallowExisting(false)
+    }, [newNodeType])
+
+    useEffect(() => {
+        fetch(`http://localhost:9000/nodes?type=${newNodeType}`)
+            .then(res => res.json())
+            .then(data => { setNodesOfSelectedType(data); console.log(nodesOfSelectedType) })
+    }, [newNodeType]);
+
+    useEffect(() => {
+        fetch(`http://localhost:9000/nodes`)
+            .then(res => res.json())
+            .then(data => { setAllNodes(data); })
+    }, []);
 
     const relationDisplay = !props.hideCreatingAs ?
         <div className="relationDisplay">
-            Creating as <span>{stringToTitleCase(newNodeRelationType)}</span> of <span>{newNodeParentName}</span>
+            {useExisting ? "Linking" : "Creating"} as <span>{stringToTitleCase(newNodeRelationType)}</span> of <span>{newNodeParentName}</span>
         </div> : null;
 
-    const options = nodeTypes.map((t, i) =>
+    const nodeTypeOptions = nodeTypes.map((t, i) =>
         <option key={t.name} value={t.name}>
             {t.name}
         </option>)
@@ -107,7 +140,45 @@ function NewNodeModal(props) {
         <div className="nodeTypeSection">
             <label htmlFor="newNodeType">Type</label>
             <select name="newNodeType" value={newNodeType} onChange={e => setNewNodeType(e.target.value)}>
-                {options}
+                {nodeTypeOptions}
+            </select>
+        </div> : null;
+
+
+    const addButton = useExisting ?
+        <button onClick={() => { setUseExisting(false); setNewNodeName(""); }} className="newTagButton smallButton">
+            <i className="fas fa-plus"></i> Add New Node
+    </button> : null;
+
+    const useExistingButton = !useExisting && !disallowExisting ?
+        <button onClick={() => setUseExisting(true)} className="newTagButton smallButton">
+            <i className="fas fa-link"></i> Use Existing Node
+    </button> : null;
+
+    const existingNodeOptions = nodesOfSelectedType.length > 0 ? nodesOfSelectedType.map((t, i) =>
+        <option key={t.node_uuid} value={t.name}>
+            {t.name}
+        </option>) : [<option value="">No Nodes Found of Type {newNodeType}</option>];
+
+    const existingNodeSection = useExisting ?
+        <div className="existingNodeSection">
+            <label htmlFor="existingNode">Select Node To Link</label>
+            <select name="existingNode" value={newNodeName} onChange={e => setNewNodeName(e.target.value)} disabled={nodesOfSelectedType.length == 0}>
+                {existingNodeOptions}
+            </select>
+            {addButton}
+        </div> : null;
+
+    const allNodeOptions = allNodes.length > 0 ? allNodes.map((t, i) =>
+        <option key={t.node_uuid} value={t.name}>
+            {t.name}
+        </option>) : [<option value="">No Nodes Found</option>];
+
+    const allNodeSection = newNodeType == 'SESSION' && !props.parentName ?
+        <div className="allNodeSection">
+            <label htmlFor="allNode">Session Of</label>
+            <select name="allNode" value={newNodeParentName} onChange={e => setNewNodeParentName(e.target.value)} disabled={allNodes.length == 0}>
+                {allNodeOptions}
             </select>
         </div> : null;
 
@@ -127,6 +198,11 @@ function NewNodeModal(props) {
             <Ratings.Widget />
         </Ratings> : null;
 
+    const nodeNameInput = !useExisting ?
+        <label htmlFor="newNodeName">
+            <input type="text" className="newNodeName" name="name" value={newNodeName} placeholder="Enter Name" onChange={e => setNewNodeName(e.target.value)}></input>
+        </label> : null;
+
     const relationNameInput = props.relationNameInputPlaceholder ?
         <div className="relationNameSection">
             <label htmlFor="newRelationName">
@@ -139,31 +215,54 @@ function NewNodeModal(props) {
             <input type="file" onChange={fileSelect} />
         </div> : null;
 
+    const newNodeTextInput = !useExisting ?
+        <div className="newNodeTextSection">
+            <label htmlFor="newNodeText">Text</label>
+            <textarea name="newNodeText" value={newNodeText} onChange={e => setNewNodeText(e.target.value)}></textarea>
+        </div> : null;
+
+    const timeInput = newNodeType == 'SESSION' ?
+        <div className="sessionTimeSection">
+            <DateTimePicker
+                onChange={setNewNodeStartTime}
+                value={newNodeStartTime}
+                clearIcon={null} />
+             -
+            <DateTimePicker
+                onChange={setNewNodeEndTime}
+                value={newNodeEndTime}
+                clearIcon={null} />
+        </div> : null;
+
     return (
         <Modal isOpen={props.isOpen} style={customStyles} overlayClassName="Overlay"
             contentLabel="Example Modal">
             <div className="NewNodeModal">
                 <button className="closeModal" onClick={props.close}><i className="fas fa-times"></i></button>
-                <h1>Creating {stringToTitleCase(newNodeType)}</h1>
+                <h1>{useExisting ? "Linking" : "Creating"} {stringToTitleCase(newNodeType)}</h1>
                 {relationDisplay}
-
-                {relationNameInput}
-
-                <label htmlFor="newNodeName">
-                    <input type="text" className="newNodeName" name="name" value={newNodeName} placeholder="Enter Name" onChange={e => setNewNodeName(e.target.value)}></input>
-                </label>
-
-                {uploadSection}
 
                 {nodeTypeInput}
 
+                {relationNameInput}
+
+                {allNodeSection}
+
+                {nodeNameInput}
+
+                {timeInput}
+
+                {existingNodeSection}
+
+                {uploadSection}
+
                 {ratingInput}
 
-                <label htmlFor="newNodeText">Text</label>
-                <textarea name="newNodeText" value={newNodeText} onChange={e => setNewNodeText(e.target.value)}></textarea>
+                {newNodeTextInput}
 
+                {useExistingButton}
 
-                <button className="createButton" onClick={() => createNewNode(newNodeName, newNodeType, newNodeText,
+                <button className="createButton" disabled={!submitEnabled()} onClick={() => createNewNode(newNodeName, newNodeType, newNodeText,
                     newNodeParentName, newNodeRelationName, newNodeRelationType)}> <i className="far fa-save"></i> Create</button>
             </div>
         </Modal>

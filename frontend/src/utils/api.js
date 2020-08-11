@@ -30,6 +30,19 @@ function createReview(node_id, rating) {
     });
 }
 
+function createSession(node_id, rating, start_time, end_time) {
+    return fetch(`http://localhost:9000/sessions/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            node_id: node_id,
+            rating: rating,
+            start_time: start_time,
+            end_time: end_time
+        })
+    });
+}
+
 function createFileRecord(node_id, file_extension) {
     return fetch(`http://localhost:9000/files/`, {
         method: 'POST',
@@ -61,4 +74,4 @@ function updateNode(node, node_uuid, name, type, markdown_content, horizontal_im
     });
 }
 
-module.exports = { createNodeOrIgnore, createRelation, createReview, createFileRecord, uploadFile, updateNode }
+module.exports = { createNodeOrIgnore, createRelation, createReview, createFileRecord, uploadFile, updateNode, createSession }

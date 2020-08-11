@@ -28,8 +28,11 @@ router.post('/', function (req, res, next) {
 
 // Get all nodes
 router.get('/', function (req, res, next) {
-  var sql = 'SELECT *, node_id AS id FROM node';
-  var params = []
+  const type = req.query.type;
+  console.log(type);
+
+  var sql = type ? nodeQueries.getAllNodesByType : 'SELECT *, node_id AS id FROM node';
+  var params = [type]
 
   db.all(sql, params, (err, rows) => {
     if (err) { res.status(400).json({ "error": err.message }); return; }

@@ -13,6 +13,7 @@ var relationsRouter = require('./routes/relations');
 var reviewsRouter = require('./routes/reviews');
 var uploadsRouter = require('./routes/uploads');
 var filesRouter = require('./routes/files');
+var sessionsRouter = require('./routes/sessions');
 
 var app = express();
 
@@ -36,6 +37,7 @@ app.use('/relations', relationsRouter);
 app.use('/reviews', reviewsRouter);
 app.use('/upload', uploadsRouter);
 app.use('/files', filesRouter);
+app.use('/sessions', sessionsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

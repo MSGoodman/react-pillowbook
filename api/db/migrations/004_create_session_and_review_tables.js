@@ -20,6 +20,7 @@ rating INTEGER,
 start_time INTEGER NOT NULL,
 end_time INTEGER,
 created_at INTEGER DEFAULT (strftime('%s','now')),
+scheduled BOOLEAN NOT NULL DEFAULT 0 CHECK (scheduled IN (0,1)),
 CHECK (end_time IS NULL OR start_time < end_time)
 );`;
 

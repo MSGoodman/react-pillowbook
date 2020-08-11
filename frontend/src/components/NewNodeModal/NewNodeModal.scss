@@ -5,6 +5,27 @@
     flex-direction: column;
     align-items: center;
     position: relative;
+    min-height: 450px;
+
+    // select {
+    //     padding: 3px;
+    // }
+
+    .nodeTypeSection {
+        margin-top: 20px;
+    }
+
+    .existingNodeSection {
+        margin-top: 20px;
+    }
+
+    .sessionTimeSection {
+        margin-top: 20px;
+    }
+
+    .react-datetime-picker {
+        margin: 0 10px;
+    }
 
     .closeModal {
         display: block;
@@ -31,6 +52,7 @@
         font-size: 1.05rem;
         font-family: 'Podkova';
         font-size: 1.3rem;
+        margin-top: 20px;
     }
 
     .createButton:hover {
@@ -47,26 +69,57 @@
 
     label {
         margin-top: 20px;
+        margin-right: 15px;
     }
     .newNodeName {
         font-size: 1.3rem;
         min-width: 425px;
     }
 
-    textarea {
+    .newNodeTextSection {
+        text-align: center;
         width: 75%;
+        margin-top: 20px;
+    }
+
+    .form-group {
+        margin-top: 20px;
+    }
+
+    .existingNodeSection {
+        width: 75%;
+        text-align: center;
+    }
+
+    textarea {
+        width: 100%;
         height: 100px;
         margin-bottom: 20px;
     }
 
     .relationNameSection {
-        margin-top: 8px;
+        margin-top: 20px;
         min-width: 400px;
 
         input {
         font-size: 1.1rem;
         width: 100%;
         }
+    }
+
+    
+    .smallButton {
+        border: none;
+        display: block;
+        text-decoration: none;
+        color: var(--black85);
+        vertical-align: middle;
+        font-size: 0.8rem;
+        padding: 4px 4px;
+        border-radius: 5px;
+        cursor: pointer;
+        text-align: center;
+        margin: 10px auto;
     }
 }
 

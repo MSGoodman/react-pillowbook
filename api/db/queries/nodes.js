@@ -42,7 +42,7 @@ LEFT JOIN node_type t ON c.type = t.name
 WHERE c.node_uuid = ? AND r.type = ?`;
 
 const getAllNodeNamesAndUUIDs = `SELECT node_uuid, name FROM node`;
-
+const getAllNodesByType = `SELECT * FROM node WHERE type = ?`
 const updateNode =
     `UPDATE node 
 SET name = ?, type = ?, markdown_content = ?, horizontal_image_node = ?, vertical_image_node = ?
@@ -53,6 +53,6 @@ module.exports = {
     insertNodeOrIgnore,
     getNodeChildrenByParentUUID, getNodeChildrenByParentUUIDAndRelationType,
     getNodeParentsByChildUUIDAndRelationType,
-    getAllNodeNamesAndUUIDs,
+    getAllNodeNamesAndUUIDs, getAllNodesByType,
     updateNode
 }

@@ -60,7 +60,7 @@ const nodeTypes = nodeTypesUnsorted.sort((a, b) => {
 })
 
 function stringToTitleCase(str) {
-    return str.toLowerCase().replace(/(^|\s)\S/g, function (t) { return t.toUpperCase() });
+    return str.toLowerCase().replace("_", " ").replace(/(^|\s)\S/g, function (t) { return t.toUpperCase() });
 }
 
 export { buttons, nodeTypes, stringToTitleCase }
