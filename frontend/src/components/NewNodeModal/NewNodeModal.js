@@ -36,6 +36,7 @@ function NewNodeModal(props) {
     function submitEnabled() {
         if (newNodeName == "") { return false }
         if (newNodeRelationName == "") { return false }
+        if (newNodeType == 'SESSION' && !newNodeParentName) { return false }
         return true;
     }
 
@@ -114,7 +115,7 @@ function NewNodeModal(props) {
     useEffect(() => {
         if (newNodeType == 'SESSION') {
             setNewNodeName(
-                `SESSION OF: ${newNodeParentName} [${moment(newNodeStartTime).format("MM-dd-YY h:mm A")} - ${moment(newNodeEndTime).format("MM-dd-YY h:mm A")}]`
+                `SESSION OF: ${newNodeParentName} [${moment(newNodeStartTime).format("MM-DD-YY h:mm A")} - ${moment(newNodeEndTime).format("MM-dd-YY h:mm A")}]`
             );
         }
     }, [newNodeStartTime, newNodeEndTime, newNodeParentName])
@@ -179,16 +180,17 @@ function NewNodeModal(props) {
             {addButton}
         </div> : null;
 
-    const allNodeOptions = allNodes.length > 0 ? allNodes.map((t, i) =>
+    const nonSessionNodeOptions = allNodes.length > 0 ? allNodes.filter(n => n.type != 'SESSION').map((t, i) =>
         <option key={t.node_uuid} value={t.name}>
             {t.name}
         </option>) : [<option value="">No Nodes Found</option>];
 
-    const allNodeSection = newNodeType == 'SESSION' && !props.parentName ?
+    const nonSessionNodesSection = newNodeType == 'SESSION' && !props.parentName ?
         <div className="allNodeSection">
             <label htmlFor="allNode">Session Of</label>
             <select name="allNode" value={newNodeParentName} onChange={e => setNewNodeParentName(e.target.value)} disabled={allNodes.length == 0}>
-                {allNodeOptions}
+                <option disabled selected value> -- SELECT A PARENT -- </option>
+                {nonSessionNodeOptions}
             </select>
         </div> : null;
 
@@ -256,7 +258,7 @@ function NewNodeModal(props) {
 
                 {relationNameInput}
 
-                {allNodeSection}
+                {nonSessionNodesSection}
 
                 {nodeNameInput}
 

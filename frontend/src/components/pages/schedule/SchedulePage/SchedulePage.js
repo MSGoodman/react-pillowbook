@@ -9,6 +9,12 @@ import NewNodeModal from '../../../NewNodeModal/NewNodeModal';
 import SubsectionNewButton from '../../../SubsectionNewButton/SubsectionNewButton'
 
 function SchedulePage() {
+    function addDays(date, numOfDays) {
+        const tomorrow = new Date(date);
+        tomorrow.setDate(tomorrow.getDate() + numOfDays);
+        return tomorrow;
+    }
+
     const [sessions, setSessions] = useState([]);
     const [date, setDate] = useState(new Date());
     const [isNewNodeModalOpen, setIsNewNodeModalOpen] = useState(false);
@@ -20,14 +26,21 @@ function SchedulePage() {
             .then(data => setSessions(data))
     }, [date, newestAddedNode]);
 
-    const sessionElements = sessions.map((t, i) => <SchedulePeriod key={t.session_node} startTime={t.start_time} endTime={t.end_time} name={t.name}></SchedulePeriod>)
+    const sessionElements = sessions.map((t, i) => <SchedulePeriod key={t.session_node} rating={t.rating} parentNodeUUID={t.parent_node_uuid} icon={t.icon} startTime={t.start_time} endTime={t.end_time} name={t.name}></SchedulePeriod>)
 
     return (
         <div className="SchedulePage">
-            <DatePicker
-                selected={date}
-                onChange={d => setDate(d)}
-            />
+            <div className="dateSelector">
+                <div className="dateButtons">
+                    <button className="dateButton" onClick={() => setDate(addDays(date, -1))}><i class="fas fa-arrow-alt-circle-left"></i></button>
+                    <button className="todayButton" onClick={() => setDate(new Date())}>Today</button>
+                    <button className="dateButton" onClick={() => setDate(addDays(date, 1))}><i class="fas fa-arrow-alt-circle-right"></i></button>
+                </div>
+                <DatePicker
+                    selected={date}
+                    onChange={d => setDate(d)}
+                />
+            </div>
             {/* <DateSelector date="7/2/20"></DateSelector> */}
             {sessionElements}
             {/* <SchedulePeriod icon="fas fa-utensils" startTime="8:00am" endTime="8:30am" name="Breakfast"></SchedulePeriod>

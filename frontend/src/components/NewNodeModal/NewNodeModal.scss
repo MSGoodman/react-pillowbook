@@ -12,6 +12,11 @@
     // }
     .allNodeSection {
         margin-top: 20px;
+        max-width: 70%;
+
+        select {
+            width: 100%;
+        }
     }
 
     .nodeTypeSection {

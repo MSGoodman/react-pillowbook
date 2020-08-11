@@ -2,6 +2,11 @@
     padding: 12px 0 12px 20px;
     font-size: 1.2rem;
     border-bottom: 1px dashed rgb(194, 194, 194);
+
+    .stars {
+        font-size: 0.7rem;
+        margin-left: 10px;
+    }
 }
 
 .SchedulePeriod:hover {
@@ -20,8 +25,8 @@
 
 .SchedulePeriod .timeSection {
     display: inline-block;
-    font-weight: bold;
-    width: 12%;
+    font-weight: 600;
+    margin-right: 25px;
 }
 
 .SchedulePeriod .nameSection {

@@ -1,8 +1,52 @@
+@import '../../../../assets/colors.css';
+
+
 .SchedulePage {
+
+    .dateSelector {
+        text-align: center;
+    }
+
+    .dateButtons {
+        padding-top: 20px;
+        
+        button {
+            border-style: none;
+            padding: 4px;
+            font-size: 1.5rem;
+            background-color: var(--off-white);  
+            border-radius: 6px;
+            cursor: pointer;
+            vertical-align: middle;
+        }
+
+        button:hover {
+            background-color: var(--off-white-darker-still);  
+        }
+        
+        .todayButton {
+            padding: 6px;
+            font-size: 0.8rem;
+            border: 1px solid var(--off-white-darker-still);
+            margin: 0 10px;
+        }
+
+    }
+
     .SubsectionNewButton {
         display: block;
         margin: 0 auto;
         width: 75%;
         margin-top: 20px;
+    }
+
+    .react-datepicker-wrapper {
+        margin-bottom: 20px;
+        input {
+            font-family: 'Raleway', sans-serif;
+            padding: 5px;
+            font-size: 1.7rem;
+            text-align: center;
+        }
     }
 }
