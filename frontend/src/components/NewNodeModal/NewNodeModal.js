@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { nodeTypes } from '../../utils/utils';
 import Ratings from 'react-ratings-declarative';
 import DateTimePicker from 'react-datetime-picker';
+import moment from 'moment';
 
 const customStyles = {
     overlay: {
@@ -45,6 +46,7 @@ function NewNodeModal(props) {
         setNewNodeText('');
         setnewNodeRating(3);
     }
+
 
     function createNewNode(newNodeName, newNodeType, newNodeText, parentName, relationName, relationType) {
         console.log(newNodeName, newNodeType, newNodeText, parentName, relationName, relationType)
@@ -108,6 +110,14 @@ function NewNodeModal(props) {
     const [nodesOfSelectedType, setNodesOfSelectedType] = useState([]);
     const [disallowExisting, setDisallowExisting] = useState(false);
     const [allNodes, setAllNodes] = useState([]);
+
+    useEffect(() => {
+        if (newNodeType == 'SESSION') {
+            setNewNodeName(
+                `SESSION OF: ${newNodeParentName} [${moment(newNodeStartTime).format("MM-dd-YY h:mm A")} - ${moment(newNodeEndTime).format("MM-dd-YY h:mm A")}]`
+            );
+        }
+    }, [newNodeStartTime, newNodeEndTime, newNodeParentName])
 
     useEffect(() => {
         if (['REVIEW', 'SESSION'].includes(newNodeType)) setDisallowExisting(true)
@@ -198,7 +208,7 @@ function NewNodeModal(props) {
             <Ratings.Widget />
         </Ratings> : null;
 
-    const nodeNameInput = !useExisting ?
+    const nodeNameInput = !useExisting && newNodeType != 'SESSION' ?
         <label htmlFor="newNodeName">
             <input type="text" className="newNodeName" name="name" value={newNodeName} placeholder="Enter Name" onChange={e => setNewNodeName(e.target.value)}></input>
         </label> : null;

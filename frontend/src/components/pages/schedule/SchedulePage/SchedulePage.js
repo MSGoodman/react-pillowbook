@@ -1,20 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import './SchedulePage.css'
+import './SchedulePage.scss'
 import DateSelector from '../DateSelector/DateSelector';
 import SchedulePeriod from '../SchedulePeriod/SchedulePeriod';
 import NewSchedulePeriodButton from '../NewSchedulePeriodButton/NewSchedulePeriodButton';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import NewNodeModal from '../../../NewNodeModal/NewNodeModal';
+import SubsectionNewButton from '../../../SubsectionNewButton/SubsectionNewButton'
 
 function SchedulePage() {
     const [sessions, setSessions] = useState([]);
     const [date, setDate] = useState(new Date());
+    const [isNewNodeModalOpen, setIsNewNodeModalOpen] = useState(false);
+    const [newestAddedNode, setNewestAddedNode] = useState('');
 
     useEffect(() => {
         fetch(`http://localhost:9000/sessions?date=${date}`)
             .then(res => res.json())
             .then(data => setSessions(data))
-    }, [date]);
+    }, [date, newestAddedNode]);
 
     const sessionElements = sessions.map((t, i) => <SchedulePeriod key={t.session_node} startTime={t.start_time} endTime={t.end_time} name={t.name}></SchedulePeriod>)
 
@@ -34,7 +38,18 @@ function SchedulePage() {
             <SchedulePeriod icon="fas fa-briefcase" startTime="11:30am" endTime="1:00pm" name="Task 1"></SchedulePeriod>
             <SchedulePeriod icon="fas fa-utensils" startTime="1:00pm" endTime="1:30pm" name="Lunch"></SchedulePeriod>
             <SchedulePeriod icon="fas fa-briefcase" startTime="1:30pm" endTime="2:30pm" name="Task 2"></SchedulePeriod> */}
-            <NewSchedulePeriodButton></NewSchedulePeriodButton>
+            <SubsectionNewButton clickFunction={() => setIsNewNodeModalOpen(true)}></SubsectionNewButton>
+
+            <NewNodeModal
+                isOpen={isNewNodeModalOpen}
+                close={() => setIsNewNodeModalOpen(false)}
+                name=""
+                type={'SESSION'}
+                relationName={'Session'}
+                relationType={'SESSION'}
+                setNewestAddedNode={setNewestAddedNode}
+                hideNodeType={true}>
+            </NewNodeModal>
         </div>
     );
 }
