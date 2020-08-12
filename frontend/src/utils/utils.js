@@ -12,6 +12,7 @@ const buttons = [
     // Productivity
     new Button('Meeting', 'Productivity', 'fas fa-phone-volume', 'Meetings involed in', 'MEETING'),
     new Button('Task', 'Productivity', 'fas fa-check-square', 'A measured actionable task to be completed', 'TASK'),
+    new Button('Chore', 'Productivity', 'fas fa-hands-wash', 'A minor, repeated chore too small to be considered a task', 'CHORE'),
     // new Button('Work', 'Productivity', 'fas fa-briefcase', 'A period of time spent working on a task'),
     // new Button('Research', 'Productivity', 'fas fa-microscope', 'A period of time spent researching a particular tag/topic'),
 

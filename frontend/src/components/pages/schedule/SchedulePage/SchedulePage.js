@@ -26,7 +26,7 @@ function SchedulePage() {
             .then(data => setSessions(data))
     }, [date, newestAddedNode]);
 
-    const sessionElements = sessions.map((t, i) => <SchedulePeriod key={t.session_node} rating={t.rating} parentNodeUUID={t.parent_node_uuid} icon={t.icon} startTime={t.start_time} endTime={t.end_time} name={t.name}></SchedulePeriod>)
+    const sessionElements = sessions.map((t, i) => <SchedulePeriod key={t.session_node} setNewestAddedNode={setNewestAddedNode} session={t} rating={t.rating} parentNodeUUID={t.parent_node_uuid} icon={t.icon} startTime={t.start_time} endTime={t.end_time} name={t.name}></SchedulePeriod>)
 
     return (
         <div className="SchedulePage">

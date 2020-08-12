@@ -74,4 +74,12 @@ function updateNode(node, node_uuid, name, type, markdown_content, horizontal_im
     });
 }
 
-module.exports = { createNodeOrIgnore, createRelation, createReview, createFileRecord, uploadFile, updateNode, createSession }
+function updateSession(session) {
+    return fetch(`http://localhost:9000/sessions/${session.session_uuid}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(session)
+    });
+}
+
+module.exports = { createNodeOrIgnore, createRelation, createReview, createFileRecord, uploadFile, updateNode, createSession, updateSession }

@@ -32,3 +32,18 @@
 .SchedulePeriod .nameSection {
     display: inline-block;
 }
+
+.finishSessionButton {
+    padding: 6px;
+    font-size: 0.75rem;
+    background-color: var(--light-blue);
+    margin: 0 20px;
+    text-align: center;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.finishSessionButton:hover {
+    background-color: var(--light-blue-hover);
+}

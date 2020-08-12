@@ -9,6 +9,9 @@ import { nodeTypes } from '../../utils/utils';
 import Ratings from 'react-ratings-declarative';
 import DateTimePicker from 'react-datetime-picker';
 import moment from 'moment';
+import Select from 'react-select'
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const customStyles = {
     overlay: {
@@ -64,8 +67,9 @@ function NewNodeModal(props) {
                     let companionRecordPromise = Promise.resolve();
                     if (newNodeType == 'REVIEW') { companionRecordPromise = createReview(newNodeJson.node_id, newNodeRating); }
                     if (newNodeType == 'SESSION') {
+                        const endTime = newNodeEndTime ? Math.floor(newNodeEndTime.getTime() / 1000) : null;
                         companionRecordPromise = createSession(newNodeJson.node_id, newNodeRating,
-                            Math.floor(newNodeStartTime.getTime() / 1000), Math.floor(newNodeEndTime.getTime() / 1000));
+                            Math.floor(newNodeStartTime.getTime() / 1000), endTime);
                     }
                     if (newNodeType == 'FILE') {
                         console.log(selectedFile);
@@ -106,7 +110,7 @@ function NewNodeModal(props) {
     const [newNodeRelationName, setNewRelationName] = useState('');
     const [newNodeRating, setnewNodeRating] = useState(3);
     const [newNodeStartTime, setNewNodeStartTime] = useState(new Date());
-    const [newNodeEndTime, setNewNodeEndTime] = useState(new Date());
+    const [newNodeEndTime, setNewNodeEndTime] = useState(null);
     const [selectedFile, setSelectedFile] = useState({});
     const [nodesOfSelectedType, setNodesOfSelectedType] = useState([]);
     const [disallowExisting, setDisallowExisting] = useState(false);
@@ -114,8 +118,9 @@ function NewNodeModal(props) {
 
     useEffect(() => {
         if (newNodeType == 'SESSION') {
+            const endTime = newNodeEndTime ? moment(newNodeEndTime).format("MM-dd-YY h:mm A") : '';
             setNewNodeName(
-                `SESSION OF: ${newNodeParentName} [${moment(newNodeStartTime).format("MM-DD-YY h:mm A")} - ${moment(newNodeEndTime).format("MM-dd-YY h:mm A")}]`
+                `SESSION OF: ${newNodeParentName} [${moment(newNodeStartTime).format("MM-DD-YY h:mm A")} - ${endTime}]`
             );
         }
     }, [newNodeStartTime, newNodeEndTime, newNodeParentName])
@@ -178,20 +183,21 @@ function NewNodeModal(props) {
                 {existingNodeOptions}
             </select>
             {addButton}
-        </div> : null;
+        </div > : null;
 
     const nonSessionNodeOptions = allNodes.length > 0 ? allNodes.filter(n => n.type != 'SESSION').map((t, i) =>
         <option key={t.node_uuid} value={t.name}>
             {t.name}
         </option>) : [<option value="">No Nodes Found</option>];
 
-    const nonSessionNodesSection = newNodeType == 'SESSION' && !props.parentName ?
+    const sessionParentOptions = allNodes.length > 0 ? allNodes.filter(n => n.type != 'SESSION')
+        .map((t, i) => ({ 'value': t.name, 'label': t.name }))
+        : [];
+
+    const sessionOfSection = newNodeType == 'SESSION' && !props.parentName ?
         <div className="allNodeSection">
             <label htmlFor="allNode">Session Of</label>
-            <select name="allNode" value={newNodeParentName} onChange={e => setNewNodeParentName(e.target.value)} disabled={allNodes.length == 0}>
-                <option disabled selected value> -- SELECT A PARENT -- </option>
-                {nonSessionNodeOptions}
-            </select>
+            <Select options={sessionParentOptions} onChange={v => setNewNodeParentName(v.value)} disabled={allNodes.length == 0} />
         </div> : null;
 
     const ratingInput = newNodeType == 'REVIEW' ?
@@ -235,15 +241,28 @@ function NewNodeModal(props) {
 
     const timeInput = newNodeType == 'SESSION' ?
         <div className="sessionTimeSection">
-            <DateTimePicker
-                onChange={setNewNodeStartTime}
-                value={newNodeStartTime}
-                clearIcon={null} />
-             -
-            <DateTimePicker
-                onChange={setNewNodeEndTime}
-                value={newNodeEndTime}
-                clearIcon={null} />
+            <span>
+                <h4>Start Time</h4>
+                <DatePicker
+                    selected={newNodeStartTime}
+                    timeFormat="hh:mm aa"
+                    dateFormat="MMMM d, yyyy h:mm aa"
+                    showTimeSelect
+                    timeIntervals={15}
+                    onChange={setNewNodeStartTime}
+                />
+            </span>
+            <span>
+                <h4>End Time</h4>
+                <DatePicker
+                    selected={newNodeEndTime}
+                    timeFormat="hh:mm aa"
+                    dateFormat="MMMM d, yyyy h:mm aa"
+                    showTimeSelect
+                    timeIntervals={15}
+                    onChange={setNewNodeEndTime}
+                />
+            </span>
         </div> : null;
 
     return (
@@ -258,7 +277,7 @@ function NewNodeModal(props) {
 
                 {relationNameInput}
 
-                {nonSessionNodesSection}
+                {sessionOfSection}
 
                 {nodeNameInput}
 
