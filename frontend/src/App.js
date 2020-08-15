@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Route, Switch, BrowserRouter } from "react-router-dom";
 import { NavTab } from "react-router-tabs";
 import { ToastContainer } from 'react-toastify';
@@ -16,8 +16,6 @@ import MindMapPage from './components/pages/mindmap/MindMapPage/MindMapPage'
 import GenericPage from './components/GenericPage/GenericPage';
 
 function App() {
-  const [status, setStatus] = useState('test');
-
   const [activeNode, setActiveNode] = useState({});
 
   const dataTab = activeNode.node_uuid ?

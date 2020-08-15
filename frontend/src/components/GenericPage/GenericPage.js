@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import './GenericPage.css';
 import TagSection from '../PageSections/TagSection/TagSection';
 import TopSection from '../PageSections/TopSection/TopSection';
-import ReviewSection from '../PageSections/ReviewSection/ReviewSection';
-import SessionSection from '../PageSections/SessionSection/SessionSection';
 import TagOfSection from '../PageSections/TagOfSection/TagOfSection';
 import NewNodeModal from '../NewNodeModal/NewNodeModal';
 import ChildrenSection from '../ChildrenSection/ChildrenSection';
+import { Node } from '../../models/Node';
 
 function GenericPage(props) {
+    const setTab = props.setTab;
     const uuid = props.match.params.uuid;
 
     // Expects only one prop, node_uuid, and will make the necessary api calls from here
@@ -17,27 +17,25 @@ function GenericPage(props) {
     const [tags, setTags] = useState([]);
     const [details, setDetails] = useState([]);
     const [contributors, setContributors] = useState([]);
-    const [components, setComponents] = useState([]);
-    const [reviews, setReviews] = useState([]);
-    const [sessions, setSessions] = useState([]);
+    const [, setComponents] = useState([]);
+    const [, setReviews] = useState([]);
+    const [, setSessions] = useState([]);
     const [tagOf, setTagOf] = useState([]);
-    const [attachments, setAttachments] = useState([]);
-    const [instances, setInstances] = useState([]);
-    const [notes, setNotes] = useState([]);
+    const [, setAttachments] = useState([]);
+    const [, setInstances] = useState([]);
+    const [, setNotes] = useState([]);
     const [newestAddedNode, setNewestAddedNode] = useState('');
     const [newestNodeUpdate, setNewestNodeUpdate] = useState('');
 
-    const [newNodeType, setNewNodeType] = useState('');
-    const [newNodeRelationType, setNewNodeRelationType] = useState('');
-    const [newNodeRelationName, setNewNodeRelationName] = useState('Z');
+    const [newNodeType,] = useState('');
+    const [newNodeRelationType,] = useState('');
+    const [newNodeRelationName,] = useState('Z');
 
     const [isNewNodeModalOpen, setIsNewNodeModalOpen] = useState(false);
 
     useEffect(() => {
-        fetch(`http://localhost:9000/nodes/${uuid}`)
-            .then(res => res.json())
-            .then(data => { setNode(data); props.setTab(data) })
-    }, [uuid, newestNodeUpdate]);
+        Node.get(uuid).then(n => { setNode(n); setTab(n); });
+    }, [uuid, newestNodeUpdate, setTab]);
 
     useEffect(() => {
         fetch(`http://localhost:9000/nodes/${uuid}/children`)

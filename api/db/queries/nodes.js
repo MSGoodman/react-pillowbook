@@ -5,7 +5,7 @@ LEFT JOIN node h ON h.node_id = n.horizontal_image_node
 LEFT JOIN node v ON v.node_id = n.vertical_image_node
 WHERE n.name = ?`;
 
-const getNodeByUUID = `SELECT n.*, t.icon, h.node_uuid AS horizontal_image, hf.file_extension AS horizontal_extension, v.node_uuid AS vertical_image, vf.file_extension AS vertical_extension
+const getNodeByUUID = `SELECT n.*, t.icon, h.node_uuid AS horizontal_image_uuid, hf.file_extension AS horizontal_image_extension, v.node_uuid AS vertical_image_uuid, vf.file_extension AS vertical_image_extension
 FROM node n
 LEFT JOIN node_type t ON n.type = t.name
 LEFT JOIN node h ON h.node_id = n.horizontal_image_node

@@ -5,7 +5,6 @@ import {
     sortableElement,
     sortableHandle,
 } from 'react-sortable-hoc';
-import { arrayMove } from '../../../../utils/utils'
 import TaskLine from './TaskLine/TaskLine';
 import { updateTask } from '../../../../utils/api';
 
@@ -48,10 +47,10 @@ function TaskPage() {
 
         console.log("Lower Task: " + JSON.stringify(lowerTask))
         console.log("Higher Task: " + JSON.stringify(higherTask))
-        console.log(newIndex + 1 == tasks.length)
+        console.log(newIndex + 1 === tasks.length)
 
-        const lowerRank = newIndex + 1 == tasks.length ? tasks[newIndex].rank + 1 : lowerTask.rank  // newIndex == 0 ? 0 : tasks[newIndex].rank
-        const higherRank = newIndex == 0 ? 0 : higherTask.rank
+        const lowerRank = newIndex + 1 === tasks.length ? tasks[newIndex].rank + 1 : lowerTask.rank  // newIndex === 0 ? 0 : tasks[newIndex].rank
+        const higherRank = newIndex === 0 ? 0 : higherTask.rank
         const newRank = (lowerRank + higherRank) / 2
 
         console.log("Higher Rank: " + higherRank)

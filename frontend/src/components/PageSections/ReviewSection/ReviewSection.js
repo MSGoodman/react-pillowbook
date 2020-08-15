@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './ReviewSection.css';
 import Review from './Review/Review';
 import SubsectionNewButton from '../../SubsectionNewButton/SubsectionNewButton';

@@ -7,7 +7,6 @@ import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import { nodeTypes } from '../../utils/utils';
 import Ratings from 'react-ratings-declarative';
-import DateTimePicker from 'react-datetime-picker';
 import moment from 'moment';
 import Select from 'react-select'
 import DatePicker from "react-datepicker";
@@ -37,9 +36,9 @@ const customStyles = {
 
 function NewNodeModal(props) {
     function submitEnabled() {
-        if (newNodeName == "") { return false }
-        if (newNodeRelationName == "") { return false }
-        if (newNodeType == 'SESSION' && !newNodeParentName) { return false }
+        if (newNodeName === "") { return false }
+        if (newNodeRelationName === "") { return false }
+        if (newNodeType === 'SESSION' && !newNodeParentName) { return false }
         return true;
     }
 
@@ -60,17 +59,16 @@ function NewNodeModal(props) {
 
                 // Add any companion records (review, session, etc)
                 let companionRecordPromise = Promise.resolve();
-                if (newNodeType == 'REVIEW') { companionRecordPromise = createReview(newNodeJson.node_id, newNodeRating); }
-                else if (newNodeType == 'SESSION') {
+                if (newNodeType === 'REVIEW') { companionRecordPromise = createReview(newNodeJson.node_id, newNodeRating); }
+                else if (newNodeType === 'SESSION') {
                     const endTime = newNodeEndTime ? Math.floor(newNodeEndTime.getTime() / 1000) : null;
                     companionRecordPromise = createSession(newNodeJson.node_id, newNodeRating,
                         Math.floor(newNodeStartTime.getTime() / 1000), endTime);
                 }
-                else if (newNodeType == 'TASK') {
-                    console.log('making task future')
+                else if (newNodeType === 'TASK') {
                     companionRecordPromise = createTask(newNodeJson.node_id, newNodeCategoryNodeID, newNodeStatus, newNodePriority, newNodeDueDate)
                 }
-                else if (newNodeType == 'FILE') {
+                else if (newNodeType === 'FILE') {
                     const extension = selectedFile.name.split('.')[selectedFile.name.split('.').length - 1];
                     const newFilename = newNodeJson.node_uuid + '.' + extension;
                     companionRecordPromise = createFileRecord(newNodeJson.node_id, extension).then(i => { uploadFile(selectedFile, newFilename); })
@@ -114,23 +112,23 @@ function NewNodeModal(props) {
     const [newNodeRating, setnewNodeRating] = useState(3);
     const [newNodeStartTime, setNewNodeStartTime] = useState(new Date());
     const [newNodeEndTime, setNewNodeEndTime] = useState(null);
-    const [newNodeCategoryNodeID, setNewNodeCategoryNodeID] = useState(null);
-    const [newNodeStatus, setNewNodeStatus] = useState('TODO');
-    const [newNodePriority, setNewNodePriority] = useState('MEDIUM');
-    const [newNodeDueDate, setNewNodeDueDate] = useState(null);
+    const [newNodeCategoryNodeID] = useState(null);
+    const [newNodeStatus] = useState('TODO');
+    const [newNodePriority] = useState('MEDIUM');
+    const [newNodeDueDate] = useState(null);
     const [selectedFile, setSelectedFile] = useState({});
     const [nodesOfSelectedType, setNodesOfSelectedType] = useState([]);
     const [disallowExisting, setDisallowExisting] = useState(false);
     const [allNodes, setAllNodes] = useState([]);
 
     useEffect(() => {
-        if (newNodeType == 'SESSION') {
+        if (newNodeType === 'SESSION') {
             const endTime = newNodeEndTime ? moment(newNodeEndTime).format("MM-dd-YY h:mm A") : '';
             setNewNodeName(
                 `SESSION OF: ${newNodeParentName} [${moment(newNodeStartTime).format("MM-DD-YY h:mm A")} - ${endTime}]`
             );
         }
-    }, [newNodeStartTime, newNodeEndTime, newNodeParentName])
+    }, [newNodeStartTime, newNodeEndTime, newNodeParentName, newNodeType])
 
     useEffect(() => {
         if (['REVIEW', 'SESSION'].includes(newNodeType)) setDisallowExisting(true)
@@ -140,7 +138,7 @@ function NewNodeModal(props) {
     useEffect(() => {
         fetch(`http://localhost:9000/nodes?type=${newNodeType}`)
             .then(res => res.json())
-            .then(data => { setNodesOfSelectedType(data); console.log(nodesOfSelectedType) })
+            .then(data => { setNodesOfSelectedType(data); })
     }, [newNodeType]);
 
     useEffect(() => {
@@ -186,28 +184,23 @@ function NewNodeModal(props) {
     const existingNodeSection = useExisting ?
         <div className="existingNodeSection">
             <label htmlFor="existingNode">Select Node To Link</label>
-            <select name="existingNode" value={newNodeName} onChange={e => setNewNodeName(e.target.value)} disabled={nodesOfSelectedType.length == 0}>
+            <select name="existingNode" value={newNodeName} onChange={e => setNewNodeName(e.target.value)} disabled={nodesOfSelectedType.length === 0}>
                 {existingNodeOptions}
             </select>
             {addButton}
         </div > : null;
 
-    const nonSessionNodeOptions = allNodes.length > 0 ? allNodes.filter(n => n.type != 'SESSION').map((t, i) =>
-        <option key={t.node_uuid} value={t.name}>
-            {t.name}
-        </option>) : [<option value="">No Nodes Found</option>];
-
-    const sessionParentOptions = allNodes.length > 0 ? allNodes.filter(n => n.type != 'SESSION')
+    const sessionParentOptions = allNodes.length > 0 ? allNodes.filter(n => n.type !== 'SESSION')
         .map((t, i) => ({ 'value': t.name, 'label': t.name }))
         : [];
 
-    const sessionOfSection = newNodeType == 'SESSION' && !props.parentName ?
+    const sessionOfSection = newNodeType === 'SESSION' && !props.parentName ?
         <div className="allNodeSection">
             <label htmlFor="allNode">Session Of</label>
-            <Select options={sessionParentOptions} onChange={v => setNewNodeParentName(v.value)} disabled={allNodes.length == 0} />
+            <Select options={sessionParentOptions} onChange={v => setNewNodeParentName(v.value)} disabled={allNodes.length === 0} />
         </div> : null;
 
-    const ratingInput = newNodeType == 'REVIEW' ?
+    const ratingInput = newNodeType === 'REVIEW' ?
         <Ratings
             rating={newNodeRating}
             widgetRatedColors="black"
@@ -223,7 +216,7 @@ function NewNodeModal(props) {
             <Ratings.Widget />
         </Ratings> : null;
 
-    const nodeNameInput = !useExisting && newNodeType != 'SESSION' ?
+    const nodeNameInput = !useExisting && newNodeType !== 'SESSION' ?
         <label htmlFor="newNodeName">
             <input type="text" className="newNodeName" name="name" value={newNodeName} placeholder="Enter Name" onChange={e => setNewNodeName(e.target.value)}></input>
         </label> : null;
@@ -235,7 +228,7 @@ function NewNodeModal(props) {
             </label>
         </div> : null;
 
-    const uploadSection = newNodeType == 'FILE' ?
+    const uploadSection = newNodeType === 'FILE' ?
         <div class="form-group files">
             <input type="file" onChange={fileSelect} />
         </div> : null;
@@ -246,7 +239,7 @@ function NewNodeModal(props) {
             <textarea name="newNodeText" value={newNodeText} onChange={e => setNewNodeText(e.target.value)}></textarea>
         </div> : null;
 
-    const timeInput = newNodeType == 'SESSION' ?
+    const timeInput = newNodeType === 'SESSION' ?
         <div className="sessionTimeSection">
             <span>
                 <h4>Start Time</h4>

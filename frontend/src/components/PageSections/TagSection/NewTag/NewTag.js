@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import './NewTag.scss';
-import { Link } from 'react-router-dom';
 import { createNodeOrIgnore, createRelation } from '../../../../utils/api'
 
 function NewTag(props) {
@@ -23,7 +22,6 @@ function NewTag(props) {
 
     const [textboxVisible, setTextboxVisible] = useState(false);
     const [newTagName, setNewTagName] = useState("");
-    const [newTag, setNewTag] = useState({});
 
     const addButton = !textboxVisible ?
         <button onClick={() => setTextboxVisible(true)} className="newTagButton">
@@ -35,7 +33,7 @@ function NewTag(props) {
             <i className="fas fa-ban"></i>
         </button> : null;
 
-    const confirmButton = textboxVisible && newTagName != "" ?
+    const confirmButton = textboxVisible && newTagName !== "" ?
         <button onClick={() => confirmTag(newTagName)} className="confirmNewTagButton sideButton">
             <i className="fas fa-check"></i>
         </button> : null;

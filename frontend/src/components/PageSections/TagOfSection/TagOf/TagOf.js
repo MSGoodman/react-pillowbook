@@ -1,6 +1,5 @@
 import React from 'react';
 import './TagOf.css';
-import Stars from '../../../Stars/Stars';
 import { Link } from 'react-router-dom';
 
 function TagOf(props) {

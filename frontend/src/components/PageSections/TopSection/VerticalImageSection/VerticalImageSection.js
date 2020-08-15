@@ -1,17 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './VerticalImageSection.scss';
-import { createNodeOrIgnore, createRelation, createFile } from '../../../../utils/api';
-import { toast } from 'react-toastify';
-import { Link } from 'react-router-dom';
 
 
 function VerticalImageSection(props) {
-    const verticalImage = props.parentNode.vertical_image ?
-        <div className="verticalImage"> <img src={require(`../../../../assets/uploads/${props.parentNode.vertical_image}.${props.parentNode.vertical_extension}`)} alt={props.parentNode.name + " image"} /> </div> :
+    const verticalImage = props.parentNode.vertical_image_uuid ?
+        <div className="verticalImage"> <img src={require(`../../../../assets/uploads/${props.parentNode.vertical_image_uuid}.${props.parentNode.vertical_image_extension}`)} alt={props.parentNode.name + " image"} /> </div> :
         null;
 
-    const horizontalImage = props.parentNode.horizontal_image ?
-        <div className="horizontalImage"> <img src={require(`../../../../assets/uploads/${props.parentNode.horizontal_image}.${props.parentNode.horizontal_extension}`)} alt={props.parentNode.name + " image"} /> </div> :
+    const horizontalImage = props.parentNode.horizontal_image_uuid ?
+        <div className="horizontalImage"> <img src={require(`../../../../assets/uploads/${props.parentNode.horizontal_image_uuid}.${props.parentNode.horizontal_image_extension}`)} alt={props.parentNode.name + " image"} /> </div> :
         null;
 
     return (
