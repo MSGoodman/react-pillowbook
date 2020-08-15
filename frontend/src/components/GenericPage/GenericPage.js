@@ -38,7 +38,7 @@ function GenericPage(props) {
     }, [uuid, newestNodeUpdate, setTab]);
 
     useEffect(() => {
-        fetch(`http://localhost:9000/nodes/${uuid}/children`)
+        fetch(`http://localhost:9000/nodes/${node.node_uuid}/children`)
             .then(res => res.json())
             .then(data => {
                 setChildren(data);
@@ -50,7 +50,7 @@ function GenericPage(props) {
                 setInstances(data.filter(child => child.relation_type === 'INSTANCE'));
                 setNotes(data.filter(child => child.relation_type === 'NOTE'));
             })
-    }, [uuid, newestAddedNode]);
+    }, [node, newestAddedNode]);
 
     useEffect(() => {
         fetch(`http://localhost:9000/nodes/${uuid}/reviews`)

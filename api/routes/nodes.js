@@ -30,8 +30,8 @@ router.post('/', function (req, res, next) {
 router.get('/', function (req, res, next) {
   const type = req.query.type;
 
-  var sql = type ? nodeQueries.getAllNodesByType : 'SELECT *, node_id AS id FROM node';
-  var params = [type]
+  var sql = type ? nodeQueries.getAllNodesByType : nodeQueries.getAllNodes;
+  var params = type ? [type] : []
 
   db.all(sql, params, (err, rows) => {
     if (err) { res.status(400).json({ "error": err.message }); return; }

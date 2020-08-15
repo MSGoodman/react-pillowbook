@@ -15,6 +15,7 @@ export class Node {
     horizontal_image_extension: string;
     horizontal_image_node: string;
     horizontal_image_uuid: string;
+    id: number;
 
     constructor(jsonStr: string) {
         const json = JSON.parse(jsonStr);
@@ -35,12 +36,23 @@ export class Node {
         this.horizontal_image_extension = json.horizontal_image_extension;
         this.horizontal_image_node = json.horizontal_image_node;
         this.horizontal_image_uuid = json.horizontal_image_uuid;
+        this.id = json.node_id;
     }
 
-    static async get(uuid: string): Promise<Node> {
+    public static async get(uuid: string): Promise<Node> {
         const res = await fetch(`http://localhost:9000/nodes/${uuid}`)
             .then(res => res.text())
             .then(data => new Node(data));
+        return await res;
+    }
+
+    public static async getAll(): Promise<Node> {
+        const res = await fetch(`http://localhost:9000/nodes`)
+            .then(res => res.json())
+            .then(data => {
+                const nodes = data.map((n: any) => new Node(JSON.stringify(n)));
+                return nodes;
+            });
         return await res;
     }
 

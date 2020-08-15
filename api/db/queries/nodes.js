@@ -42,14 +42,32 @@ LEFT JOIN node_type t ON c.type = t.name
 WHERE c.node_uuid = ? AND r.type = ?`;
 
 const getAllNodeNamesAndUUIDs = `SELECT node_uuid, name FROM node`;
-const getAllNodesByType = `SELECT * FROM node WHERE type = ?`
 const updateNode =
     `UPDATE node 
 SET name = ?, type = ?, markdown_content = ?, horizontal_image_node = ?, vertical_image_node = ?
 WHERE node_uuid = ?`;
 
+const getAllNodesByType =
+    `SELECT n.*, t.icon, h.node_uuid AS horizontal_image_uuid, hf.file_extension AS horizontal_image_extension, v.node_uuid AS vertical_image_uuid, vf.file_extension AS vertical_image_extension
+FROM node n
+LEFT JOIN node_type t ON n.type = t.name
+LEFT JOIN node h ON h.node_id = n.horizontal_image_node
+LEFT JOIN file hf ON h.node_id = hf.file_node
+LEFT JOIN node v ON v.node_id = n.vertical_image_node
+LEFT JOIN file vf ON v.node_id = vf.file_node
+WHERE n.type = ?`
+
+const getAllNodes =
+    `SELECT n.*, t.icon, h.node_uuid AS horizontal_image_uuid, hf.file_extension AS horizontal_image_extension, v.node_uuid AS vertical_image_uuid, vf.file_extension AS vertical_image_extension
+FROM node n
+LEFT JOIN node_type t ON n.type = t.name
+LEFT JOIN node h ON h.node_id = n.horizontal_image_node
+LEFT JOIN file hf ON h.node_id = hf.file_node
+LEFT JOIN node v ON v.node_id = n.vertical_image_node
+LEFT JOIN file vf ON v.node_id = vf.file_node`
+
 module.exports = {
-    getNodeByName, getNodeByUUID,
+    getNodeByName, getNodeByUUID, getAllNodes,
     insertNodeOrIgnore,
     getNodeChildrenByParentUUID, getNodeChildrenByParentUUIDAndRelationType,
     getNodeParentsByChildUUIDAndRelationType,

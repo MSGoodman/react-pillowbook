@@ -1,30 +1,71 @@
 import React, { useState, useEffect } from 'react';
 import './MindMapPage.scss';
 import { Graph } from "react-d3-graph";
+import { Node } from '../../../../models/Node';
+import Select from 'react-select'
 
 function MindMapPage() {
     const [PBNodes, setPBNodes] = useState([{ 'test': 'data' }, { 'test2': 'data2' }]);
     const [PBLinks, setPBLinks] = useState([{ 'source': "test", 'target': "test2" }]);
     const [allLoaded, setAllLoaded] = useState(false);
+    const [allNodes, setAllNodes] = useState([]);
+    const [allRelations, setAllRelations] = useState([]);
+    const [rootNode, setRootNode] = useState({});
+
+    const nodeTypesToExclude = ['REVIEW', 'SESSION', 'FILE']
+    const relationNamesToExclude = ['Review', 'Session', 'Attachment']
+
+    function filterNode(n) {
+        if (nodeTypesToExclude.includes(n.type)) return false;
+        return true;
+    }
+
+    function filterNode(n) {
+        if (nodeTypesToExclude.includes(n.type)) return false;
+        return true;
+    }
+
+    function filterRelation(r) {
+        if (relationNamesToExclude.includes(r.name)) return false;
+        if (rootNode.id && r.source !== rootNode.id && r.target !== rootNode.id) return false;
+        return true;
+    }
+
+    // useEffect(() => {
+    //     console.log(rootNode)
+    //     setPBLinks(allRelations.filter(filterRelation));
+    // }, [rootNode]);
 
     useEffect(() => {
-        // Get nodes first
-        fetch(`http://localhost:9000/nodes`)
-            .then(res => res.json())
-            .then(data => {
-                setPBNodes(data);
-                // Then get relations
-                fetch(`http://localhost:9000/relations`)
-                    .then(res => res.json())
-                    .then(data => {
-                        setPBLinks(data);
-                        // Then set up the graph
-                        setAllLoaded(true);
-                    });
-            })
+        Node.getAll().then(nodes => {
+            setAllNodes(nodes);
+            setPBNodes(nodes.filter(filterNode));
+            // Then get relations
+            fetch(`http://localhost:9000/relations`)
+                .then(res => res.json())
+                .then(data => {
+                    setAllRelations(data)
+                    setPBLinks(data.filter(filterRelation));
+                    // Then set up the graph
+                    setAllLoaded(true);
+                });
+        })
     }, []);
 
-    // graph payload (with minimalist structure)
+
+    const noRootOption = { 'value': null, 'label': 'No Option Selected' };
+
+    const rootOptions = allNodes.length > 0 ? allNodes.filter(n => !nodeTypesToExclude.includes(n.type))
+        .map((t, i) => ({ 'value': t, 'label': t.name }))
+        : [noRootOption];
+    rootOptions.unshift(noRootOption);
+
+    const rootSection =
+        <div className="rootSection">
+            <label htmlFor="allNode">Root Node</label>
+            <Select options={rootOptions} onChange={v => setRootNode(v)} disabled={allNodes.length === 0} />
+        </div>;
+
     const data = {
         nodes: PBNodes,
         links: PBLinks,
