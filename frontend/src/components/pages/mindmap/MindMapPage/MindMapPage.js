@@ -17,24 +17,21 @@ function MindMapPage() {
 
     function filterNode(n) {
         if (nodeTypesToExclude.includes(n.type)) return false;
+        if (rootNode && rootNode.id) { return (allRelations.filter(filterRelation).map(l => l.target === n.id || l.source === n.id).some(b => b === true)) }
         return true;
     }
 
-    function filterNode(n) {
-        if (nodeTypesToExclude.includes(n.type)) return false;
-        return true;
-    }
 
     function filterRelation(r) {
         if (relationNamesToExclude.includes(r.name)) return false;
-        if (rootNode.id && r.source !== rootNode.id && r.target !== rootNode.id) return false;
+        if (rootNode && rootNode.id && r.source !== rootNode.id && r.target !== rootNode.id) return false;
         return true;
     }
 
-    // useEffect(() => {
-    //     console.log(rootNode)
-    //     setPBLinks(allRelations.filter(filterRelation));
-    // }, [rootNode]);
+    useEffect(() => {
+        setPBLinks(allRelations.filter(filterRelation));
+        setPBNodes(allNodes.filter(filterNode));
+    }, [rootNode]);
 
     useEffect(() => {
         Node.getAll().then(nodes => {
@@ -63,7 +60,7 @@ function MindMapPage() {
     const rootSection =
         <div className="rootSection">
             <label htmlFor="allNode">Root Node</label>
-            <Select options={rootOptions} onChange={v => setRootNode(v)} disabled={allNodes.length === 0} />
+            <Select options={rootOptions} onChange={v => setRootNode(v.value)} disabled={allNodes.length === 0} />
         </div>;
 
     const data = {
@@ -95,6 +92,7 @@ function MindMapPage() {
 
     return (
         <div className="MindMapPage">
+            {rootSection}
             {graph}
         </div>
     );
