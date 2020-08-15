@@ -3,16 +3,13 @@ var router = express.Router();
 var db = require("../db/database");
 sessionQueries = require('../db/queries/sessions');
 
-// Get types
+// Get sessions
 router.get('/', function (req, res, next) {
   const dayStart = new Date(new Date(req.query.date).setHours(0, 0, 0, 0)).getTime() / 1000;
   const dayEnd = new Date(new Date(req.query.date).setHours(48, 0, 0, 0)).getTime() / 1000;
 
   var sql = sessionQueries.getSessionsForDay;
   var params = [dayStart, dayEnd]
-
-  console.log([new Date(new Date(req.query.date).setHours(0, 0, 0, 0)), new Date(new Date(req.query.date).setHours(24, 0, 0, 0))])
-  console.log(params);
 
   db.all(sql, params, (err, rows) => {
     if (err) { res.status(400).json({ "error": err.message }); return; }
@@ -32,7 +29,6 @@ router.post('/', function (req, res, next) {
 
 // Update session
 router.post('/:session', function (req, res, next) {
-  console.log()
   var params = [req.body.rating, req.body.start_time, req.body.end_time, req.body.scheduled, req.body.session_uuid];
 
   db.serialize(() => {

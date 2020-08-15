@@ -5,7 +5,7 @@ var knex = require('../db/knex');
 reviewQueries = require("../db/queries/reviews");
 
 
-// New relation
+// New review
 router.post('/', function (req, res, next) {
   var params = [req.body.node_id, req.body.rating]
   db.run(reviewQueries.insertReview, params, (err, row) => {

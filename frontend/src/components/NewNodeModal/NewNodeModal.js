@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './NewNodeModal.scss';
 import Modal from "react-modal";
-import { createNodeOrIgnore, createRelation, createReview, createFileRecord, uploadFile, createSession } from '../../utils/api';
+import { createNodeOrIgnore, createRelation, createReview, createFileRecord, uploadFile, createSession, createTask } from '../../utils/api';
 import { stringToTitleCase } from '../../utils/utils'
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
@@ -53,31 +53,51 @@ function NewNodeModal(props) {
 
 
     function createNewNode(newNodeName, newNodeType, newNodeText, parentName, relationName, relationType) {
-        console.log(newNodeName, newNodeType, newNodeText, parentName, relationName, relationType)
         const requestBody = { name: newNodeName, type: newNodeType, markdown_content: newNodeText };
         // Make the new node if it doesn't exist
         createNodeOrIgnore(requestBody)
             .then(newNodeJson => {
+
+                // Add any companion records (review, session, etc)
+                let companionRecordPromise = Promise.resolve();
+                if (newNodeType == 'REVIEW') { companionRecordPromise = createReview(newNodeJson.node_id, newNodeRating); }
+                else if (newNodeType == 'SESSION') {
+                    const endTime = newNodeEndTime ? Math.floor(newNodeEndTime.getTime() / 1000) : null;
+                    companionRecordPromise = createSession(newNodeJson.node_id, newNodeRating,
+                        Math.floor(newNodeStartTime.getTime() / 1000), endTime);
+                }
+                else if (newNodeType == 'TASK') {
+                    console.log('making task future')
+                    companionRecordPromise = createTask(newNodeJson.node_id, newNodeCategoryNodeID, newNodeStatus, newNodePriority, newNodeDueDate)
+                }
+                else if (newNodeType == 'FILE') {
+                    const extension = selectedFile.name.split('.')[selectedFile.name.split('.').length - 1];
+                    const newFilename = newNodeJson.node_uuid + '.' + extension;
+                    companionRecordPromise = createFileRecord(newNodeJson.node_id, extension).then(i => { uploadFile(selectedFile, newFilename); })
+                }
+
+                companionRecordPromise.then(newCompanionRes => {
+                    if (!parentName) {
+                        props.close();
+                        toast(<Link to={`/nodes/${newNodeJson.node_uuid}`} className="toastLink"> Created <b>{newNodeJson.name}</b> </Link>)
+                    }
+                    else {
+                        // Make the relation
+                        createRelation(parentName, newNodeName, relationName, relationType)
+                            .then(newRelationRes => {
+                                // Display the new tag
+                                props.setNewestAddedNode(newNodeJson.node_uuid);
+                                resetModal();
+                                props.close();
+                                toast(<Link to={`/nodes/${newNodeJson.node_uuid}`} className="toastLink"> Created <b>{newNodeJson.name}</b> </Link>)
+                            })
+                    }
+                })
                 if (!parentName) {
                     props.close();
                     toast(<Link to={`/nodes/${newNodeJson.node_uuid}`} className="toastLink"> Created <b>{newNodeJson.name}</b> </Link>)
                 }
                 else {
-                    // Add any companion records (review, session, etc)
-                    let companionRecordPromise = Promise.resolve();
-                    if (newNodeType == 'REVIEW') { companionRecordPromise = createReview(newNodeJson.node_id, newNodeRating); }
-                    if (newNodeType == 'SESSION') {
-                        const endTime = newNodeEndTime ? Math.floor(newNodeEndTime.getTime() / 1000) : null;
-                        companionRecordPromise = createSession(newNodeJson.node_id, newNodeRating,
-                            Math.floor(newNodeStartTime.getTime() / 1000), endTime);
-                    }
-                    if (newNodeType == 'FILE') {
-                        console.log(selectedFile);
-                        const extension = selectedFile.name.split('.')[selectedFile.name.split('.').length - 1];
-                        const newFilename = newNodeJson.node_uuid + '.' + extension;
-                        companionRecordPromise = createFileRecord(newNodeJson.node_id, extension).then(i => { uploadFile(selectedFile, newFilename); })
-                    }
-
                     // Make the relation
                     companionRecordPromise.then(newCompanionRes => {
                         createRelation(parentName, newNodeName, relationName, relationType)
@@ -111,6 +131,10 @@ function NewNodeModal(props) {
     const [newNodeRating, setnewNodeRating] = useState(3);
     const [newNodeStartTime, setNewNodeStartTime] = useState(new Date());
     const [newNodeEndTime, setNewNodeEndTime] = useState(null);
+    const [newNodeCategoryNodeID, setNewNodeCategoryNodeID] = useState(null);
+    const [newNodeStatus, setNewNodeStatus] = useState('TODO');
+    const [newNodePriority, setNewNodePriority] = useState('MEDIUM');
+    const [newNodeDueDate, setNewNodeDueDate] = useState(null);
     const [selectedFile, setSelectedFile] = useState({});
     const [nodesOfSelectedType, setNodesOfSelectedType] = useState([]);
     const [disallowExisting, setDisallowExisting] = useState(false);

@@ -43,6 +43,20 @@ function createSession(node_id, rating, start_time, end_time) {
     });
 }
 
+function createTask(node_id, category_id, status, priority, due_date) {
+    return fetch(`http://localhost:9000/tasks/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            task_node: node_id,
+            category_node: node_id,
+            status: status,
+            priority: priority,
+            due_date: due_date
+        })
+    });
+}
+
 function createFileRecord(node_id, file_extension) {
     return fetch(`http://localhost:9000/files/`, {
         method: 'POST',
@@ -66,7 +80,6 @@ function uploadFile(selectedFile, newFilename) {
 
 
 function updateNode(node, node_uuid, name, type, markdown_content, horizontal_image_node, vertical_image_node) {
-    console.log(node)
     return fetch(`http://localhost:9000/nodes/${node.node_uuid}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -82,4 +95,4 @@ function updateSession(session) {
     });
 }
 
-module.exports = { createNodeOrIgnore, createRelation, createReview, createFileRecord, uploadFile, updateNode, createSession, updateSession }
+module.exports = { createNodeOrIgnore, createRelation, createReview, createFileRecord, uploadFile, updateNode, createSession, updateSession, createTask }

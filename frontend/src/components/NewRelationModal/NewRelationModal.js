@@ -38,7 +38,6 @@ function NewRelationModal(props) {
     }
 
     function createNewNode(newNodeName, newNodeType, newNodeText, parentName, relationName, relationType) {
-        console.log(newNodeName, newNodeType, newNodeText, parentName, relationName, relationType)
         const requestBody = { name: newNodeName, type: newNodeType, markdown_content: newNodeText };
 
         // Make the new node if required and it doesn't exist
@@ -58,7 +57,7 @@ function NewRelationModal(props) {
 
                     // Add any companion records (review, session, etc)
                     let companionRecordPromise = Promise.resolve();
-                    if (newNodeType == 'REVIEW') { console.log("CREATING REVIEW"); companionRecordPromise = createReview(newNodeJson.node_id, newNodeRating); }
+                    if (newNodeType == 'REVIEW') { companionRecordPromise = createReview(newNodeJson.node_id, newNodeRating); }
                     companionRecordPromise.then(newCompanionRes => {
 
                         // Make the relation

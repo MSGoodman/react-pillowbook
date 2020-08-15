@@ -14,6 +14,7 @@ var reviewsRouter = require('./routes/reviews');
 var uploadsRouter = require('./routes/uploads');
 var filesRouter = require('./routes/files');
 var sessionsRouter = require('./routes/sessions');
+var tasksRouter = require('./routes/tasks');
 
 var app = express();
 
@@ -38,6 +39,7 @@ app.use('/reviews', reviewsRouter);
 app.use('/upload', uploadsRouter);
 app.use('/files', filesRouter);
 app.use('/sessions', sessionsRouter);
+app.use('/tasks', tasksRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

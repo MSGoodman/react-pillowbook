@@ -17,7 +17,6 @@ function MindMapPage() {
                 fetch(`http://localhost:9000/relations`)
                     .then(res => res.json())
                     .then(data => {
-                        console.log(data);
                         setPBLinks(data);
                         // Then set up the graph
                         setAllLoaded(true);

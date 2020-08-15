@@ -29,7 +29,6 @@ router.post('/', function (req, res, next) {
 // Get all nodes
 router.get('/', function (req, res, next) {
   const type = req.query.type;
-  console.log(type);
 
   var sql = type ? nodeQueries.getAllNodesByType : 'SELECT *, node_id AS id FROM node';
   var params = [type]

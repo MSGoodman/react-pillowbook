@@ -12,7 +12,6 @@ function Attachment(props) {
         updateNode(updatedNode).then(updated => props.setNewestNodeUpdate('Set new horizontal image: ' + props.node.name));
     }
     function updateVertical() {
-        console.log(props.node)
         const updatedNode = { ...props.parentNode };
         updatedNode.vertical_image_node = props.node.node_id;
         updateNode(updatedNode).then(updated => props.setNewestNodeUpdate('Set new vertical image: ' + props.node.name));
