@@ -95,4 +95,12 @@ function updateSession(session) {
     });
 }
 
-module.exports = { createNodeOrIgnore, createRelation, createReview, createFileRecord, uploadFile, updateNode, createSession, updateSession, createTask }
+function updateTask(task) {
+    return fetch(`http://localhost:9000/tasks/${task.task_uuid}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(task)
+    });
+}
+
+module.exports = { createNodeOrIgnore, createRelation, createReview, createFileRecord, uploadFile, updateNode, createSession, updateSession, createTask, updateTask }

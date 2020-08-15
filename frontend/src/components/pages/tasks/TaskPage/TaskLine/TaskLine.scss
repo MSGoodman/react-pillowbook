@@ -1,0 +1,33 @@
+.TaskLine {
+    display: inline-block;
+    font-size: 1.2rem;
+
+    .taskIcon, .taskName {
+        display: inline-block;        
+        vertical-align: middle;
+    }
+
+    .taskLink {
+        padding: 5px;
+    }
+
+    .taskButton {
+        margin-left: 15px;
+        border-style: none;
+        padding: 5px;
+        font-size: 1.3rem;
+        cursor: pointer;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .taskRank {
+        margin-left: 30px;
+        font-size: 0.8rem;
+        color: grey;
+    }
+
+    .taskButton:hover{
+        background-color: var(--off-white-darker-still);
+    }
+}

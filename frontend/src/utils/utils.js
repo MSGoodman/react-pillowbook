@@ -64,4 +64,19 @@ function stringToTitleCase(str) {
     return str.toLowerCase().replace("_", " ").replace(/(^|\s)\S/g, function (t) { return t.toUpperCase() });
 }
 
-export { buttons, nodeTypes, stringToTitleCase }
+function arrayMove(array, from, to) {
+    array = [...array];
+
+    const startIndex = from < 0 ? array.length + from : from;
+
+    if (startIndex >= 0 && startIndex < array.length) {
+        const endIndex = to < 0 ? array.length + to : to;
+
+        const [item] = array.splice(from, 1);
+        array.splice(endIndex, 0, item);
+    }
+
+    return array;
+};
+
+export { buttons, nodeTypes, stringToTitleCase, arrayMove }
