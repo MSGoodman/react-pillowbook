@@ -49,7 +49,7 @@ function createTask(node_id, category_id, status, priority, due_date) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             task_node: node_id,
-            category_node: node_id,
+            category_node: category_id,
             status: status,
             priority: priority,
             due_date: due_date

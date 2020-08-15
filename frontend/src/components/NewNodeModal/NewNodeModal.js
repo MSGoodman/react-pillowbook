@@ -93,23 +93,6 @@ function NewNodeModal(props) {
                             })
                     }
                 })
-                if (!parentName) {
-                    props.close();
-                    toast(<Link to={`/nodes/${newNodeJson.node_uuid}`} className="toastLink"> Created <b>{newNodeJson.name}</b> </Link>)
-                }
-                else {
-                    // Make the relation
-                    companionRecordPromise.then(newCompanionRes => {
-                        createRelation(parentName, newNodeName, relationName, relationType)
-                            .then(newRelationRes => {
-                                // Display the new tag
-                                props.setNewestAddedNode(newNodeJson.node_uuid);
-                                resetModal();
-                                props.close();
-                                toast(<Link to={`/nodes/${newNodeJson.node_uuid}`} className="toastLink"> Created <b>{newNodeJson.name}</b> </Link>)
-                            })
-                    })
-                }
             });
     }
 

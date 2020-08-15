@@ -6,11 +6,10 @@ taskQueries = require("../db/queries/tasks");
 
 // Get tasks
 router.get('/', function (req, res, next) {
-  const status = req.query.status ? req.query.status : 'TODO';
+  const sql = req.query.status ? taskQueries.getTasksByStatus : taskQueries.getAllTasks;
+  const params = req.query.status ? [req.query.status] : [];
 
-  var sql = taskQueries.getTasksByStatus;
-  var params = [status]
-
+  console.log(sql)
   db.all(sql, params, (err, rows) => {
     if (err) { res.status(400).json({ "error": err.message }); return; }
     res.json(rows)
