@@ -6,7 +6,8 @@ sessionQueries = require('../db/queries/sessions');
 // Get sessions
 router.get('/', function (req, res, next) {
   const dayStart = new Date(new Date(req.query.date).setHours(0, 0, 0, 0)).getTime() / 1000;
-  const dayEnd = new Date(new Date(req.query.date).setHours(48, 0, 0, 0)).getTime() / 1000;
+  const dayEnd = new Date(new Date(req.query.date).setHours(24, 0, 0, 0)).getTime() / 1000;
+  console.log(dayStart, dayEnd);
 
   var sql = sessionQueries.getSessionsForDay;
   var params = [dayStart, dayEnd]

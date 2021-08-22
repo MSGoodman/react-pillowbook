@@ -6,9 +6,10 @@ import Attachment from '../childElements/Attachment/Attachment';
 import SubsectionNewButton from '../SubsectionNewButton/SubsectionNewButton';
 import NewNodeModal from '../NewNodeModal/NewNodeModal';
 import { stringToTitleCase } from '../../utils/utils';
+import Contribution from '../childElements/Contribution/Contribution';
 
 function ChildrenSection(props) {
-    const sectionTypeToNodeType = { 'REVIEW': 'REVIEW', 'SESSION': 'SESSION', 'ATTACHMENT': 'FILE' }
+    const sectionTypeToNodeType = { 'REVIEW': 'REVIEW', 'SESSION': 'SESSION', 'ATTACHMENT': 'FILE', 'CONTRIBUTOR': 'PERSON' }
     const [isNewNodeModalOpen, setIsNewNodeModalOpen] = useState(false);
     const children = props.children.filter(child => child.relation_type === props.sectionType)
     const childrenElements = children.map((c) => {
@@ -16,6 +17,7 @@ function ChildrenSection(props) {
         if (props.sectionType === 'REVIEW') return <Review key={key} node={c}></Review>
         else if (props.sectionType === 'SESSION') return <Session key={key} node={c}></Session>
         else if (props.sectionType === 'ATTACHMENT') return <Attachment key={key} node={c} parentNode={props.parentNode} setNewestNodeUpdate={props.setNewestNodeUpdate} ></Attachment>
+        else if (props.sectionType === 'CONTRIBUTOR') return <Contribution key={key} node={c} parentNode={props.parentNode} setNewestNodeUpdate={props.setNewestNodeUpdate} ></Contribution>
         else return null;
     });
 

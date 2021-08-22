@@ -1,5 +1,5 @@
 ## Database Setup
-From the command line you can run `node run_migrations` and it should set up the database tables. If you want to load any fixture data into the database then you should `cd` into `fixtures` and manually run them as desired (e.g. `node F001_sample_nodes.js`)
+From the `api/db/utils` directory can run `node run_migrations` on the command line and it should set up the database tables. If you want to load any fixture data into the database then you should `cd` into `fixtures` and manually run them as desired (e.g. `node F001_sample_nodes.js`)
 
 ## Database Structure
 Pillowbook is basically a CRUD application on top of a directed labeled graph. If you run `F001_sample_nodes` and `F002_sample_relations` (after running the migrations) you should be able to see an example. Grab something like [DB Browser for SQLite](https://sqlitebrowser.org/) and run the following:

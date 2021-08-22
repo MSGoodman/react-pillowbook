@@ -44,7 +44,7 @@ WHERE c.node_uuid = ? AND r.type = ?`;
 const getAllNodeNamesAndUUIDs = `SELECT node_uuid, name FROM node`;
 const updateNode =
     `UPDATE node 
-SET name = ?, type = ?, markdown_content = ?, horizontal_image_node = ?, vertical_image_node = ?
+SET name = ?, type = ?, markdown_content = ?, horizontal_image_node = ?, vertical_image_node = ?, icon = ?
 WHERE node_uuid = ?`;
 
 const getAllNodesByType =

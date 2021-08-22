@@ -61,6 +61,10 @@
     .description {
         width: 99%;
         margin: 0 auto;
+
+        pre {
+            overflow: scroll;
+        }
     }
 }
 

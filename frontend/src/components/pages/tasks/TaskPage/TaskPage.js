@@ -7,6 +7,8 @@ import {
 } from 'react-sortable-hoc';
 import TaskLine from './TaskLine/TaskLine';
 import { updateTask } from '../../../../utils/api';
+import NewNodeModal from '../../../NewNodeModal/NewNodeModal';
+import SubsectionNewButton from '../../../SubsectionNewButton/SubsectionNewButton'
 
 function TaskPage() {
     function sortTasks(tasks) {
@@ -20,6 +22,7 @@ function TaskPage() {
 
     const [tasks, setTasks] = useState([]);
     const [newestUpdate, setNewestUpdate] = useState('');
+    const [isNewNodeModalOpen, setIsNewNodeModalOpen] = useState(false);
 
     useEffect(() => {
         fetch(`http://localhost:9000/tasks`)
@@ -41,15 +44,16 @@ function TaskPage() {
     });
 
     const onSortEnd = ({ oldIndex, newIndex }) => {
+        console.log("Old Index: " + oldIndex)
         console.log("New Index: " + newIndex)
-        const lowerTask = tasks[newIndex - 1]
-        const higherTask = tasks[newIndex]
+        const lowerTask = newIndex === 0 ? tasks[newIndex] : tasks[newIndex - 1]
+        const higherTask = newIndex < oldIndex ? tasks[newIndex] : tasks[newIndex + 1]
 
         console.log("Lower Task: " + JSON.stringify(lowerTask))
         console.log("Higher Task: " + JSON.stringify(higherTask))
         console.log(newIndex + 1 === tasks.length)
 
-        const lowerRank = newIndex + 1 === tasks.length ? tasks[newIndex].rank + 1 : lowerTask.rank  // newIndex === 0 ? 0 : tasks[newIndex].rank
+        const lowerRank = newIndex + 1 === tasks.length ? tasks[newIndex].rank + .00000001 : lowerTask.rank  // newIndex === 0 ? 0 : tasks[newIndex].rank
         const higherRank = newIndex === 0 ? 0 : higherTask.rank
         const newRank = (lowerRank + higherRank) / 2
 
@@ -68,6 +72,18 @@ function TaskPage() {
             <SortableContainer onSortEnd={onSortEnd} useDragHandle>
                 {tasks.map((t, i) => <SortableItem index={i} task={t} />)}
             </SortableContainer>
+
+            <SubsectionNewButton clickFunction={() => setIsNewNodeModalOpen(true)}></SubsectionNewButton>
+
+            <NewNodeModal
+                isOpen={isNewNodeModalOpen}
+                close={() => setIsNewNodeModalOpen(false)}
+                name=""
+                type={'TASK'}
+                setNewestAddedNode={setNewestUpdate}
+                hideCreatingAs={true}
+                hideNodeType={true}>
+            </NewNodeModal>
         </div>
     );
 }

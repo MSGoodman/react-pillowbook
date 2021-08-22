@@ -36,13 +36,17 @@ const customStyles = {
 
 function NewNodeModal(props) {
     function submitEnabled() {
+        console.log(newNodeName, newNodeRelationName, newNodeType);
         if (newNodeName === "") { return false }
         if (newNodeRelationName === "") { return false }
         if (newNodeType === 'SESSION' && !newNodeParentName) { return false }
         return true;
     }
 
-    const fileSelect = event => { setSelectedFile(event.target.files[0]) }
+    const fileSelect = event => {
+        if (newNodeName === "") setNewNodeName(event.target.files[0].name)
+        setSelectedFile(event.target.files[0])
+    }
 
     function resetModal() {
         setNewNodeName('');
@@ -112,7 +116,7 @@ function NewNodeModal(props) {
     const [newNodeRating, setnewNodeRating] = useState(3);
     const [newNodeStartTime, setNewNodeStartTime] = useState(new Date());
     const [newNodeEndTime, setNewNodeEndTime] = useState(null);
-    const [newNodeCategoryNodeID] = useState(null);
+    const [newNodeCategoryNodeID, setNewNodeCategoryID] = useState(null);
     const [newNodeStatus] = useState('TODO');
     const [newNodePriority] = useState('MEDIUM');
     const [newNodeDueDate] = useState(null);
@@ -185,6 +189,7 @@ function NewNodeModal(props) {
         <div className="existingNodeSection">
             <label htmlFor="existingNode">Select Node To Link</label>
             <select name="existingNode" value={newNodeName} onChange={e => setNewNodeName(e.target.value)} disabled={nodesOfSelectedType.length === 0}>
+                {<option key={"placeholder"} value={null}></option>}
                 {existingNodeOptions}
             </select>
             {addButton}
@@ -200,7 +205,17 @@ function NewNodeModal(props) {
             <Select options={sessionParentOptions} onChange={v => setNewNodeParentName(v.value)} disabled={allNodes.length === 0} />
         </div> : null;
 
-    const ratingInput = newNodeType === 'REVIEW' ?
+    const categoryOptions = allNodes.length > 0 ? allNodes.filter(n => !['SESSION', 'REVIEW', 'TASK', 'FILE'].includes(n.type))
+        .map((t, i) => ({ 'value': t.node_id, 'label': t.name }))
+        : [];
+
+    const categorySection = newNodeType === 'TASK' ?
+        <div className="categorySection">
+            <label>Category</label>
+            <Select options={categoryOptions} onChange={v => setNewNodeCategoryID(v.value)} disabled={allNodes.length === 0} />
+        </div> : null;
+
+    const ratingInput = newNodeType === 'REVIEW' || newNodeType === 'SESSION' ?
         <Ratings
             rating={newNodeRating}
             widgetRatedColors="black"
@@ -218,7 +233,7 @@ function NewNodeModal(props) {
 
     const nodeNameInput = !useExisting && newNodeType !== 'SESSION' ?
         <label htmlFor="newNodeName">
-            <input type="text" className="newNodeName" name="name" value={newNodeName} placeholder="Enter Name" onChange={e => setNewNodeName(e.target.value)}></input>
+            <input type="text" className="newNodeName" name="name" value={newNodeName} placeholder="Enter Name" onChange={e => setNewNodeName(e.target.value)} autoFocus></input>
         </label> : null;
 
     const relationNameInput = props.relationNameInputPlaceholder ?
@@ -278,6 +293,8 @@ function NewNodeModal(props) {
                 {relationNameInput}
 
                 {sessionOfSection}
+
+                {categorySection}
 
                 {nodeNameInput}
 

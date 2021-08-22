@@ -5,8 +5,8 @@ import { Node } from '../../../../models/Node';
 import Select from 'react-select'
 
 function MindMapPage() {
-    const [PBNodes, setPBNodes] = useState([{ 'test': 'data' }, { 'test2': 'data2' }]);
-    const [PBLinks, setPBLinks] = useState([{ 'source': "test", 'target': "test2" }]);
+    const [PBNodes, setPBNodes] = useState([]);
+    const [PBLinks, setPBLinks] = useState([]);
     const [allLoaded, setAllLoaded] = useState(false);
     const [allNodes, setAllNodes] = useState([]);
     const [allRelations, setAllRelations] = useState([]);
@@ -43,18 +43,18 @@ function MindMapPage() {
                 .then(data => {
                     setAllRelations(data)
                     setPBLinks(data.filter(filterRelation));
-                    // Then set up the graph
-                    setAllLoaded(true);
+                    console.log(PBLinks)
+                    if (PBNodes.length > 0) setAllLoaded(true);
                 });
         })
     }, []);
 
 
-    const noRootOption = { 'value': null, 'label': 'No Option Selected' };
+    const noRootOption = { 'value': null, 'label': 'All Nodes' };
 
     const rootOptions = allNodes.length > 0 ? allNodes.filter(n => !nodeTypesToExclude.includes(n.type))
         .map((t, i) => ({ 'value': t, 'label': t.name }))
-        : [noRootOption];
+        : [];
     rootOptions.unshift(noRootOption);
 
     const rootSection =

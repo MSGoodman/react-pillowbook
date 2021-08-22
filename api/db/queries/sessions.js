@@ -4,8 +4,8 @@ FROM session s
 LEFT JOIN relation r ON s.session_node = r.child
 LEFT JOIN node p ON p.node_id = r.parent
 LEFT JOIN node_type t ON p.type = t.name
-WHERE start_time > ?
-AND (end_time < ? OR end_time IS NULL)
+WHERE (start_time > ? OR end_time IS NULL)
+AND start_time < ? 
 ORDER BY start_time;`;
 
 const updateSession =

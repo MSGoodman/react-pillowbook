@@ -15,12 +15,10 @@ function TaskLine(props) {
     const checkbox = props.task.status === 'COMPLETE' ? <i className="far fa-check-square"></i> : <i className="far fa-square"></i>;
 
     return (
-        <div className="TaskLine">
+        <div className={"TaskLine task" + props.task.status}>
             <button className="taskButton" onClick={updateTaskStatus}> {checkbox} </button>
             <Link className="taskLink" to={`/nodes/${props.task.parent_node_uuid}`}>
-                <div className="taskIcon">
-                    <i className={props.task.icon}></i>
-                </div>
+                <div className="taskCategory">{props.task.category_name}</div>
                 <div className="taskName">{props.task.name}</div>
                 <span className="taskRank">{props.task.rank}</span> {/* For debugging only */}
             </Link>

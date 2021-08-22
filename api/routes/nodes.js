@@ -52,7 +52,7 @@ router.get('/:node', function (req, res, next) {
 
 // Update node
 router.post('/:node', function (req, res, next) {
-  var params = [req.body.name, req.body.type, req.body.markdown_content, req.body.horizontal_image_node, req.body.vertical_image_node, req.body.node_uuid];
+  var params = [req.body.name, req.body.type, req.body.markdown_content, req.body.horizontal_image_node, req.body.vertical_image_node, req.body.node_uuid, req.body.icon];
 
   db.serialize(() => {
     db.run(nodeQueries.updateNode, params, (err, row) => {

@@ -27,7 +27,20 @@
         color: grey;
     }
 
+    .taskCategory {
+        display: inline-block;
+        font-size: 0.75rem;
+        padding: 2px;
+        background-color: var(--light-blue);
+        margin-right: 5px;
+    }
+
     .taskButton:hover{
         background-color: var(--off-white-darker-still);
     }
+
+}
+
+.taskCOMPLETE * {
+    color: grey;
 }
