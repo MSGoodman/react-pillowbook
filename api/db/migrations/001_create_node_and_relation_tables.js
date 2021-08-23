@@ -44,11 +44,10 @@ const createUpdateTrigger =
     `CREATE TRIGGER set_updated_at
     AFTER UPDATE ON node
     FOR EACH ROW
-    WHEN NEW.updated_at < OLD.updated_at
+    WHEN NEW.updated_at <= OLD.updated_at
     BEGIN
-        UPDATE node SET updated_at = (strftime('%s','now')) WHERE rowid = OLD.rowid;
-    END;
-);`;
+        UPDATE node SET updated_at = (strftime('%s','now')) WHERE rowid = NEW.rowid;
+    END;`;
 
 const migrations = [createNodeTypeTable, createNodeTable, createRelationTypeTable, createRelationTable, createUpdateTrigger];
 util.migrate(migrations, migrationPath);
