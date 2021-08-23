@@ -10,6 +10,7 @@ import {
   ,useGlobalFilter
   ,useAsyncDebounce
 } from "react-table";
+import { Link } from 'react-router-dom';
 
 
 // Function for global search
@@ -190,9 +191,12 @@ function Table({columns, data}) {
             return (
               <tr {...row.getRowProps()}>
                 {row.cells.map((cell) => {
-                  return (
-                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-                  );
+                    return cell.column.Header === "Name" ? 
+                     <td>
+                        <Link to={`/nodes/${cell.row.original.node_uuid}`} title="test"> {cell.render("Cell")} </Link>
+                    </td>
+                    :
+                    <td>{cell.render("Cell")}</td>
                 })}
               </tr>
             );
@@ -275,7 +279,6 @@ function ReviewPageTable(props) {
 ]
   ), []);
 
-  // Data array. Replace it with your actual data.
   const data = props.nodes;
 
   return (
