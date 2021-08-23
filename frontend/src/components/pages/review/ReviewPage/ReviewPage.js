@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './ReviewPage.scss'
+import ReviewPageTable from './ReviewPageTable/ReviewPageTable';
 
 function ReviewPage() {
 
-    const [nodes, setNodes] = useState([]);
 
-    const nodeLinks = nodes.map((t, i) =>
-        <Link to={`/nodes/${t.node_uuid}`}>{t.name}</Link>)
+    const [nodes, setNodes] = useState([]);
 
     useEffect(() => {
         fetch(`http://localhost:9000/nodes`)
@@ -17,7 +16,8 @@ function ReviewPage() {
 
     return (
         <div className="ReviewPage">
-            {nodeLinks}
+            <ReviewPageTable nodes={nodes}>
+            </ReviewPageTable>
         </div>
     );
 }
