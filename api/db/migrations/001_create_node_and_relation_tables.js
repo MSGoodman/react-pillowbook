@@ -16,6 +16,7 @@ const createNodeTable = `CREATE TABLE node (
     type TEXT NOT NULL REFERENCES node_type(type),
     markdown_content TEXT,
     created_at INTEGER DEFAULT (strftime('%s','now')),
+    updated_at INTEGER DEFAULT (strftime('%s','now')),
     horizontal_image_node INTEGER REFERENCES node(horizontal_image_node),
     vertical_image_node INTEGER REFERENCES node(vertical_image_node)
 );`;
@@ -39,5 +40,15 @@ const createRelationTable = `CREATE TABLE relation (
     CONSTRAINT CHK_NoSelf CHECK (parent <> child)
 );`;
 
-const migrations = [createNodeTypeTable, createNodeTable, createRelationTypeTable, createRelationTable];
+const createUpdateTrigger =
+    `CREATE TRIGGER set_updated_at
+    AFTER UPDATE ON node
+    FOR EACH ROW
+    WHEN NEW.updated_at < OLD.updated_at
+    BEGIN
+        UPDATE node SET updated_at = (strftime('%s','now')) WHERE rowid = OLD.rowid;
+    END;
+);`;
+
+const migrations = [createNodeTypeTable, createNodeTable, createRelationTypeTable, createRelationTable, createUpdateTrigger];
 util.migrate(migrations, migrationPath);
