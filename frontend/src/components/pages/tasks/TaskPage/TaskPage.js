@@ -44,26 +44,35 @@ function TaskPage() {
     });
 
     const onSortEnd = ({ oldIndex, newIndex }) => {
-        console.log("Old Index: " + oldIndex)
-        console.log("New Index: " + newIndex)
-        const lowerTask = newIndex === 0 ? tasks[newIndex] : tasks[newIndex - 1]
-        const higherTask = newIndex < oldIndex ? tasks[newIndex] : tasks[newIndex + 1]
+        const taskToUpdate = { ...tasks[oldIndex] }
 
-        console.log("Lower Task: " + JSON.stringify(lowerTask))
-        console.log("Higher Task: " + JSON.stringify(higherTask))
-        console.log(newIndex + 1 === tasks.length)
+        // If this isn't being moved at all, leave the rank the same
+        if (newIndex === oldIndex)
+        {
+            // No-op
+        }
+        // If this is being moved to the bottom, just bump the rank by one
+        else if (newIndex + 1 === tasks.length)
+        {
+            taskToUpdate.rank = tasks.length + 1;
+        }
+        // If it's being moved to the top, make the rank halfway between the bottom rank and 0
+        else if (newIndex === 0)
+        {
+            const higherTaskRank = tasks[newIndex].rank;
+            taskToUpdate.rank = higherTaskRank / 2;
+        }
+        // Otherwise, calculate the midpoint between the upper and lower ranks
+        else 
+        {
+            const higherTask = newIndex < oldIndex ? tasks[newIndex - 1] : tasks[newIndex];
+            const lowerTask = newIndex < oldIndex ? tasks[newIndex] : tasks[newIndex + 1]
+            const newRank = (higherTask.rank + lowerTask.rank) / 2
+            
+            taskToUpdate.rank = newRank;
+        }
 
-        const lowerRank = newIndex + 1 === tasks.length ? tasks[newIndex].rank + .00000001 : lowerTask.rank  // newIndex === 0 ? 0 : tasks[newIndex].rank
-        const higherRank = newIndex === 0 ? 0 : higherTask.rank
-        const newRank = (lowerRank + higherRank) / 2
-
-        console.log("Higher Rank: " + higherRank)
-        console.log("New Rank: " + newRank)
-        console.log("Lower Rank: " + lowerRank)
-
-        const updatedTask = { ...tasks[oldIndex] }
-        updatedTask.rank = newRank;
-        updateTask(updatedTask).then(updated => setNewestUpdate(updatedTask.task_uuid + new Date()))
+        updateTask(taskToUpdate).then(updated => setNewestUpdate(taskToUpdate.task_uuid + new Date()))
     };
 
     return (
