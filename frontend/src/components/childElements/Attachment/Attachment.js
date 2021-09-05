@@ -16,12 +16,14 @@ function Attachment(props) {
     }
 
     const imageExtensions = ['jpg', 'png', 'svg', 'jpeg', 'gif', 'jfif'];
-    const src = imageExtensions.includes(props.node.file_extension.toLowerCase()) ?
-        require(`../../../assets/uploads/${props.node.node_uuid + '.' + props.node.file_extension}`)
-        : `/static/media/${props.node.node_uuid + '.' + props.node.file_extension}`;
-    const image = imageExtensions.includes(props.node.file_extension.toLowerCase()) ?
-        <img src={src} alt={props.node.name + " image"} />
-        : <img className="nonImageImage" src={require('../../../assets/images/file-archive.svg')} alt="generic attachment" />
+    // const src = imageExtensions.includes(props.node.file_extension.toLowerCase()) ?
+    //     require(`../../../assets/uploads/${props.node.node_uuid + '.' + props.node.file_extension}`)
+    //     : `/static/media/${props.node.node_uuid + '.' + props.node.file_extension}`;
+    const src = '';
+    // const image = imageExtensions.includes(props.node.file_extension.toLowerCase()) ?
+    //     <img src={src} alt={props.node.name + " image"} />
+    //     : <img className="nonImageImage" src={require('../../../assets/images/file-archive.svg')} alt="generic attachment" />
+    const image = <img src={src} />
 
     return (
         <div className="Attachment">
