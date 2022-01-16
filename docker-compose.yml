@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: api/
+      dockerfile: Dockerfile
+    volumes:
+      - ./api:/app
+      - node_modules_backend:/app/node_modules
+    command: bash -c 'npm start'
+    ports:
+      - 9000:9000
+  frontend:
+    build:
+      context: frontend/
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend:/app
+      - node_modules_frontend:/app/node_modules
+    command: bash -c 'npm start'
+    ports:
+      - 3000:3000
+
+volumes:
+  node_modules_backend:
+  node_modules_frontend:

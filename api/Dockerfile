@@ -5,4 +5,5 @@ RUN apk update && apk add bash
 WORKDIR /app
 COPY . .
 RUN npm ci
-RUN cd db/utils && node run_migrations
+# ENTRYPOINT ["/bin/bash -c"]
+# CMD ["cd" "db/utils" "&&" "node" "run_migrations"]
