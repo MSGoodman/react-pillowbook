@@ -12,6 +12,7 @@ services:
     ports:
       - 9000:9000
   frontend:
+    stdin_open: true #https://stackoverflow.com/questions/60895246/react-app-exiting-in-docker-container-with-exit-code-0
     build:
       context: frontend/
       dockerfile: Dockerfile

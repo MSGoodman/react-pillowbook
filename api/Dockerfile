@@ -1,9 +1,4 @@
-FROM node:16-alpine
-
-
-RUN apk update && apk add bash
+FROM node:14
 WORKDIR /app
-COPY . .
+COPY ["package.json", "package-lock.json","./"]
 RUN npm ci
-# ENTRYPOINT ["/bin/bash -c"]
-# CMD ["cd" "db/utils" "&&" "node" "run_migrations"]
